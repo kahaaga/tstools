@@ -13,31 +13,31 @@ require(dplyr)
 #'
 bin <- function(dt,
                 bin.size,
+                common.column,
                 bin.average.function = mean.narm,
                 interpolate = T,
                 remove.na = T) {
     bin.min = plyr::round_any(min(dt$Age), bin.size, f=floor)   # Round down to nearest bin
     bin.max = plyr::round_any(max(dt$Age), bin.size, f=ceiling) # Round up to nearest bin
 
-    binned = dt %>%
-        dplyr::mutate_(bin = cut(dt$Age, breaks = seq(from = bin.min, to = bin.max, by = bin.size), include.lowest=T)) %>%
-        dplyr::group_by_(bin) %>%  #summarise_each(bin.average.function, by="bin")
-        dplyr::summarise_each_q(bin.average.function) %>%
-        tidyr::complete_(bin) %>%
-        dplyr::mutate_(Age = ColwiseBinMean(bin))
-    binned = dplyr::arrange_(dplyr::desc(binned$Age)) %>% as.data.frame %>%
-        dplyr::select_(-bin) # We don't need the bin column anymore
+    dt$bin = cut(dt$Age, breaks = seq(from = bin.min, to = bin.max, by = bin.size), include.lowest=T)
+    dt = group_by_(.data = dt, .dots = bin)
+    dt = summarise_each_q(tbl = , funs = bin.average.function)
+    dt = tidyr::complete_(data = dt, cols = bin)
+    dt$Age = ColwiseBinMean(dt$bin)
+    dt = dplyr::arrange_(.data = dt, .dots = dplyr::desc(dt$Age))
+    dt = dplyr::select_(.data = dt, .dots = -bin)
 
     if (interpolate & remove.na) {
-        binned = zoo::na.approx(binned)
-        binned = binned[stats::complete.cases(binned),]
-        binned = as.data.frame(binned)
+        binned = zoo::na.approx(dt)
+        binned = dt[stats::complete.cases(dt),]
+        binned = as.data.frame(dt)
     }
     if (!interpolate & remove.na) {
         warning("Careful! Removing NA bins without interpolating. Data are not on on an equidistant grid anymore!!")
     }
 
-    return(binned)
+    return(dt)
 }
 
 interpolate_binned_data <- function(ds) {
