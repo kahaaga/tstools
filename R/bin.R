@@ -4,7 +4,10 @@ require(dplyr)
 #' Bin a dataset by a common column "Age".
 #'
 #' @param dt A data frame containing the data to be binned.
-#' @param dt A data frame containing the data to be binned.
+#' @param bin.size The size of the bins
+#' @param bin.average.function The function to use for averaging bins. Defaults to mean function.
+#' @param interpolate Should empty bins be interpolated linearly?
+#' @param remove.na Should NAs remaining after interpolation (usually at endpoints after interpolatin) be removed? BEWARE: be careful about removing nans before interpolating.
 #'
 #' @export bin
 #'
@@ -28,7 +31,7 @@ bin <- function(dt,
 
     if (interpolate & remove.na) {
         binned = zoo::na.approx(binned)
-        binned = binned[complete.cases(binned),]
+        binned = binned[stats::complete.cases(binned),]
         binned = as.data.frame(binned)
     }
     if (!interpolate & remove.na) {

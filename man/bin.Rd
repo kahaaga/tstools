@@ -15,4 +15,3 @@ bin(dt, bin.size, bin.average.function = mean.narm, interpolate = T,
 \description{
 Bin a dataset by a common column "Age".
 }
-
