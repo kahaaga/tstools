@@ -1,11 +1,12 @@
-Package: CausalityTools
+Package: tstools
 Type: Package
 Title: Useful functions
 Version: 0.1.0
 Author: Kristian Agasøster Haaga
 Maintainer: Kristian Agasøster Haaga <kahaaga@gmail.com>
-Description: A collection of functions I regularly use. Current contents:
-    - bin()
+Description: A collection of functions I regularly use. Currently
+    supports
+    - binning of data frames based on common column
 Imports:
     magrittr,
     plyr,
