@@ -4,17 +4,16 @@ Title: Useful functions
 Version: 0.1.0
 Author: Kristian Agasøster Haaga
 Maintainer: Kristian Agasøster Haaga <kahaaga@gmail.com>
-Description: A collection of functions I regularly use. Currently
-    supports
-    - binning of data frames based on common column
+Description: A collection of functions I regularly use.
 Imports:
     magrittr,
+    stats,
     plyr,
     dplyr,
     tidyr,
     zoo
-License: What license is it under?
-Depends: R (>= 3.4.0)
+License: GNU GPLv3
+Depends: R (>= 3.2.5)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

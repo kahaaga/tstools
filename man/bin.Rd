@@ -10,9 +10,14 @@ bin(dt, bin.size, bin.average.function = mean.narm, interpolate = T,
 \arguments{
 \item{dt}{A data frame containing the data to be binned.}
 
-\item{dt}{A data frame containing the data to be binned.}
+\item{bin.size}{The size of the bins}
+
+\item{bin.average.function}{The function to use for averaging bins. Defaults to mean function.}
+
+\item{interpolate}{Should empty bins be interpolated linearly?}
+
+\item{remove.na}{Should NAs remaining after interpolation (usually at endpoints after interpolatin) be removed? BEWARE: be careful about removing nans before interpolating.}
 }
 \description{
 Bin a dataset by a common column "Age".
 }
-
