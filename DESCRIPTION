@@ -7,6 +7,7 @@ Maintainer: Kristian Agasøster Haaga <kahaaga@gmail.com>
 Description: A collection of functions I regularly use. Current contents:
     - bin()
 Imports:
+    magrittr,
     plyr,
     dplyr,
     tidyr,

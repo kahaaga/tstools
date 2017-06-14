@@ -15,15 +15,16 @@ bin <- function(dt,
                 remove.na = T) {
     bin.min = plyr::round_any(min(dt$Age), bin.size, f=floor)   # Round down to nearest bin
     bin.max = plyr::round_any(max(dt$Age), bin.size, f=ceiling) # Round up to nearest bin
+
     binned = dt %>%
-        dplyr::mutate(bin = cut(Age, breaks = seq(from = bin.min, to = bin.max, by = bin.size), include.lowest=T)) %>%
-        dplyr::group_by(bin) %>%  #summarise_each(bin.average.function, by="bin")
-        dplyr::summarise_all(bin.average.function) %>%
-        tidyr::complete(bin) %>%
-        dplyr::mutate(Age = ColwiseBinMean(bin)) %>%
-        dplyr::arrange(desc(Age)) %>%
+        dplyr::mutate_(bin = cut(Age, breaks = seq(from = bin.min, to = bin.max, by = bin.size), include.lowest=T)) %>%
+        dplyr::group_by_(bin) %>%  #summarise_each(bin.average.function, by="bin")
+        dplyr::summarise_each_q(bin.average.function) %>%
+        tidyr::complete_(bin) %>%
+        dplyr::mutate_(Age = ColwiseBinMean(bin)) %>%
+        dplyr::arrange_(desc(Age)) %>%
         as.data.frame %>%
-        dplyr::select(-bin) # We don't need the bin column anymore
+        dplyr::select_(-bin) # We don't need the bin column anymore
 
     if (interpolate & remove.na) {
         binned = zoo::na.approx(binned)
