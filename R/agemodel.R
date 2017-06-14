@@ -1,4 +1,20 @@
 require(msm)
+#' A wrapper around agemodel() that returns a matrix of multiple age models.
+#' Each column is an age model.
+#'
+#' @param ages A vector containing the age data.
+#' @param sigmas A vector containing the 1 sigma uncertainties associated with the age data.
+#' @param firstdiffagreementratio How large can the slope between time steps be? Defaults to 1, or 100%.
+#' @param tolerance A tolerance level to speed up computations when age points are very close.
+#' @export agemodels
+#'
+agemodels <- function(ages, sigmas, n.models=2, n.sigma= 2, firstdiffagreementratio=1,
+                     tolerance = 10^-(10), parallel=F) {
+
+    agemodels = replicate(n.models, DrawAgemodel(ages=ages, sigmas=sigmas, n=n.sigma, firstdiffagreementratio=firstdiffagreementratio, tolerance=tolerance))
+    return(agemodels)
+}
+
 #' Draw a random, strictly increasing age model given a vector 'ages' and
 #' their associated 1 sigma uncertainties ('sigmas') according to a
 #' Gaussian. Requires that the difference between time steps should be
@@ -14,6 +30,18 @@ agemodel <- function(ages, sigmas,
                      n.sigma = 2,
                      firstdiffagreementratio=1,
                      tolerance = 10^-(10)) {
+
+    if (all(ages == cummax(ages))) {
+        cat("Ages are strictly increasing.\n")
+
+    } else if (all(ages == cummin(ages))) {
+        cat("Ages are strictly decreasing. Reversing data.\n")
+        ages = rev(ages)
+        sigmas = rev(sigmas)
+    } else {
+        warning("Ages are neither strictly decreasing nor increasing. Check input!\n")
+    }
+
     #cat("Drawing agemodel ... \n")
     l = length(ages)
     agemodel = numeric(l)
@@ -30,8 +58,8 @@ agemodel <- function(ages, sigmas,
 
     # Iteratively draw ages from 2:n-1
     for (i in 2:l-1) {
-        flush.console()
-        #if (i %% 100 == 0) cat("\ri = ", i)
+        #flush.console()
+        #if (i %% 10 == 0) cat("\ri = ", i)
         #flush.console()
         lower_bound = max(ages[i] - n.sigma * sigmas[i], agemodel[i-1]+tolerance)
         upper_bound = min(ages[i] + n.sigma * sigmas[i],
@@ -84,5 +112,6 @@ agemodel <- function(ages, sigmas,
                                 tolerance = tolerance)
         }
     }
-    return(agemodel)
+    if (all(ages == cummax(ages))) return(rev(agemodel))
+    else if (all(ages == cummin(ages))) return(agemodel)
 }
