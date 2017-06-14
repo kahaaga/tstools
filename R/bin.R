@@ -11,7 +11,7 @@ require(dplyr)
 #'
 #' @export bin
 #'
-bin <- function(dt,
+binby <- function(dt,
                 bin.size,
                 common.column,
                 bin.average.function = mean.narm,
