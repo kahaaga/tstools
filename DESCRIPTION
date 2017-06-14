@@ -1,0 +1,16 @@
+Package: CausalityTools
+Type: Package
+Title: Useful functions
+Version: 0.1.0
+Author: Kristian Agasøster Haaga
+Maintainer: Kristian Agasøster Haaga <kahaaga@gmail.com>
+Description: A collection of functions I regularly use. Current contents:
+    - bin()
+Imports:
+    plyr,
+    dplyr,
+    tidyr,
+    zoo
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
