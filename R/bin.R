@@ -20,13 +20,12 @@ bin <- function(dt,
     bin.max = plyr::round_any(max(dt$Age), bin.size, f=ceiling) # Round up to nearest bin
 
     binned = dt %>%
-        dplyr::mutate_(bin = cut(Age, breaks = seq(from = bin.min, to = bin.max, by = bin.size), include.lowest=T)) %>%
+        dplyr::mutate_(bin = cut(dt$Age, breaks = seq(from = bin.min, to = bin.max, by = bin.size), include.lowest=T)) %>%
         dplyr::group_by_(bin) %>%  #summarise_each(bin.average.function, by="bin")
         dplyr::summarise_each_q(bin.average.function) %>%
         tidyr::complete_(bin) %>%
-        dplyr::mutate_(Age = ColwiseBinMean(bin)) %>%
-        dplyr::arrange_(dplyr::desc(Age)) %>%
-        as.data.frame %>%
+        dplyr::mutate_(Age = ColwiseBinMean(bin))
+    binned = dplyr::arrange_(dplyr::desc(binned$Age)) %>% as.data.frame %>%
         dplyr::select_(-bin) # We don't need the bin column anymore
 
     if (interpolate & remove.na) {
