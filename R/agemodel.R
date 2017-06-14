@@ -8,10 +8,20 @@ require(msm)
 #' @param tolerance A tolerance level to speed up computations when age points are very close.
 #' @export agemodels
 #'
-agemodels <- function(ages, sigmas, n.models=2, n.sigma= 2, firstdiffagreementratio=1,
-                     tolerance = 10^-(10), parallel=F) {
+agemodels <- function(ages,
+                      sigmas,
+                      n.models = 2,
+                      n.sigma = 2,
+                      firstdiffagreementratio = 1,
+                      tolerance = 10^-(10)
+                      ) {
 
-    agemodels = replicate(n.models, DrawAgemodel(ages=ages, sigmas=sigmas, n=n.sigma, firstdiffagreementratio=firstdiffagreementratio, tolerance=tolerance))
+    agemodels = replicate(n = n.models,
+                          expr = agemodel(ages = ages,
+                                        sigmas = sigmas,
+                                        n.sigma = n.sigma,
+                                        firstdiffagreementratio = firstdiffagreementratio,
+                                        tolerance = tolerance))
     return(agemodels)
 }
 
@@ -29,13 +39,12 @@ agemodels <- function(ages, sigmas, n.models=2, n.sigma= 2, firstdiffagreementra
 agemodel <- function(ages, sigmas,
                      n.sigma = 2,
                      firstdiffagreementratio=1,
-                     tolerance = 10^-(10)) {
+                     tolerance = 10^-(12)) {
 
     if (all(ages == cummax(ages))) {
-        cat("Ages are strictly increasing.\n")
-
+    #    cat("Ages are strictly increasing. Using data as is. \n")
     } else if (all(ages == cummin(ages))) {
-        cat("Ages are strictly decreasing. Reversing data.\n")
+    #    cat("Ages are strictly decreasing. Reversing data\n")
         ages = rev(ages)
         sigmas = rev(sigmas)
     } else {
