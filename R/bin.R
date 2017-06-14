@@ -31,8 +31,6 @@ bin <- function(dt,
     dt = dt[, 2:(ncol(dt)-1)]
     #return(dt)
     if (interpolate & remove.na) {
-        print("here")
-
         dt[, 2:ncol(dt)] = zoo::na.approx(dt[, 2:ncol(dt)])
         dt = dt[stats::complete.cases(dt),]
     }
@@ -46,6 +44,7 @@ bin <- function(dt,
     dt = dt[order(dt[, common.column], decreasing = T), ]
     dt$bin.size = rep(bin.size)
     dt$agepoint = rep(agepoint)
+
     return(dt)
 }
 
