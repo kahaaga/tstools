@@ -1,5 +1,3 @@
-pacman::p_load(tidyr, dplyr)
-
 #' Bin a dataset by a common column "Age".
 #'
 #' @param dt A data frame containing the data to be binned.

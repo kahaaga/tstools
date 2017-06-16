@@ -1,22 +1,20 @@
-pacman::p_load(grDevices)
-
-#' Computes a set of basic statistics for a scalar valued vector
+' Computes a set of basic statistics for a scalar valued vector
 #'
 #' @param v A scalar valued vector.
 #' @return A named vector of statistical parameters of the vector 'v'
 #' @export basicstats
 basicstats <- function(v) {
 
-    v.min = min(v)
-    v.max = max(v)
-    v.mean = mean(v)
-    v.median = median(v)
-    v.mad = mad(v)
-    v.IQR = IQR(v)
-    v.p01 = quantile(v, 0.01)
-    v.p05 = quantile(v, 0.05)
-    v.p95 = quantile(v, 0.95)
-    v.p99 = quantile(v, 0.99)
+    v.min = base::min(v)
+    v.max = base::max(v)
+    v.mean = base::mean(v)
+    v.median = stats::median(v)
+    v.mad = stats::mad(v)
+    v.IQR = stats::IQR(v)
+    v.p01 = stats::quantile(v, 0.01)
+    v.p05 = stats::quantile(v, 0.05)
+    v.p95 = stats::quantile(v, 0.95)
+    v.p99 = stats::quantile(v, 0.99)
     v.samplesize = length(v)
     v.outliers.fraction = length(grDevices::boxplot.stats(v))/v.samplesize
 

@@ -1,5 +1,3 @@
-pacman::p_load(msm)
-
 #' Draws random datagiven a vector 'data' and
 #' its associated uncertainties, either in the form of
 #' 'sigmas' or a set of 'lower_bounds' and 'upper_bounds'.

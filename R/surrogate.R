@@ -1,5 +1,3 @@
-pacman::p_load(fractal, rEDM)
-
 #' Generates surrogate time series for 'ts', which is a vector of ordered scalar observations.
 #'
 #' WARNING: Adaptations to the fractal::surrogate function had to be done to actually return,

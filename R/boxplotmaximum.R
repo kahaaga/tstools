@@ -6,9 +6,8 @@
 #' @return The maximum value for a boxplot based on 'v'.
 #' @export boxplot.maximum
 boxplot.maximum <- function(v) {
-    n = length(v)
-    Q3 = quantile(v, 0.75, na.rm = T)
-    interquartile.range = IQR(v, na.rm = T)
+    Q3 = stats::quantile(v, 0.75, na.rm = T)
+    interquartile.range = stats::IQR(v, na.rm = T)
     filtered = v[v <= Q3 + (1.5 * interquartile.range)]
     return(max(filtered))
 }
