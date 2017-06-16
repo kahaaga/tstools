@@ -36,9 +36,6 @@ vignettes/*.pdf
 /*_cache/
 /cache/
 
-# man files
-/man/
-
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
