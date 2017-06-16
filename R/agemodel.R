@@ -1,4 +1,4 @@
-pacmann::p_load(msm)
+pacman::p_load(msm)
 
 #' A wrapper around agemodel() that returns a matrix of multiple age models.
 #' Each column is an age model.

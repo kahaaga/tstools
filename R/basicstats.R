@@ -18,7 +18,7 @@ basicstats <- function(v) {
     v.p95 = quantile(v, 0.95)
     v.p99 = quantile(v, 0.99)
     v.samplesize = length(v)
-    v.outliers.fraction = length(grDevices::boxplot.stats(tectonics$RMS)$out)/v.samplesize
+    v.outliers.fraction = length(grDevices::boxplot.stats(v))/v.samplesize
 
 
     return(c("min" = v.min,
