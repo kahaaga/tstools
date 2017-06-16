@@ -19,6 +19,9 @@ agemodel(ages, sigmas, n.sigma = 2, firstdiffagreementratio = 1,
 
 \item{tolerance}{A tolerance level to speed up computations when age points are very close.}
 }
+\value{
+An randomly drawn age model.
+}
 \description{
 Draw a random, strictly increasing age model given a vector 'ages' and
 their associated 1 sigma uncertainties ('sigmas') according to a

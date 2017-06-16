@@ -1,7 +1,7 @@
 Package: tstools
 Type: Package
 Title: Useful functions
-Version: 0.1.0
+Version: 0.2.0
 Author: Kristian Agasøster Haaga
 Maintainer: Kristian Agasøster Haaga <kahaaga@gmail.com>
 Description: A collection of functions I regularly use.
