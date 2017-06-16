@@ -1,10 +1,7 @@
 importFrom(magrittr,"%>%")
 importFrom("grDevices", "boxplot.stats")
-<<<<<<< HEAD
 importFrom("stats", "IQR", "mad", "median", "quantile", "sigma")
-=======
-importFrom("stats", "IQR", "mad", "median", "quantile", "sigma"
->>>>>>> 97bce24ac91b8cb58dec35896ec79d1e2c10e20e
+
 
 export(bin)
 export(agemodel)
