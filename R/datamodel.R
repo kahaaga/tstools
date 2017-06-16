@@ -1,16 +1,21 @@
 pacman::p_load(msm)
 
-#' A wrapper around datamodel()
+#' Draws random datagiven a vector 'data' and
+#' its associated uncertainties, either in the form of
+#' 'sigmas' or a set of 'lower_bounds' and 'upper_bounds'.
+#' If 'sigmas' is provided, draw from a Gaussian centered
+#' on the data. If bounds are provided, draw from a
+#' Gaussian truncated at the lower and upper bounds.
 #'
 #' @param data A vector of data.
 #' @param sigmas A vector of 1 sigma uncertainties associated with the data.
 #' @param n.sigma How many sigmas should be allowed?
 #' @param lower_bounds A vector of lower bounds for the data.
 #' @param upper_bounds A vector of upper bounds for the data.
-#' @return  A matrix of data models
+#' @return  A matrix of randomly drawn data.
 #'
-#' @export datamodels
-datamodels <- function(data,
+#' @export draw.random.data
+draw.random.data <- function(data,
                        sigmas = NA,
                        n.sigma = 2,
                        lower_bounds = NA,
@@ -39,7 +44,7 @@ datamodels <- function(data,
 #' @param n.sigma How many sigmas should be allowed?
 #' @param lower_bounds A vector of lower bounds for the data.
 #' @param upper_bounds A vector of upper bounds for the data.
-#'
+#' @return A vector containing the
 datamodel <- function(data,
                       sigmas = NA,
                       n.sigma = 2,
