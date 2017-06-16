@@ -1,3 +1,5 @@
+pacmann::p_load(msm)
+
 #' A wrapper around datamodel()
 #'
 #' @param data A vector of data.
