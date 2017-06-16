@@ -1,5 +1,4 @@
-require(tidyr)
-require(dplyr)
+pacman::p_load(tidyr, dplyr)
 
 #' Bin a dataset by a common column "Age".
 #'
