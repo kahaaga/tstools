@@ -1,4 +1,4 @@
-pacmann::p_load(msm)
+pacman::p_load(msm)
 
 #' A wrapper around datamodel()
 #'
