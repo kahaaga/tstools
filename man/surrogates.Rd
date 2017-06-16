@@ -18,5 +18,33 @@ WARNING: Adaptations to the fractal::surrogate function had to be done to actual
          the surrogate data (it only plotted the data).
 }
 \details{
-Parameters:
+#'
+ Implemented methods are:
+   "random"    (Randomly shuffle data)
+   "phase"     (Theiler's phase randomization - constrained)
+   "ebisuzaki" (Another form (identical?) of phase randomisation)
+   "aaft"      (Theiler's AAFT - constrained)
+   "ce"        (Davies and Harte's Circulant Embedding - nonconstrained)
+   "dh"        (Davison and Hinkleys phase and amplitude randomization - nonconstrained)
+
+The null hypotheses for these methods are (information about the
+   methods of the 'fractal' package is mostly paraphrased or directly
+    copied from its R-documentation):
+   "random":    The data represents white noise.
+   "phase":     The original data can be reproduced by a linear Gaussian process.
+                The phase at each frequency of the Fourier transform of the original
+                time series is randomised to be uniformly distributed on [0, 2*PI].
+                Periodograms of the surrogate and the original time series are the same.
+   "ebisuzaki":
+   "aaft:       Create normally distributed white noise, rank-ordered according to the
+                original time series. The white noise is then phase randomised, and its
+                rank is calculated. The surrogate is then produced by rank ordering the
+                original time series according to the new rank. Surrogate preserves the
+                amplitude distribution (histogram) of the original time series.
+   "ce":        Circulant embedding. Generate surrogate whose estimated SDF (periodogram)
+                is not constrained to be the same as for the original time series.
+                Unconstrained.
+   "dh":        Davison-Hinkley surrogates. Randomises both the phases and the amplitudes
+                in the frequency domain. The surrogate is then produced by inverting back
+                to the time domain. Unconstrained.
 }

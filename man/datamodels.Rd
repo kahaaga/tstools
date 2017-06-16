@@ -18,6 +18,9 @@ datamodels(data, sigmas = NA, n.sigma = 2, lower_bounds = NA,
 
 \item{upper_bounds}{A vector of upper bounds for the data.}
 }
+\value{
+A matrix of data models
+}
 \description{
 A wrapper around datamodel()
 }

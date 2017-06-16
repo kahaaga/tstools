@@ -9,7 +9,6 @@ pacman::p_load(tidyr, dplyr)
 #' @param remove.na Should NAs remaining after interpolation (usually at endpoints after interpolatin) be removed? BEWARE: be careful about removing nans before interpolating.
 #' @param agepoint How should time indices be constructed? Start, mid or endpoint of bins?
 #' @export bin
-#'
 bin <- function(dt,
                 bin.size,
                 common.column,

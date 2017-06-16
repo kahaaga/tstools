@@ -5,12 +5,7 @@ pacman::p_load(fractal, rEDM)
 #' WARNING: Adaptations to the fractal::surrogate function had to be done to actually return,
 #'          the surrogate data (it only plotted the data).
 #'
-#'
-#' Parameters:
-#' @param ts Time series for which to generate surrogate time series. A vector.
-#' @param n.surrogates The number of surrogates to generate.
-#' @param method String indicating the surrogate time series generation method.
-#' @export surrogates
+#'#'
 #'  Implemented methods are:
 #'    "random"    (Randomly shuffle data)
 #'    "phase"     (Theiler's phase randomization - constrained)
@@ -40,6 +35,11 @@ pacman::p_load(fractal, rEDM)
 #'                 in the frequency domain. The surrogate is then produced by inverting back
 #'                 to the time domain. Unconstrained.
 #'
+#' @param ts Time series for which to generate surrogate time series. A vector.
+#' @param n.surrogates The number of surrogates to generate.
+#' @param method String indicating the surrogate time series generation method.
+#'
+#' @export surrogates
 surrogates <- function(ts, surrogate.method, n.surrogates, print.to.console = F) {
     # Check if method is valid
     if (!(surrogate.method %in% c("aaft", "iaaft", "ebisuzaki", "random", "phase", "ce", "dh", "seasonal"))) {

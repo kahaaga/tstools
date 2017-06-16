@@ -8,7 +8,6 @@ pacman::p_load(msm)
 #' @param firstdiffagreementratio How large can the slope between time steps be? Defaults to 1, or 100%.
 #' @param tolerance A tolerance level to speed up computations when age points are very close.
 #' @export agemodels
-#'
 agemodels <- function(ages,
                       sigmas,
                       n.models = 2,
@@ -36,7 +35,6 @@ agemodels <- function(ages,
 #' @param firstdiffagreementratio How large can the slope between time steps be? Defaults to 1, or 100%.
 #' @param tolerance A tolerance level to speed up computations when age points are very close.
 #' @export agemodel
-#'
 agemodel <- function(ages, sigmas,
                      n.sigma = 2,
                      firstdiffagreementratio=1,

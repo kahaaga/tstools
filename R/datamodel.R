@@ -7,7 +7,9 @@ pacman::p_load(msm)
 #' @param n.sigma How many sigmas should be allowed?
 #' @param lower_bounds A vector of lower bounds for the data.
 #' @param upper_bounds A vector of upper bounds for the data.
-#' @export datamodels A matrix of data models
+#' @return  A matrix of data models
+#'
+#' @export datamodels
 datamodels <- function(data,
                        sigmas = NA,
                        n.sigma = 2,
