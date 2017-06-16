@@ -7,10 +7,10 @@ pacman::p_load(msm)
 #' @param sigmas A vector containing the 1 sigma uncertainties associated with the age data.
 #' @param firstdiffagreementratio How large can the slope between time steps be? Defaults to 1, or 100%.
 #' @param tolerance A tolerance level to speed up computations when age points are very close.
-#' @export agemodels
-agemodels <- function(ages,
+#' @export draw.random.ages
+draw.random.ages <- function(ages,
                       sigmas,
-                      n.models = 2,
+                      n.replicates,
                       n.sigma = 2,
                       firstdiffagreementratio = 1,
                       tolerance = 10^-(10)
@@ -34,7 +34,7 @@ agemodels <- function(ages,
 #' @param sigmas A vector containing the 1 sigma uncertainties associated with the age data.
 #' @param firstdiffagreementratio How large can the slope between time steps be? Defaults to 1, or 100%.
 #' @param tolerance A tolerance level to speed up computations when age points are very close.
-#' @export agemodel
+#' @return An randomly drawn age model.
 agemodel <- function(ages, sigmas,
                      n.sigma = 2,
                      firstdiffagreementratio=1,
