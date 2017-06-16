@@ -4,8 +4,8 @@
 \alias{bin}
 \title{Bin a dataset by a common column "Age".}
 \usage{
-bin(dt, bin.size, bin.average.function = mean.narm, interpolate = T,
-  remove.na = T)
+bin(dt, bin.size, common.column, bin.average.function = mean.narm,
+  interpolate = T, remove.na = T, agepoint = "mid")
 }
 \arguments{
 \item{dt}{A data frame containing the data to be binned.}
@@ -17,6 +17,8 @@ bin(dt, bin.size, bin.average.function = mean.narm, interpolate = T,
 \item{interpolate}{Should empty bins be interpolated linearly?}
 
 \item{remove.na}{Should NAs remaining after interpolation (usually at endpoints after interpolatin) be removed? BEWARE: be careful about removing nans before interpolating.}
+
+\item{agepoint}{How should time indices be constructed? Start, mid or endpoint of bins?}
 }
 \description{
 Bin a dataset by a common column "Age".

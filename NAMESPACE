@@ -1,6 +1,13 @@
 importFrom(magrittr,"%>%")
+importFrom("grDevices", "boxplot.stats")
+importFrom("stats", "IQR", "mad", "median", "quantile", "sigma"
+
 export(bin)
 export(agemodel)
 export(agemodels)
 export(datamodel)
 export(datamodels)
+export(basicstats)
+export(boxplot.maximum)
+export(boxplot.minimum)
+export(remove.outliers)
