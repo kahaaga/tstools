@@ -15,7 +15,7 @@ draw_random_ages <- function(ages,
                       ) {
 
     agemodels = replicate(n = n.models,
-                          expr = agemodel(ages = ages,
+                          expr = draw_agemodel(ages = ages,
                                         sigmas = sigmas,
                                         n.sigma = n.sigma,
                                         firstdiffagreementratio = firstdiffagreementratio,
@@ -33,7 +33,7 @@ draw_random_ages <- function(ages,
 #' @param firstdiffagreementratio How large can the slope between time steps be? Defaults to 1, or 100%.
 #' @param tolerance A tolerance level to speed up computations when age points are very close.
 #' @return An randomly drawn age model.
-agemodel <- function(ages, sigmas,
+draw_agemodel <- function(ages, sigmas,
                      n.sigma = 2,
                      firstdiffagreementratio=1,
                      tolerance = 10^-(12)) {
@@ -111,7 +111,7 @@ agemodel <- function(ages, sigmas,
             break
         } else {
             cat("Agemodel not strictly increasing. Re-drawing.")
-            agemodel = agemodel(ages = ages,
+            agemodel = draw_agemodel(ages = ages,
                                 sigmas = sigmas,
                                 n.sigma = n.sigma,
                                 firstdiffagreementratio = firstdiffagreementratio,
