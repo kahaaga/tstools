@@ -66,6 +66,9 @@ rescale <- function(X, Y, method = c("shell")){
 #' @return An iterated AAFT surrogate series.
 #' @export iAAFT
 iAAFT <- function(Xcor, Xdist = Xcor,
+=======
+#' @return
+.iAAFT <- function(Xcor, Xdist = Xcor,
                    tolerance = 0.01,
                    maxit = 100,
                    adjust.var = TRUE,
