@@ -44,7 +44,7 @@
 rescale <- function(X, Y, method = c("shell")){
     # Rank-order Y and rank-order X.
     # Substitute the X values with the Y values and undo the sort
-    X[sort(X, index = T, method = method)$ix] <- sort(Y, method = method)
+    X = X[sort(X, index = T, method = method)$ix] <- sort(Y, method = method)
     return(X)
 }
 #' Iteratively generate a surrogate series with the same spectrum and distribution
@@ -99,7 +99,7 @@ iAAFT <- function(Xcor,
 
         ## set the mean of Xdist to zero, add it later
         Xdist.mean <- NULL
-        if(zero.mean){
+        if (zero.mean){
             Xdist.mean <- mean(Xdist)
             Xdist <- Xdist - Xdist.mean
         }
@@ -137,7 +137,7 @@ iAAFT <- function(Xcor,
             s <- fft(complex(modulus = Mod(S), argument = Arg(R)), inverse = TRUE)/n
 
             ## rescale s to have the proper distribution
-            r.new <- .rescale(Re(s), c, method = method)
+            r.new <- rescale(Re(s), c, method = method)
 
             ## calculate a convercgence criteria
             ## criterion acf
@@ -191,16 +191,7 @@ iAAFT <- function(Xcor,
 ### use fourier phase shuffling on Xcorrelogram and
 ### rank ordering to retain the distribution of Xdistribution
 ### but here transform to gaussian, shuffle phases and retransform
-<<<<<<< HEAD
-AAFT <- function(X, method = c("shell")){
-=======
-<<<<<<< HEAD
-AAFT <- function(X, method = c("shell")){
-=======
 .AAFT <- function(X, method = c("shell")){
->>>>>>> cfb53c72eb987742ea0a7b642c2fb3305ebbcb54
->>>>>>> aa1bfdd64cfe804e5fd451629a389d8be688de24
-
     ## get lenght of data set
     n <- length(X)
 
@@ -208,7 +199,7 @@ AAFT <- function(X, method = c("shell")){
     gauss <- rnorm(n)
 
     ## transform the Xdist to gaussian
-    X.gauss <- .rescale(X,gauss, method = method)
+    X.gauss <- rescale(X,gauss, method = method)
 
     ## FFT the gaussian version
     X.fft <- fft(X.gauss)
@@ -220,7 +211,7 @@ AAFT <- function(X, method = c("shell")){
     X.back <- fft(complex(modulus = Mod(X.fft), argument = phases.rand), inverse = TRUE)/n
 
     ## rescale back
-    X.rescaled <- .rescale(Re(X.back), X, method = method)
+    X.rescaled <- rescale(Re(X.back), X, method = method)
 
     ## return the desired series
     return(list(x = X.rescaled))
