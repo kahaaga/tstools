@@ -38,6 +38,7 @@ create_surrogates <- function(ts,
                               surrogate.method = "random",
                               n.surrogates = 1,
                               print.to.console = F) {
+
     # Check if method is valid
     if (!(surrogate.method %in% c("aaft", "iaaft", "ebisuzaki", "random", "phase", "ce", "dh", "seasonal"))) {
         stop(paste("@OneWayCCM: Surrogate type", paste("'", surrogate.method, "'", sep = ""),"not valid"))
@@ -57,7 +58,7 @@ create_surrogates <- function(ts,
 
     else if (tolower(surrogate.method) == "iaaft" |
              tolower(surrogate.method) == "i-aaft" ){
-        surr.data = iaaft(ts = ts, n = n.surrogates)
+        surr.data = replicate(n.surrogates, .iAAFT(Xcor = ts))
     }
 
     # Amplitude adjusted Fourier transform (Theiler, 1992).
