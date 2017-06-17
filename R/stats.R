@@ -3,7 +3,7 @@
 #' @param v A scalar valued vector.
 #' @return A named vector of statistical parameters of the vector 'v'
 #' @export basicstats
-basicstats <- function(v) {
+stats <- function(v) {
     if (class(v) == "data.frame") v = as.ve
     v.min = min(v, na.rm = T)
     v.max = max(v, na.rm = T)
