@@ -5,10 +5,10 @@
 #' @param sigmas A vector containing the 1 sigma uncertainties associated with the age data.
 #' @param firstdiffagreementratio How large can the slope between time steps be? Defaults to 1, or 100%.
 #' @param tolerance A tolerance level to speed up computations when age points are very close.
-#' @export draw.random.ages
-draw.random.ages <- function(ages,
+#' @export draw_random_ages
+draw_random_ages <- function(ages,
                       sigmas,
-                      n.replicates,
+                      n.replicates = 1,
                       n.sigma = 2,
                       firstdiffagreementratio = 1,
                       tolerance = 10^-(10)
