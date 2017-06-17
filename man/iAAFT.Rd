@@ -2,9 +2,10 @@
 % Please edit documentation in R/iaaft-surrogates.R
 \name{iAAFT}
 \alias{iAAFT}
-\title{Created iterated amplitude-adjusted Fourier transform (iAAFT)
-Uses Fourier phase shuffling on Xcorrelogram and rank ordering
-to retain the distribution of Xdistribution.}
+\title{Iteratively generate a surrogate series with the same spectrum and distribution
+as the original series (iterated amplitude-adjusted Fourier transform, or iAAFT).
+Uses Fourier phase shuffling on Xcorrelogram and rank ordering to retain the
+distribution of Xdistribution.}
 \usage{
 iAAFT(Xcor, Xdist = Xcor, tolerance = 0.01, maxit = 100,
   adjust.var = TRUE, zero.mean = TRUE, quiet = TRUE, diff = FALSE,
@@ -38,7 +39,8 @@ iAAFT(Xcor, Xdist = Xcor, tolerance = 0.01, maxit = 100,
 An iterated AAFT surrogate series.
 }
 \description{
-Created iterated amplitude-adjusted Fourier transform (iAAFT)
-Uses Fourier phase shuffling on Xcorrelogram and rank ordering
-to retain the distribution of Xdistribution.
+Iteratively generate a surrogate series with the same spectrum and distribution
+as the original series (iterated amplitude-adjusted Fourier transform, or iAAFT).
+Uses Fourier phase shuffling on Xcorrelogram and rank ordering to retain the
+distribution of Xdistribution.
 }
