@@ -8,7 +8,7 @@ stats <- function(v) {
 
     v.samplesize.without.nans = length(v[complete.cases(v)])
     v.samplesize = length(v)
-
+    v.stdev = stats::sd(v, na.rm = T)
     v.min = min(v, na.rm = T)
     v.max = max(v, na.rm = T)
     v.mean = mean(v, na.rm = T)
@@ -31,6 +31,7 @@ stats <- function(v) {
              "max" = v.max,
              "mean" = v.mean,
              "median" = v.median,
+             "stdev" = v.stdev,
              "MAD" = v.mad,
              "IQR" = v.IQR,
              "Q1"  = Q1,
