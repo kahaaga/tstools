@@ -19,7 +19,9 @@ Imports:
     zoo,
     tseriesChaos,
     fractaldim,
-    zoo
+    zoo,
+    tstools
+Remotes: github::kahaaga/tstools
 License: GNU GPLv3
 Depends: R (>= 3.2.5)
 Encoding: UTF-8
