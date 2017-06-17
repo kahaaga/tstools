@@ -1,9 +1,6 @@
 #' Generates surrogate time series for 'ts', which is a vector of ordered scalar observations.
 #'
-#' WARNING: Adaptations to the fractal::surrogate function had to be done to actually return,
-#'          the surrogate data (it only plotted the data).
 #'
-#'#'
 #'  Implemented methods are:
 #'    "random"    (Randomly shuffle data)
 #'    "phase"     (Theiler's phase randomization - constrained)
@@ -33,12 +30,18 @@
 #'                 in the frequency domain. The surrogate is then produced by inverting back
 #'                 to the time domain. Unconstrained.
 #'
+#' WARNING: Adaptations to the fractal::surrogate function had to be done to actually return,
+#'          the surrogate data (it only plotted the data).
+#'
 #' @param ts Time series for which to generate surrogate time series. A vector.
 #' @param n.surrogates The number of surrogates to generate.
 #' @param method String indicating the surrogate time series generation method.
 #'
 #' @export create_surrogates
-create_surrogates <- function(ts, surrogate.method, n.surrogates, print.to.console = F) {
+create_surrogates <- function(ts,
+                              surrogate.method = "random",
+                              n.surrogates = 1,
+                              print.to.console = F) {
     # Check if method is valid
     if (!(surrogate.method %in% c("aaft", "iaaft", "ebisuzaki", "random", "phase", "ce", "dh", "seasonal"))) {
         stop(paste("@OneWayCCM: Surrogate type", paste("'", surrogate.method, "'", sep=""),"not valid"))
