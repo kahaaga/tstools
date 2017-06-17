@@ -11,27 +11,30 @@
 #' by Antonio Fabio Di Narzo
 #'
 #' @param v A numeric vector containing the series.
-#' @param max.embedding.dimension The maximum embedding dimension to consider
+#' @param max.embedding.dim The maximum embedding dimension to consider
 #' @param embedding.lag The embedding lag.
 #' @param orbital.lag The Theiler window. An orbital lag to avoid
 #'     temporal correlation. Defaults to NULL, in which case the orbital
 #'     lag is chosen as the first local minima of the autocorrelation
-#'     function (method = "acf" or method = "autocorrelationfunction")
-#'     or the lagged mutual information function (method = "mi" or
-#'     method = "mutual information").
+#'     function (lag.method = "acf" or lag.method = "autocorrelationfunction")
+#'     or the lagged mutual information function (lag.method = "mi" or
+#'     lag.method = "mutual information").
 #' @param lag.max The maximum number of lags for the autocorrelation
-#'     function (method = "acf" or method = "autocorrelation function")
-#'     or the mutual information function (method = "mi" or
-#'     method = "mutual information function").
+#'     function (lag.method = "acf" or lag.method = "autocorrelation function")
+#'     or the mutual information function (lag.method = "mi" or
+#'     lag.method = "mutual information function").
 #' @param plot.temporal.correlation.function Should the function used
 #'     to determine the orbital lag (temporal separation window) be
 #'     plotted?
 #' @param lag.method The method to compute the orbital lag (Theiler window),
-#'   which excludes temporal neighbours to reduce correlation bias.
+#'   which excludes temporal neighbours to reduce correlation bias. Either
+#'   use the autocorrelation function (lag.method = "acf") or the lagged
+#'   mutual information function (lag.method = "mi")
 #' @return The minimum embedding dimension yielding zero false neighbours
 #'   or a false neighbours proportion below some threshold.
+#' @export optimise_dim_FNN
 optimise_dim_FNN <- function(v,
-                    max.embedding.dimension = 10,
+                    max.embedding.dim= 10,
                     embedding.lag = 1,
                     orbital.lag = NULL,
                     lag.max = ceiling(length(v)*0.2),
@@ -56,7 +59,7 @@ optimise_dim_FNN <- function(v,
     # Estimate the fraction of false nearest neighbours in embedding
     # dimension ranging from 1:max.embedding dimension
     fnn = tseriesChaos::false.nearest(series = v,
-                                      m = max.embedding.dimension,
+                                      m = max.embedding.dim,
                                       d = embedding.lag,
                                       t = orbital.lag)
 
@@ -69,6 +72,6 @@ optimise_dim_FNN <- function(v,
     if (!is.na(minimum.FNN.dimension)) {
         return(as.integer(minimum.FNN.dimension))
     } else {
-        return(max.embedding.dimension)
+        return(max.embedding.dim)
     }
 }
