@@ -40,8 +40,17 @@
 #' @param X Series X.
 #' @param Y Series Y.
 #' @param method Sorting method.
+<<<<<<< HEAD
 #' @return The rescaled X series.
 rescale <- function(X, Y, method = c("shell")){
+=======
+<<<<<<< HEAD
+#' @return The rescaled X series.
+rescale <- function(X, Y, method = c("shell")){
+=======
+.rescale <- function(X, Y, method = c("shell")){
+>>>>>>> cfb53c72eb987742ea0a7b642c2fb3305ebbcb54
+>>>>>>> aa1bfdd64cfe804e5fd451629a389d8be688de24
     # Rank-order Y and rank-order X.
     # Substitute the X values with the Y values and undo the sort
     X[sort(X, index = T, method = method)$ix] <- sort(Y, method = method)
@@ -51,7 +60,14 @@ rescale <- function(X, Y, method = c("shell")){
 #' Created iterated amplitude-adjusted Fourier transform (iAAFT)
 #' Uses Fourier phase shuffling on Xcorrelogram and rank ordering
 #' to retain the distribution of Xdistribution.
+<<<<<<< HEAD
 #'
+=======
+<<<<<<< HEAD
+#'
+=======
+>>>>>>> cfb53c72eb987742ea0a7b642c2fb3305ebbcb54
+>>>>>>> aa1bfdd64cfe804e5fd451629a389d8be688de24
 #' @param Xcor Record whose periodogram should be kept
 #' @param Xdist Record whos distribution should be kept
 #' @param tolerance Convergence criterion
@@ -63,12 +79,20 @@ rescale <- function(X, Y, method = c("shell")){
 #' @param criterion "periodogram" or "acf" as criterion for convergence
 #' @param rel.convergence Use a relative convergence criterion
 #' @param method Sorting method to use
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> aa1bfdd64cfe804e5fd451629a389d8be688de24
 #' @return An iterated AAFT surrogate series.
 #' @export iAAFT
 iAAFT <- function(Xcor, Xdist = Xcor,
 =======
 #' @return
 .iAAFT <- function(Xcor, Xdist = Xcor,
+<<<<<<< HEAD
+=======
+>>>>>>> cfb53c72eb987742ea0a7b642c2fb3305ebbcb54
+>>>>>>> aa1bfdd64cfe804e5fd451629a389d8be688de24
                    tolerance = 0.01,
                    maxit = 100,
                    adjust.var = TRUE,
@@ -195,7 +219,15 @@ iAAFT <- function(Xcor, Xdist = Xcor,
 ### use fourier phase shuffling on Xcorrelogram and
 ### rank ordering to retain the distribution of Xdistribution
 ### but here transform to gaussian, shuffle phases and retransform
+<<<<<<< HEAD
 AAFT <- function(X, method = c("shell")){
+=======
+<<<<<<< HEAD
+AAFT <- function(X, method = c("shell")){
+=======
+.AAFT <- function(X, method = c("shell")){
+>>>>>>> cfb53c72eb987742ea0a7b642c2fb3305ebbcb54
+>>>>>>> aa1bfdd64cfe804e5fd451629a389d8be688de24
 
     ## get lenght of data set
     n <- length(X)
