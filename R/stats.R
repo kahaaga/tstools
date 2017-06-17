@@ -1,8 +1,8 @@
-' Computes a set of basic statistics for a scalar valued vector
+#' Computes a set of basic statistics for a scalar valued vector
 #'
 #' @param v A scalar valued vector.
 #' @return A named vector of statistical parameters of the vector 'v'
-#' @export basicstats
+#' @export stats
 stats <- function(v) {
     if (class(v) == "data.frame") v = as.ve
     v.min = min(v, na.rm = T)

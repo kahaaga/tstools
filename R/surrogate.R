@@ -37,8 +37,8 @@
 #' @param n.surrogates The number of surrogates to generate.
 #' @param method String indicating the surrogate time series generation method.
 #'
-#' @export surrogates
-surrogates <- function(ts, surrogate.method, n.surrogates, print.to.console = F) {
+#' @export create_surrogates
+create_surrogates <- function(ts, surrogate.method, n.surrogates, print.to.console = F) {
     # Check if method is valid
     if (!(surrogate.method %in% c("aaft", "iaaft", "ebisuzaki", "random", "phase", "ce", "dh", "seasonal"))) {
         stop(paste("@OneWayCCM: Surrogate type", paste("'", surrogate.method, "'", sep=""),"not valid"))

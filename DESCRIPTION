@@ -16,6 +16,9 @@ Imports:
     fractal,
     rEDM,
     msm,
+    zoo,
+    tseriesChaos,
+    fractaldim,
     zoo
 License: GNU GPLv3
 Depends: R (>= 3.2.5)
