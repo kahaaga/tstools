@@ -5,31 +5,33 @@
 \title{Finds the minimal embedding dimension of a series 'v' according to
 the method of false nearest neighbours (FNN).}
 \usage{
-optimise_dim_FNN(v, max.embedding.dimension = 10, embedding.lag = 1,
+optimise_dim_FNN(v, max.embedding.dim = 10, embedding.lag = 1,
   orbital.lag = NULL, lag.max = ceiling(length(v) * 0.2),
   lag.method = "correlation", plot.lag.method = F, threshold = 0.95)
 }
 \arguments{
 \item{v}{A numeric vector containing the series.}
 
-\item{max.embedding.dimension}{The maximum embedding dimension to consider}
+\item{max.embedding.dim}{The maximum embedding dimension to consider}
 
 \item{embedding.lag}{The embedding lag.}
 
 \item{orbital.lag}{The Theiler window. An orbital lag to avoid
 temporal correlation. Defaults to NULL, in which case the orbital
 lag is chosen as the first local minima of the autocorrelation
-function (method = "acf" or method = "autocorrelationfunction")
-or the lagged mutual information function (method = "mi" or
-method = "mutual information").}
+function (lag.method = "acf" or lag.method = "autocorrelationfunction")
+or the lagged mutual information function (lag.method = "mi" or
+lag.method = "mutual information").}
 
 \item{lag.max}{The maximum number of lags for the autocorrelation
-function (method = "acf" or method = "autocorrelation function")
-or the mutual information function (method = "mi" or
-method = "mutual information function").}
+function (lag.method = "acf" or lag.method = "autocorrelation function")
+or the mutual information function (lag.method = "mi" or
+lag.method = "mutual information function").}
 
 \item{lag.method}{The method to compute the orbital lag (Theiler window),
-which excludes temporal neighbours to reduce correlation bias.}
+which excludes temporal neighbours to reduce correlation bias. Either
+use the autocorrelation function (lag.method = "acf") or the lagged
+mutual information function (lag.method = "mi")}
 
 \item{plot.temporal.correlation.function}{Should the function used
 to determine the orbital lag (temporal separation window) be
