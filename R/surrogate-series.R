@@ -58,7 +58,7 @@ create_surrogates <- function(ts,
 
     else if (tolower(surrogate.method) == "iaaft" |
              tolower(surrogate.method) == "i-aaft" ){
-        surr.data = replicate(n.surrogates, .iAAFT(Xcor = ts))
+        surr.data = replicate(n.surrogates, iAAFT(Xcor = ts))
     }
 
     # Amplitude adjusted Fourier transform (Theiler, 1992).
