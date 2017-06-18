@@ -90,17 +90,12 @@ iAAFT <- function(Xcor,
     if (n == length(Xdist)) {
 
         ## adjust var
-        cat("\nBefore doing anything\n", head(Xcor))
-        cat("\nBefore doing anything\n", head(Xdist))
 
         if (adjust.var) {
             sigXcor <- sqrt(var(Xcor))
             sigXdist <- sqrt(var(Xdist))
             Xcor <- Xcor * sigXdist / sigXcor
         }
-
-
-        cat("\nXcor after adjusting variance\n", Xcor)
 
         ## set the mean of Xdist to zero, add it later
         Xdist.mean <- NULL
@@ -109,19 +104,16 @@ iAAFT <- function(Xcor,
             Xdist <- Xdist - Xdist.mean
         }
 
-        cat("\nXdist after adjusting mean\n", Xdist)
 
 
         ## get ranked distribution
         c <- sort(Xdist, method = method)
-        cat("\nRanked distribution\n", c)
+
         ## calculate desired fourier amplitudes from Xcorr
         S <- fft(Xcor)
-        cat("\nFourier amplitudes of Xcor\n", S)
 
         ## generate zero order r, shuffle Xdist
         r <- sample(Xdist)
-        cat("Randomly shuffle Xdist")
 
         ## prepare convergence criterion
         if (criterion == "acf")
