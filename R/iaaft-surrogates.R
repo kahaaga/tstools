@@ -1,3 +1,10 @@
+#' Generate an iterated amplitude-adjusted Fourier transform surrogate.
+#' @param series The series for which to generate a surrogate.
+#' @param n.max.iter The maximum number of refinement.
+#' @return An iaaft representation of the original series, sticking to
+#'   the original values of the series (but otherwise shuffled) and
+#'   preserving the autocorrelation function of the original series.
+#' @export iaaft
 iaaft <- function(series, n.max.iter = 100) {
     n = length(series)
 
@@ -8,7 +15,7 @@ iaaft <- function(series, n.max.iter = 100) {
     original_fft_amplitudes = Mod(original_fft)
 
     # Sample a Gaussian vector and sort it
-    gaussian = sort(rnorm(n, 0, 1), index.return = T)$ix
+    gaussian = sort(rnorm(n, 0, 2), index.return = T)$ix
 
     # Sort the original series according to the sorted Gaussian. After a number
     # of iterations, this will be our final surrogate series.
@@ -47,12 +54,12 @@ iaaft <- function(series, n.max.iter = 100) {
         acf.diff.new = rms_diff(acf(series, n - 1, plot = F)$acf,
                                 acf(series.randsorted, n - 1, plot = F)$acf)
 
-        if (rms_diff(acf.diff.old, acf.diff.new) < tolerance) {
-            convergence.achieved = T
-            cat("\nConvergence achieved after ", iteration, " iterations.\n")
-        } else {
+        #if (rms_diff(acf.diff.old, acf.diff.new) < tolerance) {
+        #    convergence.achieved = T
+        #    cat("\nConvergence achieved after ", iteration, " iterations.\n")
+        #} else {
             acf.diff.old = acf.diff.new
-        }
+        #}
         iteration = iteration + 1
     }
     return(surrogate)
