@@ -5,7 +5,7 @@
 #'   the original values of the series (but otherwise shuffled) and
 #'   preserving the autocorrelation function of the original series.
 #' @export iaaft
-iaaft <- function(series, n.max.iter = 100) {
+iaaft <- function(series, n.max.iter = 150) {
     n = length(series)
 
     # Fourier transform of the original series
@@ -29,8 +29,9 @@ iaaft <- function(series, n.max.iter = 100) {
 
     # Compute root mean square difference between original and randomly sorted
     # series
-    acf.diff.old = rms_diff(acf(series, n - 1, plot = F)$acf,
-                            acf(series.randsorted, n - 1, plot = F)$acf)
+    acf.diff.old = sqrt(sum((acf(series, n - 1, plot = F)$acf -
+                    acf(series.randsorted, n - 1, plot = F)$acf)^2))
+
 
     while (!convergence.achieved && iteration <= n.max.iter) {
         series.randsorted.fft = fft(series.randsorted)
@@ -51,23 +52,16 @@ iaaft <- function(series, n.max.iter = 100) {
         series.randsorted = surrogate
 
         # Check for convergence
-        acf.diff.new = rms_diff(acf(series, n - 1, plot = F)$acf,
-                                acf(series.randsorted, n - 1, plot = F)$acf)
+        acf.diff.new = sqrt(sum((acf(series, n - 1, plot = F)$acf -
+                        acf(surrogate, n - 1, plot = F)$acf)^2))
 
-        #if (rms_diff(acf.diff.old, acf.diff.new) < tolerance) {
-        #    convergence.achieved = T
-        #    cat("\nConvergence achieved after ", iteration, " iterations.\n")
-        #} else {
+        if (abs(acf.diff.old - acf.diff.new) < tolerance) {
+            #cat("\nConvergence achieved after ", iteration, " iterations.\n")
+            convergence.achieved = T
+        } else {
             acf.diff.old = acf.diff.new
-        #}
+        }
         iteration = iteration + 1
     }
     return(surrogate)
-}
-
-#' Absolute root mean square difference between two vectors
-#' @param v1 The first vector.
-#' @param v2 The second vector.
-rms_diff <- function(v1, v2) {
-    abs(sqrt((v1 - v2)^2))[1]
 }

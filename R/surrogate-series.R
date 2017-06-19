@@ -34,10 +34,10 @@
 #' @param method String indicating the surrogate time series generation method.
 #'
 #' @export create_surrogates
-create_surrogates <- function(ts,
-                              surrogate.method = "random",
-                              n.surrogates = 1,
-                              print.to.console = F) {
+surrogate_ensemble <- function(ts,
+                                surrogate.method = "random",
+                                n.surrogates = 1,
+                                print.to.console = F) {
 
     # Check if method is valid
     if (!(surrogate.method %in% c("aaft", "iaaft", "ebisuzaki", "random", "phase", "ce", "dh", "seasonal"))) {
