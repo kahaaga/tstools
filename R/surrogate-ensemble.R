@@ -33,7 +33,7 @@
 #' @param n.surrogates The number of surrogates to generate.
 #' @param method String indicating the surrogate time series generation method.
 #'
-#' @export create_surrogates
+#' @export surrogate_ensemble
 surrogate_ensemble <- function(ts,
                                 surrogate.method = "random",
                                 n.surrogates = 1,
