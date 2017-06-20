@@ -33,6 +33,7 @@ draw_random_ages <- function(ages,
 #' @param firstdiffagreementratio How large can the slope between time steps be? Defaults to 1, or 100%.
 #' @param tolerance A tolerance level to speed up computations when age points are very close.
 #' @return An randomly drawn age model.
+#' @export draw_agemodel
 draw_agemodel <- function(ages, sigmas,
                      n.sigma = 2,
                      firstdiffagreementratio=1,

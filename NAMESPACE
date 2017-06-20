@@ -3,6 +3,7 @@
 export(bin)
 export(boxplot_maximum)
 export(boxplot_minimum)
+export(draw_agemodel)
 export(draw_random_ages)
 export(draw_random_data)
 export(first_acf_minima)
