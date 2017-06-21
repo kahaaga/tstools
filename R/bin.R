@@ -1,27 +1,28 @@
-#' Bin a dataset by a common column "Age".
+#' Bin a dataset by a common column.
 #'
 #' @param dt A data frame containing the data to be binned.
 #' @param bin.size The size of the bins
-#' @param bin.average.function The function to use for averaging bins. Defaults to mean function.
+#' @param bin.average.function The function to use for averaging bins. Default is the arithmetic mean.
+#' @param bin.column The column to use for binning.
 #' @param interpolate Should empty bins be interpolated linearly?
 #' @param remove.na Should NAs remaining after interpolation (usually at endpoints after interpolatin) be removed? BEWARE: be careful about removing nans before interpolating.
-#' @param agepoint How should time indices be constructed? Start, mid or endpoint of bins?
+#' @param agepoint How time indices are constructed. Either 'start', 'mid' or 'end' of bins. Defaults to 'mid'.
 #' @export bin
 bin <- function(dt,
                 bin.size,
-                common.column,
+               bin.column,
                 bin.average.function = mean.narm,
                 interpolate = T,
                 remove.na = T,
                 agepoint = "mid") {
-    bin.min = plyr::round_any(min(dt[, common.column]), bin.size, f=floor)   # Round down to nearest bin
-    bin.max = plyr::round_any(max(dt[, common.column]), bin.size, f=ceiling) # Round up to nearest bin
+    bin.min = plyr::round_any(min(dt[,bin.column]), bin.size, f=floor)   # Round down to nearest bin
+    bin.max = plyr::round_any(max(dt[,bin.column]), bin.size, f=ceiling) # Round up to nearest bin
 
-    dt$bin = cut(dt[, common.column], breaks = seq(from = bin.min, to = bin.max, by = bin.size), include.lowest=T)
+    dt$bin = cut(dt[,bin.column], breaks = seq(from = bin.min, to = bin.max, by = bin.size), include.lowest=T)
     dt = dplyr::group_by(.data = dt, .dots = bin)
     dt = dplyr::summarise_each(dt, funs(bin.average.function))
     dt = dplyr::ungroup(dt) %>% as.data.frame
-    dt[, common.column] = ColwiseBinMean(col = dt$.dots, agepoint = agepoint)
+    dt[,bin.column] = ColwiseBinMean(col = dt$.dots, agepoint = agepoint)
     dt = dplyr::ungroup(dt)
     dt = as.data.frame(dt)
     dt = dt[, 2:(ncol(dt)-1)]
@@ -37,7 +38,7 @@ bin <- function(dt,
         warning("Careful! Removing NA bins without interpolating. Data are not on on an equidistant grid anymore!!")
         dt = dt[stats::complete.cases(dt),]
     }
-    dt = dt[order(dt[, common.column], decreasing = T), ]
+    dt = dt[order(dt[,bin.column], decreasing = T), ]
     dt$bin.size = rep(bin.size)
     dt$agepoint = rep(agepoint)
 
