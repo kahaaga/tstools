@@ -1,11 +1,11 @@
-#' Bin a dataset by a common column "Age".
+#' Bin a dataset by a common column.
 #'
 #' @param dt A data frame containing the data to be binned.
 #' @param bin.size The size of the bins
-#' @param bin.average.function The function to use for averaging bins. Defaults to mean function.
+#' @param bin.average.function The function to use for averaging bins. Default is the arithmetic mean.
 #' @param interpolate Should empty bins be interpolated linearly?
 #' @param remove.na Should NAs remaining after interpolation (usually at endpoints after interpolatin) be removed? BEWARE: be careful about removing nans before interpolating.
-#' @param agepoint How should time indices be constructed? Start, mid or endpoint of bins?
+#' @param agepoint How time indices are constructed. Either 'start', 'mid' or 'end' of bins. Defaults to 'mid'.
 #' @export bin
 bin <- function(dt,
                 bin.size,
