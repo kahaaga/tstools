@@ -1,4 +1,4 @@
-context("Davison-Hinkley surrogates")
+context("Davison-Hinkley surrogates test")
 # Some time series.
 ts1 = as.numeric(precip)
 ts2 = as.numeric(datasets::BJsales.lead)

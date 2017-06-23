@@ -1,4 +1,4 @@
-context("Circulant embedding surrogates")
+context("Circulant embedding surrogates test")
 
 # Some time series.
 ts1 = as.numeric(precip)

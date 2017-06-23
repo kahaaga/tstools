@@ -1,3 +1,5 @@
+context("Binning dataframes test")
+
 test_that("binning dataframes works", {
     # Use treering data
 

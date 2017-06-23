@@ -1,4 +1,4 @@
-context("AAFT surrogates")
+context("AAFT surrogates test")
 
 # Some time series.
 ts1 = as.numeric(precip)
