@@ -5,6 +5,9 @@
 #' @param sigmas A vector containing the 1 sigma uncertainties associated with the age data.
 #' @param firstdiffagreementratio How large can the slope between time steps be? Defaults to 1, or 100%.
 #' @param tolerance A tolerance level to speed up computations when age points are very close.
+#' @param n.sigma n*sigma uncertainty. Defaults to 2.
+#' @param tolerance A tolerance to ensure iterations don't get stuck.
+#' @param n.replicates How many age vectors to draw?
 #' @export draw_random_ages
 draw_random_ages <- function(ages,
                       sigmas,
