@@ -81,7 +81,7 @@ surrogate_ensemble <- function(ts,
     # Phase and amplitude randomisation (non-constrained realizations)
     } else if (tolower(surrogate.method) == "dh" ||
                tolower(surrogate.method) == "davison-hinkley" ||
-               tolower(surrogate.method) == "phase and amplitude randomisation" || 
+               tolower(surrogate.method) == "phase and amplitude randomisation" ||
                tolower(surrogate.method) == "phase and amplitude") {
         surr.data = replicate(n.surrogates, dh_surrogate(series = ts))
     }
