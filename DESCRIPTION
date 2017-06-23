@@ -2,8 +2,8 @@ Package: tstools
 Type: Package
 Title: Useful functions
 Version: 0.2.0
-Author: Kristian Agasøster Haaga
-Maintainer: Kristian Agasøster Haaga <kahaaga@gmail.com>
+Author: Kristian Agas?ster Haaga
+Maintainer: Kristian Agas?ster Haaga <kahaaga@gmail.com>
 Description: A collection of functions I regularly use.
 Imports:
     pacman,
@@ -19,7 +19,8 @@ Imports:
     zoo,
     tseriesChaos,
     fractaldim,
-    zoo
+    zoo,
+    testthat
 License: GNU GPLv3
 Depends: R (>= 3.2.5)
 Encoding: UTF-8
