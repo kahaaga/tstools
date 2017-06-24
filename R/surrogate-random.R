@@ -4,12 +4,8 @@
 #' @param series The series for which to generate a surrogate.
 #' @export random_surrogate
 random_surrogate <- function(series) {
-  if (contains_na(series)) {
-    warning("series contains na! surrogate will not be valid")
-  }
-
-  if (is_null(series)) {
-    warning("series is NULL! can't generate surrogate.")
+  if (!is_valid_input(series)) {
+    rlang::abort("Surrogate generation failed. Input series is not valid!")
   }
 
   rEDM::make_surrogate_data(ts = series,
