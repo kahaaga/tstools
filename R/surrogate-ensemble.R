@@ -54,11 +54,6 @@ surrogate_ensemble <- function(ts,
     } else if (tolower(surrogate.method) == "random") {
       surr.data = replicate(n.surrogates, random_surrogate(series = ts))
 
-    # Seasonal surrogates.
-    } else if (tolower(surrogate.method) == "seasonal") {
-      surr.data = replicate(n.surrogates, seasonal_surrogate(series = ts))
-    }
-
     else if (tolower(surrogate.method) == "iaaft" ||
              tolower(surrogate.method) == "i-aaft" ){
         surr.data = replicate(n.surrogates, iaaft_surrogate(series = ts))
