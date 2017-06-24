@@ -31,6 +31,6 @@ optimise_dim_simplex <- function(v,
         plot(simplex.output$E, simplex.output$rho)
     }
 
-    return(optimal.embedding.dim)
+    return(as.numeric(optimal.embedding.dim))
 }
 
