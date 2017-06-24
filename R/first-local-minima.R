@@ -1,6 +1,6 @@
 #' Finds the index of the first local minima in a series.
-#' If no local minima is found, the function returns the
-#' minimum value of the series.
+#' If value == F and no local minima is found, returns NA.
+#' If value == T and no local minima is found, returns min(v)
 #'
 #' @param v A numeric vector containing the series.
 #' @param value Return the value at the local minima instead of the index?
@@ -11,9 +11,11 @@ first_local_minima <- function(v, value = F) {
     index = which(tmp == TRUE)[1] + 1
 
     if (is.na(index)) {
-        cat("\nNo local minima was found.\n")
-        return(match(min(v), v) + 1)
+        #cat("\nNo local minima was found.\n")
+        if (value == T) return(min(v))
+        else return(NA)
     } else {
-        return(index)
+      if (value == T) return(v[index])
+      else return(index)
     }
 }

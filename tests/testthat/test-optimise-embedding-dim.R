@@ -8,8 +8,11 @@ test_that("Optimisation using simplex projection works", {
   # Only estimate dimension and proceed with other tests.
   optimal.dim.simplex = suppressWarnings(optimise_dim_simplex(dt))
 
+
   # Tests.
   expect_warning(optimise_dim_simplex(dt))
+  expect_warning(optimise_dim_simplex(dt, plot.simplex.projection = T))
+
   expect_that(optimal.dim.simplex, is_a("numeric"))
   expect_that(length(optimal.dim.simplex), equals(1))
 })
