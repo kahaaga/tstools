@@ -45,9 +45,16 @@ test_that("Optimisation with default settings works", {
   optimal.dims = suppressWarnings(optimise_embedding_dim(dt))
 
   expect_warning(optimise_embedding_dim(dt))
+
   expect_that(length(optimal.dims), equals(3))
   expect_that(names(optimal.dims), equals(c("simplex.projection.optimisation",
                                           "FNN.criterion",
                                           "boxcount.criterion")))
+})
 
+test_that("Optimisation with defaults and return.all = FALSE", {
+  expect_that(length(suppressWarnings(optimise_embedding_dim(dt, return.all = FALSE))),
+              equals(1))
+  expect_that(suppressWarnings(optimise_embedding_dim(dt, return.all = FALSE)),
+              is_a("numeric"))
 })
