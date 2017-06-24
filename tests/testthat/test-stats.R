@@ -7,3 +7,8 @@ dt[50] = -sd(dt)*10
 test_that("Outliers are removed", {
   expect_true(length(remove_outliers(dt)) < length(dt))
 })
+
+test_that("Basic stats function works", {
+  expect_false(any(is.na(stats(dt))))
+  expect_false(is.null(stats(dt)))
+})
