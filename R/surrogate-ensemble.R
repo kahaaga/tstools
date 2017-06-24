@@ -89,7 +89,7 @@ surrogate_ensemble <- function(ts,
 validate_surrogate_method <- function(surrogate.method) {
   # Validate surrogate method.
   if (!(tolower(surrogate.method) %in% c("aaft", "iaaft",
-                                         "ebisuzaki"
+                                         "ebisuzaki",
                                          "random", "phase",
                                          "ce", "dh"))
       ) {
