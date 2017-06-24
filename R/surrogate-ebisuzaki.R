@@ -7,8 +7,9 @@ ebisuzaki_surrogate <- function(series) {
     rlang::abort("Surrogate generation failed. Input series is not valid!")
   }
 
-  rEDM::make_surrogate_data(ts = series,
+  surrogate = rEDM::make_surrogate_data(ts = series,
                             method = "ebisuzaki",
                             num_surr = 1)
+  return(as.numeric(surrogate))
 }
 

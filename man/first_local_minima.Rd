@@ -3,8 +3,8 @@
 \name{first_local_minima}
 \alias{first_local_minima}
 \title{Finds the index of the first local minima in a series.
-If no local minima is found, the function returns the
-minimum value of the series.}
+If value == F and no local minima is found, returns NA.
+If value == T and no local minima is found, returns min(v)}
 \usage{
 first_local_minima(v, value = F)
 }
@@ -18,6 +18,6 @@ The index or value of the first local minima.
 }
 \description{
 Finds the index of the first local minima in a series.
-If no local minima is found, the function returns the
-minimum value of the series.
+If value == F and no local minima is found, returns NA.
+If value == T and no local minima is found, returns min(v)
 }

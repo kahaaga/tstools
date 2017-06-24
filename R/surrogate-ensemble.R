@@ -43,7 +43,7 @@ surrogate_ensemble <- function(ts,
     if (!(surrogate.method %in% c("aaft", "iaaft",
                                   "ebisuzaki", "random",
                                   "phase", "ce",
-                                  "dh", "seasonal"))) {
+                                  "dh"))) {
         stop(paste("Surrogate type", paste("'", surrogate.method, "'", sep = ""),"not valid"))
     }
 
@@ -54,8 +54,9 @@ surrogate_ensemble <- function(ts,
     } else if (tolower(surrogate.method) == "random") {
       surr.data = replicate(n.surrogates, random_surrogate(series = ts))
 
-    else if (tolower(surrogate.method) == "iaaft" ||
-             tolower(surrogate.method) == "i-aaft" ){
+    # Iterated amplitude adjusted Fourier transform
+    } else if (tolower(surrogate.method) == "iaaft" ||
+             tolower(surrogate.method) == "i-aaft" ) {
         surr.data = replicate(n.surrogates, iaaft_surrogate(series = ts))
     }
 
@@ -94,7 +95,7 @@ validate_surrogate_method <- function(surrogate.method) {
   # Validate surrogate method.
   if (!(tolower(surrogate.method) %in% c("aaft", "iaaft",
                                          "random", "phase",
-                                         "ce", "dh", "seasonal"))
+                                         "ce", "dh"))
       ) {
 
     stop(paste("Surrogate type",
