@@ -11,7 +11,6 @@ first_local_minima <- function(v, value = F) {
     index = which(tmp == TRUE)[1] + 1
 
     if (is.na(index)) {
-        #cat("\nNo local minima was found.\n")
         if (value == T) return(min(v))
         else return(NA)
     } else {
