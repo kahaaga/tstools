@@ -40,12 +40,7 @@ surrogate_ensemble <- function(ts,
                                 print.to.console = F) {
 
     # Check if method is valid
-    if (!(surrogate.method %in% c("aaft", "iaaft",
-                                  "ebisuzaki", "random",
-                                  "phase", "ce",
-                                  "dh"))) {
-        stop(paste("Surrogate type", paste("'", surrogate.method, "'", sep = ""),"not valid"))
-    }
+    validate_surrogate_method(surrogate.method)
 
     if (tolower(surrogate.method) == "ebisuzaki") {
       surr.data = replicate(n.surrogates, ebisuzaki_surrogate(series = ts))
