@@ -25,6 +25,7 @@ test_that("Creating surrogate for series with NA fails", {
   expect_error(ce_surrogate(ts))
   expect_error(random_surrogate(ts))
   expect_error(phase_surrogate(ts))
+  expect_error(phase_randomised_surrogate(ts))
   expect_error(ebisuzaki_surrogate(ts))
 })
 
@@ -37,5 +38,7 @@ test_that("Creating surrogate for NULL fails", {
   expect_error(ce_surrogate(tsnull))
   expect_error(random_surrogate(ts))
   expect_error(phase_surrogate(ts))
+  expect_error(phase_randomised_surrogate(ts))
+
   expect_error(ebisuzaki_surrogate(ts))
 })
