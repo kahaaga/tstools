@@ -99,8 +99,6 @@ draw_agemodel <- function(ages, sigmas,
         }
     }
 
-
-
     # Final age
     lower_bound = max(ages[l] - n.sigma * sigmas[l],
                       agemodel[l - 1] + tolerance)
@@ -132,5 +130,4 @@ draw_agemodel <- function(ages, sigmas,
     }
 
     return(agemodel)
-
 }
