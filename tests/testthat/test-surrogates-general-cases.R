@@ -12,8 +12,10 @@ test_that("Surrogate ensembles are created successfully", {
   expect_that(surrogate_ensemble(ts, "phase", 2), is_a("matrix"))
   expect_that(surrogate_ensemble(ts, "ebisuzaki", 2), is_a("matrix"))
   expect_that(surrogate_ensemble(ts, "random", 2), is_a("matrix"))
+})
 
-
+test_that("Bad surrogate method name gives error", {
+  expect_error(surrogate_ensemble(ts, surrogate.method = "wrong method", 2))
 })
 
 ts[2] = NA
