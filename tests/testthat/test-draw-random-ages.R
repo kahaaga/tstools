@@ -1,7 +1,6 @@
 context("Draw random ages test")
 set.seed(1)
 
-
 time = as.numeric(start(treering)[1]:end(treering)[1])
 time = time[1:300]
 data = as.numeric(unclass(treering))[1:300]
