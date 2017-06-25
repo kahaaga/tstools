@@ -130,21 +130,7 @@ draw_agemodel <- function(ages, sigmas,
                                 tolerance = tolerance)
         }
     }
-    # # If agemodel starts at negative time -> reverse age model
-    # if (ages[1] < 0) {
-    #   if (all(agemodel == cummin(agemodel))) return(rev(agemodel))
-    #   else return(agemodel)
-    # }
-    # # If agemodel starts at positive time
-    # if (ages[1] >= 0) {
-    #   # If agemodel is strictly increasing -> reverse age model
-    #   if (all(ages == cummax(ages))) return(rev(agemodel))
-    #
-    #   # If agemodel is strictly decreasing -> keep age model
-    #   else if (all(ages == cummin(ages))) return(agemodel)
-    # } else {
-    #   return(agemodel)
-    # }
+
     return(agemodel)
 
 }

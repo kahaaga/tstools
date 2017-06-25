@@ -26,7 +26,6 @@ test_that("Only positive uncertainties works for agemodel", {
   expect_error(draw_agemodel(ages = time, sigmas = sigma))
 })
 
-
 test_that("Drawing age model ensemble works", {
   expect_true(ncol(draw_random_ages(ages = time, sigmas = sigma)) == 1)
   expect_true(ncol(draw_random_ages(ages = time, sigmas = sigma, n.replicates = 5)) == 5)
