@@ -48,20 +48,22 @@ datamodel <- function(data,
                       n.sigma = 2,
                       lower.bounds = NULL,
                       upper.bounds = NULL) {
-    if (any(is.na(sigmas)) == FALSE) {
-      return(datamodel_sigmas(data = data,
-                              sigmas = sigmas,
-                              n.sigma = n.sigma))
 
-    } else if (is.null(sigmas) ||
-              (is.vector(lower.bounds) && is.vector(upper.bounds))) {
+    if (is.null(sigmas) && (
+        is.vector(lower.bounds) && is.vector(upper.bounds))
+      ) {
       return(datamodel_truncated(data = data,
                                  lower.bounds = lower.bounds,
                                  upper.bounds = upper.bounds,
                                  n.sigma = n.sigma))
-    } else {
-        warning("Input to datamodel() is not valid.")
     }
+
+    if (any(is.na(sigmas)) == FALSE) {
+      return(datamodel_sigmas(data = data,
+                            sigmas = sigmas,
+                            n.sigma = n.sigma))
+
+  }
 }
 
 #' Draws random data according to a Gaussian distribution centered
