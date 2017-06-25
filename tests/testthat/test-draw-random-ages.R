@@ -14,7 +14,6 @@ test_that("Agemodel fails when ages are not strictly increasing.", {
   expect_error(draw_agemodel(ages = time, sigmas = sigma))
 })
 
-
 test_that("Negative uncertainties for agemodel gives error.", {
   sigma = rnorm(n = length(dt), mean = 0, sd = 0.03)
   sigma[1] = - 1
@@ -32,6 +31,4 @@ test_that("Drawing age model ensemble works", {
   expect_error(draw_random_ages(ages = time, sigmas = sigma, n.replicates = NULL))
   expect_error(draw_random_ages(ages = NULL, sigmas = sigma, n.replicates = NULL))
   expect_error(draw_random_ages(ages = time, sigmas = NULL, n.replicates = 3))
-
-
 })
