@@ -17,7 +17,7 @@ draw_random_ages <- function(ages,
                       tolerance = 10^-(10)
                       ) {
 
-    agemodels = replicate(n = n.models,
+    agemodels = replicate(n = n.replicates,
                           expr = draw_agemodel(ages = ages,
                                         sigmas = sigmas,
                                         n.sigma = n.sigma,
@@ -30,8 +30,9 @@ draw_random_ages <- function(ages,
 #' their associated 1 sigma uncertainties ('sigmas') according to a
 #' Gaussian. Requires that the difference between time steps should be
 #' within a ratio firstdiffagreementratio' (default to 1, or 100%).
+#' Always returns a strictly increasing agemodel.
 #'
-#' @param ages A vector containing the age data.
+#' @param ages A vector containing the age data. Must be strictly increasing.
 #' @param sigmas A vector containing the 1 sigma uncertainties associated with the age data.
 #' @param firstdiffagreementratio How large can the slope between time steps be? Defaults to 1, or 100%.
 #' @param tolerance A tolerance level to speed up computations when age points are very close.
@@ -39,18 +40,12 @@ draw_random_ages <- function(ages,
 #' @export draw_agemodel
 draw_agemodel <- function(ages, sigmas,
                      n.sigma = 2,
-                     firstdiffagreementratio=1,
+                     firstdiffagreementratio = 1,
                      tolerance = 10^-(12)) {
 
-    if (all(ages == cummax(ages))) {
-    #    cat("Ages are strictly increasing. Using data as is. \n")
-    } else if (all(ages == cummin(ages))) {
-    #    cat("Ages are strictly decreasing. Reversing data\n")
-        ages = rev(ages)
-        sigmas = rev(sigmas)
-    } else {
-        warning("Ages are neither strictly decreasing nor increasing. Check input!\n")
-    }
+    # Verify input
+    if (!all(ages == cummax(ages))) stop("Ages not strictly increasing")
+    if (any(sigmas < 0)) stop("Some uncertainties are negative.")
 
     #cat("Drawing agemodel ... \n")
     l = length(ages)
@@ -58,25 +53,27 @@ draw_agemodel <- function(ages, sigmas,
 
     # Set upper and lower bounds for first draw
     lower_bound = ages[1] - n.sigma * sigmas[1]
-    upper_bound = min(ages[1] - n.sigma * sigmas[1],
+    upper_bound = max(ages[1] - n.sigma * sigmas[1],
                       ages[2] - n.sigma * sigmas[2])
 
     # First age
-    agemodel[1] = msm::rtnorm(n=1, mean = ages[1], sd = n.sigma * sigmas[1],
+    agemodel[1] = msm::rtnorm(n = 1,
+                              mean = ages[1],
+                              sd = abs(n.sigma * sigmas[1]),
                               lower = lower_bound,
                               upper = upper_bound)
 
     # Iteratively draw ages from 2:n-1
-    for (i in 2:l-1) {
-        #flush.console()
-        #if (i %% 10 == 0) cat("\ri = ", i)
-        #flush.console()
-        lower_bound = max(ages[i] - n.sigma * sigmas[i], agemodel[i-1]+tolerance)
+    for (i in 2:(l - 1)) {
+        lower_bound = max(ages[i] - n.sigma * sigmas[i],
+                          agemodel[i - 1] + tolerance)
+
         upper_bound = min(ages[i] + n.sigma * sigmas[i],
-                          ages[i+1] + n.sigma * sigmas[i+1],
-                          agemodel[i-1] * (1 + firstdiffagreementratio))
-        upper_bound = max(lower_bound + tolerance,
-                          upper_bound)
+                          ages[i + 1] + n.sigma * sigmas[i + 1],
+                          agemodel[i - 1] * (1 + firstdiffagreementratio))
+
+        upper_bound = max(lower_bound + tolerance, upper_bound)
+
         if (lower_bound > upper_bound) {
             redraw_n = 0
             #cat("got stuck. restarting function\n")
@@ -94,15 +91,26 @@ draw_agemodel <- function(ages, sigmas,
                                   agemodel[i-2] * (1 + firstdiffagreementratio))
             }
         } else {
-            agemodel[i] =  msm::rtnorm(n=1, mean = ages[i], sd = n.sigma * sigmas[i],
+            agemodel[i] =  msm::rtnorm(n = 1,
+                                       mean = ages[i],
+                                       sd = n.sigma * sigmas[i],
                                        lower = lower_bound,
                                        upper = upper_bound)
         }
     }
+
+
+
     # Final age
-    lower_bound = max(ages[l] - n.sigma * sigmas[l], agemodel[l-1] + tolerance)
-    upper_bound = min(ages[l] + n.sigma * sigmas[l], agemodel[l-1] * ( 1+ firstdiffagreementratio))
-    agemodel[l] = msm::rtnorm(n=1, mean = ages[l], sd = n.sigma * sigmas[l],
+    lower_bound = max(ages[l] - n.sigma * sigmas[l],
+                      agemodel[l - 1] + tolerance)
+
+    upper_bound = max(ages[l] + n.sigma * sigmas[l],
+                      agemodel[l - 1] * (1 + firstdiffagreementratio))
+
+    agemodel[l] = msm::rtnorm(n = 1,
+                              mean = ages[l],
+                              sd = n.sigma * sigmas[l],
                               lower = lower_bound,
                               upper = upper_bound)
 
@@ -112,7 +120,7 @@ draw_agemodel <- function(ages, sigmas,
 
     while (!(monotonically.strictly.increasing)) {
         if (all(diff(agemodel) > 0)) {
-            break
+          monotonically.strictly.increasing = TRUE
         } else {
             cat("Agemodel not strictly increasing. Re-drawing.")
             agemodel = draw_agemodel(ages = ages,
@@ -122,6 +130,21 @@ draw_agemodel <- function(ages, sigmas,
                                 tolerance = tolerance)
         }
     }
-    if (all(ages == cummax(ages))) return(rev(agemodel))
-    else if (all(ages == cummin(ages))) return(agemodel)
+    # # If agemodel starts at negative time -> reverse age model
+    # if (ages[1] < 0) {
+    #   if (all(agemodel == cummin(agemodel))) return(rev(agemodel))
+    #   else return(agemodel)
+    # }
+    # # If agemodel starts at positive time
+    # if (ages[1] >= 0) {
+    #   # If agemodel is strictly increasing -> reverse age model
+    #   if (all(ages == cummax(ages))) return(rev(agemodel))
+    #
+    #   # If agemodel is strictly decreasing -> keep age model
+    #   else if (all(ages == cummin(ages))) return(agemodel)
+    # } else {
+    #   return(agemodel)
+    # }
+    return(agemodel)
+
 }
