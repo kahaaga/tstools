@@ -4,13 +4,13 @@
 \alias{draw_random_data}
 \title{Draws random datagiven a vector 'data' and
 its associated uncertainties, either in the form of
-'sigmas' or a set of 'lower_bounds' and 'upper_bounds'.
+'sigmas' or a set of 'lower.bounds' and 'upper.bounds'.
 If 'sigmas' is provided, draw from a Gaussian centered
 on the data. If bounds are provided, draw from a
 Gaussian truncated at the lower and upper bounds.}
 \usage{
-draw_random_data(data, sigmas = NA, n.sigma = 2, n.replicates = 1,
-  lower_bounds = NA, upper_bounds = NA)
+draw_random_data(data, sigmas = NULL, n.sigma = 2, n.replicates = 1,
+  lower.bounds = NULL, upper.bounds = NULL)
 }
 \arguments{
 \item{data}{A vector of data.}
@@ -19,9 +19,9 @@ draw_random_data(data, sigmas = NA, n.sigma = 2, n.replicates = 1,
 
 \item{n.sigma}{How many sigmas should be allowed?}
 
-\item{lower_bounds}{A vector of lower bounds for the data.}
+\item{lower.bounds}{A vector of lower bounds for the data.}
 
-\item{upper_bounds}{A vector of upper bounds for the data.}
+\item{upper.bounds}{A vector of upper bounds for the data.}
 }
 \value{
 A matrix of randomly drawn data.
@@ -29,7 +29,7 @@ A matrix of randomly drawn data.
 \description{
 Draws random datagiven a vector 'data' and
 its associated uncertainties, either in the form of
-'sigmas' or a set of 'lower_bounds' and 'upper_bounds'.
+'sigmas' or a set of 'lower.bounds' and 'upper.bounds'.
 If 'sigmas' is provided, draw from a Gaussian centered
 on the data. If bounds are provided, draw from a
 Gaussian truncated at the lower and upper bounds.
