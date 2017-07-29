@@ -1,7 +1,7 @@
 #' Finds the minimal embedding dimension of a series 'v' according to
 #' the method of false nearest neighbours (FNN).
 #'
-#' The idea is from the following paper:
+#' From:
 #' M. B. Kennel, R. Brown, and H. D. I. Abarbanel,
 #' Determining embedding dimension for phase-space reconstruction
 #' using a geometrical construction, Phys. Rev. A 45, 3403 (1992).

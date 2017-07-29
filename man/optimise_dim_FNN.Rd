@@ -42,7 +42,7 @@ The minimum embedding dimension yielding zero false neighbours
   or a false neighbours proportion below some threshold.
 }
 \description{
-The idea is from the following paper:
+From:
 M. B. Kennel, R. Brown, and H. D. I. Abarbanel,
 Determining embedding dimension for phase-space reconstruction
 using a geometrical construction, Phys. Rev. A 45, 3403 (1992).

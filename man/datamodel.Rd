@@ -4,13 +4,13 @@
 \alias{datamodel}
 \title{Draws a random data model given a vector 'data' and
 its associated uncertainties, either in the form of
-'sigmas' or a set of 'lower_bounds' and 'upper_bounds'.
+'sigmas' or a set of 'lower.bounds' and 'upper.bounds'.
 If 'sigmas' is provided, draw from a Gaussian centered
 on the data. If bounds are provided, draw from a
 Gaussian truncated at the lower and upper bounds.}
 \usage{
-datamodel(data, sigmas = NA, n.sigma = 2, lower.bounds = NA,
-  upper.bounds = NA)
+datamodel(data, sigmas = NULL, n.sigma = 2, lower.bounds = NULL,
+  upper.bounds = NULL)
 }
 \arguments{
 \item{data}{A vector of data.}
@@ -29,7 +29,7 @@ A vector containing the
 \description{
 Draws a random data model given a vector 'data' and
 its associated uncertainties, either in the form of
-'sigmas' or a set of 'lower_bounds' and 'upper_bounds'.
+'sigmas' or a set of 'lower.bounds' and 'upper.bounds'.
 If 'sigmas' is provided, draw from a Gaussian centered
 on the data. If bounds are provided, draw from a
 Gaussian truncated at the lower and upper bounds.
