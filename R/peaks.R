@@ -23,6 +23,18 @@ find_local_maxima <- function (x, npoints = 3){
   pks
 }
 
+#' Finds peaks in a time series by using a sliding window.
+#' Wrapper around find_local_maxima().
+#'
+#' @param x The vector of numbers for which to identify peaks
+#' @param npoints The number of points to either side of the local maxima.
+#'
+#' Author: user 'stas g' on stackexchange at
+#'https://stats.stackexchange.com/questions/22974/how-to-find-local-peaks-valleys-in-a-series-of-data
+find_peaks <- function(x, npoints = 3) {
+  find_local_maxima(x, npoints)
+}
+
 #' Finds troughs in a time series by using a sliding window.
 #'
 #' @param x The vector of numbers for which to identify peaks
@@ -33,4 +45,16 @@ find_local_maxima <- function (x, npoints = 3){
 find_local_minima <- function (x, npoints = 3){
   # Negate the input to find local minima with the local maxima function.
   find_local_maxima(-x)
+}
+
+#' Finds peaks in a time series by using a sliding window.
+#' Wrapper around find_local_maxima().
+#'
+#' @param x The vector of numbers for which to identify peaks
+#' @param npoints The number of points to either side of the local maxima.
+#'
+#' Author: user 'stas g' on stackexchange at
+#'https://stats.stackexchange.com/questions/22974/how-to-find-local-peaks-valleys-in-a-series-of-data
+find_troughs <- function(x, npoints = 3) {
+  find_local_minima(x, npoints)
 }
