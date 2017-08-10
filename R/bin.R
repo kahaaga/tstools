@@ -3,69 +3,93 @@
 #' @param dt A data frame containing the data to be binned.
 #' @param bin.size The size of the bins
 #' @param bin.average.function The function to use for averaging bins. Default is the arithmetic mean.
-#' @param bin.column The column to use for binning.
+#' @param by The column to use for binning.
 #' @param interpolate Should empty bins be interpolated linearly?
 #' @param remove.na Should NAs remaining after interpolation (usually at endpoints after interpolatin) be removed? BEWARE: be careful about removing nans before interpolating.
 #' @param time.sampled.at How time indices are constructed. Either 'start', 'mid' or 'end' of bins. Defaults to 'mid'.
 #' @export bin
 bin <- function(dt,
                 bin.size,
-                bin.column,
+                by,
                 bin.average.function = mean.narm,
                 interpolate = T,
                 remove.na = T,
-                time.sampled.at = "mid") {
-    bin.min = plyr::round_any(min(dt[,bin.column]), bin.size, f=floor)   # Round down to nearest bin
-    bin.max = plyr::round_any(max(dt[,bin.column]), bin.size, f=ceiling) # Round up to nearest bin
+                time.sampled.at = "mid",
+                bin.min = min(dt[, by]),
+                bin.max = max(dt[, by])) {
 
-    dt$bins = cut(dt[,bin.column], breaks = seq(from = bin.min, to = bin.max, by = bin.size), include.lowest=T)
-    dt = dplyr::group_by(dt, .data$bins)
-    dt = dplyr::summarise_all(dt, funs(bin.average.function))
-    dt = dplyr::ungroup(dt)
-    dt[, bin.column] = Colwiseinterval_mean(col = dt[, bin.column], time.sampled.at = time.sampled.at)
-    dt = dplyr::ungroup(dt)
-    dt = as.data.frame(dt)
-    dt = dt[, 2:ncol(dt)-1]
-    print(head(dt))
+  # Allow programmatic dplyr
+  bin.func = dplyr::enquo(bin.average.function)
 
-    #return(dt)
-    if (interpolate & remove.na) {
-        dt[, 2:ncol(dt)] = zoo::na.approx(dt[, 2:ncol(dt)])
-        dt = dt[stats::complete.cases(dt),]
-    }
-    if (interpolate & !remove.na) {
-        dt[, 2:ncol(dt)] = zoo::na.approx(dt[, 2:ncol(dt)])
-    }
-    if (!interpolate & remove.na) {
-        warning("Careful! Removing NA bins without interpolating. Data are not on on an equidistant grid anymore!!")
-        dt = dt[stats::complete.cases(dt),]
-    }
-    print(dt)
-    dt = dt[order(dt[, bin.column], decreasing = T), ]
-    dt$bin.size = rep(bin.size)
-    dt$time.sampled.at = rep(time.sampled.at)
+  dt$bin = create_bins_df(df = dt, by = by, bin.size = bin.size)
 
-    return(dt)
+  dt = dplyr::group_by(dt, bin)
+  dt = dplyr::summarise_all(dt, dplyr::funs(!!bin.func))
+
+  dt = dplyr::ungroup(dt)
+
+  dt[, by] = Colwiseinterval_mean(col = as.vector(dt$bin),
+                                  time.sampled.at = time.sampled.at)
+  dt = dplyr::ungroup(dt)
+  dt = as.data.frame(dt)
+  dt = dt[, 2:ncol(dt) - 1]
+
+  if (interpolate & remove.na) {
+    dt[, 2:ncol(dt)] = zoo::na.approx(dt[, 2:ncol(dt)])
+    dt = dt[stats::complete.cases(dt), ]
+  }
+  if (interpolate & !remove.na) {
+    dt[, 2:ncol(dt)] = zoo::na.approx(dt[, 2:ncol(dt)])
+  }
+  if (!interpolate & remove.na) {
+    warning("Careful! Removing NA bins without interpolating. Data are not on on an equidistant grid anymore!!")
+    dt = dt[stats::complete.cases(dt), ]
+  }
+
+  dt = dt[order(dt[, by], decreasing = T), ]
+  dt$bin.size = rep(bin.size)
+  dt$time.sampled.at = rep(time.sampled.at)
+
+  return(dt)
+}
+
+create_bins_df <- function(df, by, bin.size, include.lowest = T) {
+  # Minimum bin time is rounded down to nearest bin
+  bin.min = plyr::round_any(min(df[, by]), bin.size, f = floor)
+
+  # Maximum bin time is rounded up to nearest bin
+  bin.max = plyr::round_any(max(df[, by]), bin.size, f = ceiling)
+
+  # Find bin breaks
+  bin.breaks = seq(from = bin.min, to = bin.max, by = bin.size)
+
+  # Create bins
+  bins = cut(df[, by], breaks = bin.breaks, include.lowest = T)
+
+  return(bins)
 }
 
 Colwiseinterval_mean <- function(col, time.sampled.at = "mid") {
-    return(sapply(col, FUN = function(row) {interval_mean(row, time.sampled.at)}))
+  return(sapply(col, FUN = function(row) {interval_mean(row, time.sampled.at)}))
 }
 
 interval_mean <- function(interval, time.sampled.at = "start") {
-    int.start = strsplit(x = interval, split = ",")[[1]][1]
-    int.stop = strsplit(x = interval, split = ",")[[1]][2]
-    start = substring(int.start, 2, nchar(int.start))
-    stop = substring(int.stop, 1, nchar(int.stop) - 1)
-    start = as.numeric(start)
-    stop = as.numeric(stop)
-    if (time.sampled.at == "start") return(start)
-    if (time.sampled.at == "mid") return(mean(c(start, stop)))
-    if (time.sampled.at == "end") return(stop)
+  int.start = strsplit(x = interval, split = ",")[[1]][1]
+  int.stop = strsplit(x = interval, split = ",")[[1]][2]
+
+  start = substring(int.start, 2, nchar(int.start))
+  stop = substring(int.stop, 1, nchar(int.stop) - 1)
+
+  start = as.numeric(start)
+  stop = as.numeric(stop)
+
+  if (time.sampled.at == "start") return(start)
+  if (time.sampled.at == "mid") return(mean(c(start, stop)))
+  if (time.sampled.at == "end") return(stop)
 }
 
 mean.narm = function(v) {
-    return(mean(v, na.rm = T))
+  return(mean(v, na.rm = T))
 }
 
 
