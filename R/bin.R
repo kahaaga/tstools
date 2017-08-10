@@ -16,7 +16,8 @@ bin <- function(dt,
                 remove.na = T,
                 time.sampled.at = "mid",
                 bin.min = min(dt[, by]),
-                bin.max = max(dt[, by])) {
+                bin.max = max(dt[, by]),
+                add.binning.info = F) {
 
   # Allow programmatic dplyr
   bin.func = dplyr::enquo(bin.average.function)
@@ -47,8 +48,14 @@ bin <- function(dt,
   }
 
   dt = dt[order(dt[, by], decreasing = T), ]
-  dt$bin.size = rep(bin.size)
-  dt$time.sampled.at = rep(time.sampled.at)
+
+  if (add.binning.info) {
+    dt$bin.size = rep(bin.size)
+    dt$time.sampled.at = rep(time.sampled.at)
+  } else {
+    dt = dt[, !(names(dt) %in% c("bin"))]
+  }
+
 
   return(dt)
 }
