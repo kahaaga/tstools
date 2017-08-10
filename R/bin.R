@@ -24,23 +24,28 @@ bin <- function(dt,
 
   dt$bin = create_bins_df(df = dt, by = by, bin.size = bin.size)
 
+  # Summarise observations bin-wise using the supplied function.
   dt = dplyr::group_by(dt, bin)
   dt = dplyr::summarise_all(dt, dplyr::funs(!!bin.func))
-
   dt = dplyr::ungroup(dt)
 
+  # Sample the "by" column at either start point,
+  # mid-point or end-point of bin intervals
   dt[, by] = Colwiseinterval_mean(col = as.vector(dt$bin),
                                   time.sampled.at = time.sampled.at)
   dt = dplyr::ungroup(dt)
   dt = as.data.frame(dt)
-  dt = dt[, 2:ncol(dt) - 1]
+
+  # Remove "bin" column before interpolating
+
+  dt = dt[, 2:(ncol(dt))]
 
   if (interpolate & remove.na) {
-    dt[, 2:ncol(dt)] = zoo::na.approx(dt[, 2:ncol(dt)])
+    dt[, !(names(dt) %in% c(by))] = zoo::na.approx(dt[, 2:ncol(dt)])
     dt = dt[stats::complete.cases(dt), ]
   }
   if (interpolate & !remove.na) {
-    dt[, 2:ncol(dt)] = zoo::na.approx(dt[, 2:ncol(dt)])
+    dt[, !(names(dt) %in% c(by))] = zoo::na.approx(dt[, 2:ncol(dt)])
   }
   if (!interpolate & remove.na) {
     warning("Careful! Removing NA bins without interpolating. Data are not on on an equidistant grid anymore!!")
@@ -51,6 +56,7 @@ bin <- function(dt,
 
   if (add.binning.info) {
     dt$bin.size = rep(bin.size)
+
     dt$time.sampled.at = rep(time.sampled.at)
   } else {
     dt = dt[, !(names(dt) %in% c("bin"))]
