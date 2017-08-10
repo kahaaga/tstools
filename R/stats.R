@@ -15,12 +15,17 @@ stats <- function(v) {
     v.median = stats::median(v, na.rm = T)
     v.mad = stats::mad(v, na.rm = T)
     v.IQR = stats::IQR(v, na.rm = T)
-    Q1 = quantile(v, 0.25, na.rm = T)
-    Q3 = quantile(v, 0.75, na.rm = T)
-    notchlower = v.median - (1.58 * v.IQR/sqrt(v.samplesize.without.nans))
-    notchupper = v.median + (1.58 * v.IQR/sqrt(v.samplesize.without.nans))
+    Q1 = quantile(v, 0.25, na.rm = T)[[1]]
+    Q3 = quantile(v, 0.75, na.rm = T)[[1]]
+    boxplotmin = Q1 - (1.5 * v.IQR)
+    boxplotmax = Q3 + (1.5 * v.IQR)
+    boxplotnotchlower = v.median - (1.58 * v.IQR/sqrt(v.samplesize.without.nans))
+    boxplotnotchupper = v.median + (1.58 * v.IQR/sqrt(v.samplesize.without.nans))
+
     v.p01 = stats::quantile(v, 0.01, na.rm = T)[[1]]
     v.p05 = stats::quantile(v, 0.05, na.rm = T)[[1]]
+    v.p32 = stats::quantile(v, 0.32, na.rm = T)[[1]]
+    v.p68 = stats::quantile(v, 0.68, na.rm = T)[[1]]
     v.p95 = stats::quantile(v, 0.95, na.rm = T)[[1]]
     v.p99 = stats::quantile(v, 0.99, na.rm = T)[[1]]
 
@@ -36,8 +41,10 @@ stats <- function(v) {
              "IQR" = v.IQR,
              "Q1"  = Q1,
              "Q3"  = Q3,
-             "notchlower" = notchlower,
-             "notchupper" = notchupper,
+             "boxplotmin" = boxplotmin,
+             "boxplotmax" = boxplotmax,
+             "boxplotnotchlower" = boxplotnotchlower,
+             "boxplotnotchupper" = boxplotnotchupper,
              "1st.percentile" = v.p01,
              "5th.percentile" = v.p05,
              "95th.percentile" = v.p95,
