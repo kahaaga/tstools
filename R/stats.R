@@ -23,6 +23,7 @@ stats <- function(v, quantiles = c(0.95, 0.99)) {
     boxplotnotchupper = v.median + (1.58 * v.IQR / sqrt(v.samplesize.without.nans))
 
 
+
     v.p01 = stats::quantile(v, 0.01, na.rm = T)[[1]]
     v.p05 = stats::quantile(v, 0.05, na.rm = T)[[1]]
     v.p32 = stats::quantile(v, 0.32, na.rm = T)[[1]]
