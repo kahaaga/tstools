@@ -3,7 +3,7 @@
 #' @param v A scalar valued vector.
 #' @return A named vector of statistical parameters of the vector 'v'
 #' @export stats
-stats <- function(v) {
+stats <- function(v, quantiles = c(0.95, 0.99)) {
     if (class(v) == "data.frame") v = as.vector(v)
 
     v.samplesize.without.nans = length(v[complete.cases(v)])
@@ -19,8 +19,9 @@ stats <- function(v) {
     Q3 = quantile(v, 0.75, na.rm = T)[[1]]
     boxplotmin = Q1 - (1.5 * v.IQR)
     boxplotmax = Q3 + (1.5 * v.IQR)
-    boxplotnotchlower = v.median - (1.58 * v.IQR/sqrt(v.samplesize.without.nans))
-    boxplotnotchupper = v.median + (1.58 * v.IQR/sqrt(v.samplesize.without.nans))
+    boxplotnotchlower = v.median - (1.58 * v.IQR / sqrt(v.samplesize.without.nans))
+    boxplotnotchupper = v.median + (1.58 * v.IQR / sqrt(v.samplesize.without.nans))
+
 
     v.p01 = stats::quantile(v, 0.01, na.rm = T)[[1]]
     v.p05 = stats::quantile(v, 0.05, na.rm = T)[[1]]
@@ -47,6 +48,8 @@ stats <- function(v) {
              "boxplotnotchupper" = boxplotnotchupper,
              "1st.percentile" = v.p01,
              "5th.percentile" = v.p05,
+             "32th.percentile" = v.p32,
+             "68th.percentile" = v.68,
              "95th.percentile" = v.p95,
              "99th.percentile" = v.p99,
              "samplesize" = v.samplesize,
