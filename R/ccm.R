@@ -1,12 +1,11 @@
-
-
-#' Performs CCM for a single direction
+#' Performs CCM for a given lag.
 #' @export
-ccm <- function(library.size,
-                data,
+ccm <- function(data,
+                library.sizes = 100,
+                convergence.test = T,
                 lag = 0,
                 E = 2,
-                tau =1,
+                tau = 1,
                 lib = c(1, dim(data)[1]),
                 pred = lib,
                 samples.original = 100,
@@ -25,7 +24,8 @@ ccm <- function(library.size,
                 target.column = 2,
                 surrogate.column = 2,
                 print.to.console = T,
-                print.surrogate.to.console = T) {
+                print.surrogate.to.console = T,
+                n.libsizes.to.check = 20) {
 
 
   # Refer to library and target columns by name, not index.
@@ -34,66 +34,118 @@ ccm <- function(library.size,
                                 target.column = target.column,
                                 surrogate.column = surrogate.column)
 
+
+
+
+  # Cross map using the provided data
+  if (convergence.test == TRUE) {
+    ccm.result = ccm_over_library_sizes(
+      data = data,
+      library.sizes = library.sizes,
+             E = E,
+             tau = tau,
+             samples.original = samples.original,
+             with.replacement = with.replacement,
+             RNGseed = RNGseed,
+             exclusion.radius = exclusion.radius,
+             epsilon = epsilon,
+             silent = silent,
+             lag = lag,
+             lib = lib,
+             pred = pred,
+             num.neighbours = num.neighbours,
+             random.libs = random.libs,
+             library.column = cols["library.column"],
+             target.column = cols["target.column"])
+  } else {
+    if (length(library.sizes) == 1) {
+      ccm.result = ccm_on_single_libsize(data = data,
+                                           library.size = library.sizes,
+                                           E = E,
+                                           tau = tau,
+                                           samples.original = samples.original,
+                                           with.replacement = with.replacement,
+                                           RNGseed = RNGseed,
+                                           exclusion.radius = exclusion.radius,
+                                           epsilon = epsilon,
+                                           silent = silent,
+                                           lag = lag,
+                                           lib = lib,
+                                           pred = pred,
+                                           num.neighbours = num.neighbours,
+                                           random.libs = random.libs,
+                                           library.column = cols["library.column"],
+                                           target.column = cols["target.column"])
+    }
+  }
+
+  #######################
+  # Convergence check
+  #######################
+  if (convergence.test == TRUE) {
+    params = get_convergence_parameters(ccm.result)
+  } else {
+    params = get_convergence_parameters(ccm.result = NULL)
+  }
+
+
+  # Surrogate cross map at the largest provided library size.
   if (n.surrogates > 0) {
     ValidateSurrogateMethod(surrogate.method)
 
-    results = surrogate_ccm(original.data = data,
-                           E = 2,
-                           tau = 1,
-                           library.size = library.size,
-                           with.replacement = with.replacement,
-                           RNGseed = RNGseed,
-                           exclusion.radius = exclusion.radius,
-                           num.neighbours = num.neighbours,
-                           epsilon = epsilon,
-                           silent = silent,
-                           lag = lag,
-                           lib = lib,
-                           pred = pred,
-                           num_neighbors = num_neighbors,
-                           random.libs = random.libs,
-                           library.column = cols["library.column"],
-                           target.column = cols["target.column"],
-                           surrogate.column = cols["surrogate.column"],
-                           samples.surrogates = samples.surrogates,
-                           n.surrogates = n.surrogates,
-                           parallel = parallel,
-                           surrogate.method = surrogate.method)
+    surrogate.results = surrogate_ccm(original.data = data,
+                                      E = 2,
+                                      tau = 1,
+                                      library.size = library.sizes,
+                                      with.replacement = with.replacement,
+                                      RNGseed = RNGseed,
+                                      exclusion.radius = exclusion.radius,
+                                      num.neighbours = num.neighbours,
+                                      epsilon = epsilon,
+                                      silent = silent,
+                                      lag = lag,
+                                      lib = lib,
+                                      pred = pred,
+                                      num_neighbors = num_neighbors,
+                                      random.libs = random.libs,
+                                      library.column = cols["library.column"],
+                                      target.column = cols["target.column"],
+                                      surrogate.column = cols["surrogate.column"],
+                                      samples.surrogates = samples.surrogates,
+                                      n.surrogates = n.surrogates,
+                                      parallel = parallel,
+                                      surrogate.method = surrogate.method)
 
-    # Add column indicating type of analysis to each of the results
-    results = mapply(`[<-`, results,
-                      'analysis.type', value = "surrogate",
-                     SIMPLIFY = FALSE)
+    ccm.results = data.table::rbindlist(l = list(ccm.result, surrogate.results),
+                                        use.names = TRUE)
+
+    ccm.results$confidence.level = params["confidence.level"]
+    ccm.results$p.value = params["p.value"]
+    ccm.results$alpha = params["alpha"]
+    ccm.results$convergent = params["convergent"]
+    ccm.results$k = params["k"]
+    ccm.results$a = params["a"]
+    ccm.results$b = params["b"]
   }
 
-  original.ccm = rEDM::ccm(block = data,
-                       E = E,
-                       tau = tau,
-                       lib_sizes = library.size,
-                       num_samples = samples.original,
-                       replace = with.replacement,
-                       RNGseed = RNGseed,
-                       exclusion_radius = exclusion.radius,
-                       epsilon = epsilon,
-                       silent = silent,
-                       tp = lag,
-                       lib = lib,
-                       pred = pred,
-                       num_neighbors = num.neighbours,
-                       random_libs = random.libs,
-                       lib_column = cols["library.column"],
-                       target_column = cols["target.column"],
-                       first_column_time = FALSE)
-
-  # Indicate that the analysis type is original (not surrogate)
-  original.ccm$analysis.type = rep("original")
-
-  if (n.surrogates > 0) {
-    results[["original"]] = original.ccm
-    combined = data.table::rbindlist(results)
-  } else {
-    combined = original.ccm
+  # Combine everything
+  if (n.surrogates == 0) {
+    ccm.results = ccm.result
+    ccm.results$confidence.level = params["confidence.level"]
+    ccm.results$p.value = params["p.value"]
+    ccm.results$alpha = params["alpha"]
+    ccm.results$convergent = params["convergent"]
+    ccm.results$k = params["k"]
+    ccm.results$a = params["a"]
+    ccm.results$b = params["b"]
   }
-  return(combined)
+
+  # Some analysis info
+  ccm.results$time.of.analysis = Sys.time()
+  ccm.results$analyst = Sys.info()["effective_user"]
+  ccm.results$sysname = Sys.info()["sysname"]
+  ccm.results$Rversion = version$version.string
+  ccm.results$id = stringi::stri_rand_strings(n = 1, length = 20)
+
+  return(ccm.results)
 }
-
