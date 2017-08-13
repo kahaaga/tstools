@@ -1,5 +1,5 @@
 #' importFrom magrittr "%>%"
-#' @export check_ccm_convergenc
+#' @export check_ccm_convergence
 check_ccm_convergence <- function(lag,
                              data,
                              E = 2, # Attractor reconstruction dimensions
