@@ -2,7 +2,7 @@
 #'
 #' @param v A scalar valued vector.
 #' @return A named vector of statistical parameters of the vector 'v'
-#' @export stats
+#' @export
 summary_stats <- function(v,
                           percentiles = c(0.01, 0.05, 0.1, 0.3, 0.7, 0.9, 0.95, 0.99)) {
     if (class(v) == "data.frame") v = as.vector(v)
