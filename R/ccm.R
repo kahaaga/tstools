@@ -35,8 +35,6 @@ ccm <- function(data,
                                 surrogate.column = surrogate.column)
 
 
-
-
   # Cross map using the provided data
   if (convergence.test == TRUE) {
     ccm.result = ccm_over_library_sizes(
