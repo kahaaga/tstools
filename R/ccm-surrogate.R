@@ -38,7 +38,7 @@ surrogate_ccm <- function(original.data,
   # has been replaced by a surrogate realization.
   if (parallel) {
     n.available.cores = parallel::detectCores() - 1
-    surrogate.ccms = mclapply(X = surrogate.datasets,
+    surrogate.ccms = parallel::mclapply(X = surrogate.datasets,
                               FUN = rEDM::ccm,
                                 E = E,
                                 tau = tau,
@@ -90,6 +90,8 @@ surrogate_ccm <- function(original.data,
   return(surrogate.ccms)
 }
 
+#' Create a dataframe of multiple surrogate series.
+#'
 #' @param Original data (a two-column data frame)
 #' @param Surrogate data (a n.observations-by-n.surrogates matrix)
 #' @param surrogate_column The index or name of of the column for which
@@ -98,8 +100,8 @@ surrogate_ccm <- function(original.data,
 create_surrogate_dataframes <- function(original.data,
                                       surrogate.column,
                                       surrogate.method = "aaft",
-                                      n.surrogates=100,
-                                      print.to.console=F) {
+                                      n.surrogates = 100,
+                                      print.to.console = F) {
   # ------------------------------------------------------------------------------------------------
   # Create surrogate data sets. This ('surrogate.datasets') a list of datasets identical to the input data,
   # except the values in 'surrogate.column' is replaced by a surrogate realization of that time series.
@@ -144,7 +146,7 @@ validate_surrogate_method <- function(surrogate.method) {
                                          "seasonal"))) {
 
     stop(paste("Surrogate type",
-               paste("'", surrogate.method, "'", sep=""),
+               paste("'", surrogate.method, "'", sep = ""),
                "not valid")
     )
   }

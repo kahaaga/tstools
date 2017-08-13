@@ -1,13 +1,15 @@
 #' Computes a set of basic statistics for a scalar valued vector
 #'
 #' @param v A scalar valued vector.
+#' @param percentiles Which percentiles to calculate for?
 #' @return A named vector of statistical parameters of the vector 'v'
+#'
 #' @export
 summary_stats <- function(v,
                           percentiles = c(0.01, 0.05, 0.1, 0.3, 0.7, 0.9, 0.95, 0.99)) {
     if (class(v) == "data.frame") v = as.vector(v)
 
-    v.samplesize.without.nans = length(v[complete.cases(v)])
+    v.samplesize.without.nans = length(v[stats::complete.cases(v)])
     v.samplesize = length(v)
     v.var = stats::var(v, na.rm = T)
     v.stdev = stats::sd(v, na.rm = T)
@@ -19,8 +21,8 @@ summary_stats <- function(v,
     v.kurtosis = moments::kurtosis(v, na.rm = T)
     v.mad = stats::mad(v, na.rm = T)
     v.IQR = stats::IQR(v, na.rm = T)
-    Q1 = quantile(v, 0.25, na.rm = T)[[1]]
-    Q3 = quantile(v, 0.75, na.rm = T)[[1]]
+    Q1 = stats::quantile(v, 0.25, na.rm = T)[[1]]
+    Q3 = stats::quantile(v, 0.75, na.rm = T)[[1]]
     boxplotmin = Q1 - (1.5 * v.IQR)
     boxplotmax = Q3 + (1.5 * v.IQR)
     boxplotnotchlower = v.median - (1.58 * v.IQR / sqrt(v.samplesize.without.nans))

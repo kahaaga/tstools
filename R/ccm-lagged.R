@@ -243,6 +243,8 @@ ccm_lagged <- function(data,
 #' @param time.unit The time unit of the raw time series.
 #' @param time.bin.size The temporal resolution of the raw time series (given in the units
 #'   indicated by 'time.unit').
+#'
+#' @importFrom foreach "%dopar%"
 ccm_lagged_oneway <- function(data,
                             lags,
                             E = NULL,
@@ -321,7 +323,7 @@ ccm_lagged_oneway <- function(data,
         "null-model on", paste("'", library.column,"'", sep=""))
 
     cat("\nTest .................. ","One-sided. \n\t\t\t Disregard null-hypothesis",
-        "if predictive skill exceeds the\n\t\t\t 68.27th (1σ), 95.45th (2σ) or 99.73th (3σ) percentiles\n\t\t\t of",
+        "if predictive skill exceeds the\n\t\t\t 68.27th, 95.45th or 99.73th percentiles\n\t\t\t of",
         "the predictive skill obtained from replacing the driver\n\t\t\t with a", paste(n.surrogates, "-member", sep=""), "ensemble of",
         paste("'", surrogate.method, "'", sep=""), "processes generated\n\t\t\t",
         "from the", ifelse(surrogate.column == target.column,
@@ -336,16 +338,16 @@ ccm_lagged_oneway <- function(data,
   # Windows
   if (parallel & parallelize.on.each.lag & !Sys.info()["sysname"] == "Windows") {
     cat(" Parallelizing over lags (mclapply). No output will be printed.")
-    lagged.ccm.result = mclapply(lags, FUN = ccm, parallel = parallel, data = data, E = E, tau = tau, library.column = library.column, target.column = target.column, surrogate.column = surrogate.column, library.sizes = library.sizes, lib = lib, pred = pred, samples = samples, samples.surrogates = samples.surrogates, surrogate.method = surrogate.method, n.surrogates = n.surrogates, num.neighbours = num.neighbours, random.libs = random.libs, with.replacement = with.replacement, exclusion.radius = exclusion.radius, epsilon = epsilon,RNGseed = RNGseed, silent = silent, n.libsizes.to.check = n.libsizes.to.check, convergence.test = convergence.test, print.to.console = print.to.console)
+    lagged.ccm.result = parallel::mclapply(lags, FUN = ccm, parallel = parallel, data = data, E = E, tau = tau, library.column = library.column, target.column = target.column, surrogate.column = surrogate.column, library.sizes = library.sizes, lib = lib, pred = pred, samples = samples, samples.surrogates = samples.surrogates, surrogate.method = surrogate.method, n.surrogates = n.surrogates, num.neighbours = num.neighbours, random.libs = random.libs, with.replacement = with.replacement, exclusion.radius = exclusion.radius, epsilon = epsilon,RNGseed = RNGseed, silent = silent, n.libsizes.to.check = n.libsizes.to.check, convergence.test = convergence.test, print.to.console = print.to.console)
 
     # Mac and linux
   } else if (parallel & parallelize.on.each.lag & Sys.info()["sysname"] == "Windows") {
     cat("  Windows is the operating system. Parallelising using foreach. No output.")
     num.cores <- min(length(lags), parallel::detectCores() - 1) # Number of jobs to run simultaneously
-    cl <- makeCluster(num.cores) # Make clusters
-    registerDoSNOW(cl) # use the above cluster
+    cl <- parallel::makeCluster(num.cores) # Make clusters
+    doSNOW::registerDoSNOW(cl) # use the above cluster
 
-    lagged.ccm.result = foreach(lag=min(lags):max(lags),
+    lagged.ccm.result = foreach::foreach(lag=min(lags):max(lags),
                                 .export = c("ccm",
                                             "ccm_over_library_sizes",
                                             "ccm_on_single_libsize",
@@ -356,7 +358,7 @@ ccm_lagged_oneway <- function(data,
                                 .packages = c("dplyr", "parallel")) %dopar%  {
                                   lapply(lags, FUN = ccm, data = data, E = E, tau = tau, library.column = library.column, target.column = target.column, surrogate.column = surrogate.column, library.sizes = library.sizes, lib = lib, pred = pred, samples = samples, samples.surrogates = samples.surrogates, surrogate.method = surrogate.method, n.surrogates = n.surrogates, num.neighbours = num.neighbours, random.libs = random.libs, with.replacement = with.replacement, exclusion.radius = exclusion.radius, epsilon = epsilon, RNGseed = RNGseed, parallel = F, silent = silent, print.to.console = print.to.console, n.libsizes.to.check = n.libsizes.to.check, convergence.test = convergence.test)
                                 }
-    stopCluster(cl) # close cluster
+    parallel::stopCluster(cl) # close cluster
     lagged.ccm.result = unlist(lagged.ccm.result, recursive = FALSE) # Unlist nested list created by foreach
 
   } else if (parallel & !parallelize.on.each.lag |
@@ -398,23 +400,6 @@ ccm_lagged_oneway <- function(data,
   lagged.ccm.result$time.unit = rep(time.unit)
   lagged.ccm.result$ts.length = rep(length(data[,1]))
 
-
-  # Causality test statistics. This checks whether causal skill
-  # (negative lags) is stronger than non-causal skill (positive lags)
-  #lagged.ccm.result = CausalSumWithoutSurrogates(lagged.ccm.result)
-  #lagged.ccm.result = MaxCausalCCM(lagged.ccm.result)
-  #lagged.ccm.result = AverageCausalCCM(lagged.ccm.result)
-
-  # Use the computed statistics to compute whether results are
-  # significant at sigma level 1, 2 and 3.
-  #lagged.ccm.result = CausalityCheck(ccm.result = lagged.ccm.result,
-  #                                   significance.level = 0.6827)   #~1 sigma assuming normality
-  #lagged.ccm.result = CausalityCheck(ccm.result = lagged.ccm.result,
-  #                                   significance.level = 0.9545)   #~2 sigma assuming normality
-  #lagged.ccm.result = CausalityCheck(cc.result = lagged.ccm.result,
-  #                                   significance.level = 0.9973)   #~3 sigma assuming normality
-#
-  cat("\n")
   return(lagged.ccm.result)
 }
 

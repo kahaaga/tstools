@@ -2,7 +2,7 @@
 #' The same as in van Nes et al. (2016). In this paper, we use it with data
 #' where where p is the CCM predictive skill and L is the library size.
 ExponentalRegression2 <- function(data) {
-  exp.model = nls(data = df,
+  exp.model = stats::nls(data = df,
                   formula = rho ~ a * L/(b + L),
                   start = list(a = 0.1, b = 0.1))
   return(exp.model)
@@ -13,6 +13,7 @@ ExponentalRegression2 <- function(data) {
 #' cross-map skill increases with increasing library size.
 #'
 #' @param ccm.result A data frame
+#' @importFrom magrittr "%>%"
 get_convergence_parameters <- function(ccm.result,
                                        confidence.level = 0.99,
                                        plot = F) {
@@ -42,7 +43,7 @@ get_convergence_parameters <- function(ccm.result,
   grouping.variable = rlang::sym("lib_size")
 
   medians = dplyr::group_by(df, !!grouping.variable) %>%
-    dplyr::summarise(median.rho = median(rho, na.rm = T)) %>%
+    dplyr::summarise(median.rho = stats::median(rho, na.rm = T)) %>%
     as.data.frame()
 
   # Smooth the data using a running mean
@@ -50,7 +51,7 @@ get_convergence_parameters <- function(ccm.result,
                                      k = 3, #floor(length(library.sizes)) / 5,
                                      na.pad = T,
                                      align = "right")
-  medians = medians[complete.cases(medians), ]
+  medians = medians[stats::complete.cases(medians), ]
 
   # Compute difference between high and low library sizes
   indices.low = 1:5
@@ -93,7 +94,7 @@ get_convergence_parameters <- function(ccm.result,
   } else {
     df = df[start.index:nrow(df), ]
     df$rho0 = df[1, "rho"]
-    df$rho.max = rep(quantile(df$rho, probs = 0.95, na.rm = T))
+    df$rho.max = rep(stats::quantile(df$rho, probs = 0.95, na.rm = T))
     df$L0 = df[1, "L"]
 
     # Logaritmic dataframe representation of the exponential expression,
@@ -118,12 +119,12 @@ get_convergence_parameters <- function(ccm.result,
       exp.model2 = try(nls(data = df,
                            formula = f2,
                            start = list(k = .1)),
-                       silent=T)
+                       silent = T)
 
       if (!class(exp.model2) == "try-error") {
         L = seq(min(library.sizes), max(library.sizes), 1)
 
-        predicted.rho.model2 = predict(exp.model2, list(L = L))
+        predicted.rho.model2 = stats::predict(exp.model2, list(L = L))
         pred2 = as.data.frame(cbind(L, predicted.rho.model2))
       }
     }
@@ -135,7 +136,10 @@ get_convergence_parameters <- function(ccm.result,
     # by the estimated model parameters.
     f1 <- (rho ~ a*L/(b+L))
 
-    exp.model1 = try(nls(data = df, formula = f1, start = list(a = 0.1, b = 0.1)), silent = T)
+    exp.model1 = try(nls(data = df,
+                         formula = f1,
+                         start = list(a = 0.1, b = 0.1)),
+                     silent = T)
 
     if (!class(exp.model1) == "try-error") {
       coeffs["a"] = coef(exp.model1)["a"]
@@ -143,7 +147,7 @@ get_convergence_parameters <- function(ccm.result,
 
       # Define training points (library sizes L) to predict rho for.
       L = seq(min(library.sizes), max(library.sizes), 1)
-      predicted.rho.model1 = predict(exp.model1, list(L = L))
+      predicted.rho.model1 = stats::predict(exp.model1, list(L = L))
       pred1 = cbind(L, predicted.rho.model1)
       pred1 = as.data.frame(pred1)
 
@@ -164,10 +168,10 @@ get_convergence_parameters <- function(ccm.result,
       ggplot2::geom_point(data = medians, mapping = ggplot2::aes(x = lib_size, y = median.rho, col = "Smoothed medians"), size = 1) +
       ggplot2::scale_y_continuous(limits = c(0, 0.7)) +
       ggplot2::theme_bw() +
-      ggplot2::theme(panel.grid = element_blank(),
-                     legend.title = element_blank()) +
-      xlab("Library size (L)") +
-      ylab("CCM skill (rho)")
+      ggplot2::theme(panel.grid = ggplot2::element_blank(),
+                     legend.title = ggplot2::element_blank()) +
+      ggplot2::xlab("Library size (L)") +
+      ggplot2::ylab("CCM skill (rho)")
     print(p)
   }
 

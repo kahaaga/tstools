@@ -49,7 +49,7 @@ optimise_dim_FNN <- function(v,
             lag.method == "afc" ||
             lag.method == "autocorrelation" ||
             lag.method == "autocorrelationfunction") {
-            if (plot.lag.method) acf(x = v, lag.max = lag.max, plot = TRUE)$acf
+            if (plot.lag.method) stats::acf(x = v, lag.max = lag.max, plot = TRUE)$acf
             orbital.lag = first_acf_minima(v, lag.max = lag.max)
         } else if (lag.method == "mutual information" ||
                    lag.method == "mi") {

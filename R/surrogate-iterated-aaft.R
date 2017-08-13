@@ -22,7 +22,7 @@ iaaft_surrogate <- function(series, n.max.iter = 150) {
   original_fft_amplitudes = Mod(original_fft)
 
   # Sample a Gaussian vector and sort it
-  gaussian = sort(rnorm(n, 0, 2), index.return = T)$ix
+  gaussian = sort(stats::rnorm(n, 0, 2), index.return = T)$ix
 
   # Sort the original series according to the sorted Gaussian. After a number
   # of iterations, this will be our final surrogate series.
@@ -41,7 +41,7 @@ iaaft_surrogate <- function(series, n.max.iter = 150) {
 
 
   while (!convergence.achieved && iteration <= n.max.iter) {
-    series.randsorted.fft = fft(series.randsorted)
+    series.randsorted.fft = stats::fft(series.randsorted)
 
     # Extract the phases from the Fourier transform of the randomly
     # sorted series.
@@ -59,8 +59,8 @@ iaaft_surrogate <- function(series, n.max.iter = 150) {
     series.randsorted = surrogate
 
     # Check for convergence
-    acf.diff.new = sqrt(sum((acf(series, n - 1, plot = F)$acf -
-                    acf(surrogate, n - 1, plot = F)$acf)^2))
+    acf.diff.new = sqrt(sum((stats::acf(series, n - 1, plot = F)$acf -
+                    stats::acf(surrogate, n - 1, plot = F)$acf)^2))
 
     if (abs(acf.diff.old - acf.diff.new) < tolerance) {
         #cat("\nConvergence achieved after ", iteration, " iterations.\n")
