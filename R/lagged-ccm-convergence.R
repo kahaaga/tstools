@@ -105,9 +105,9 @@ check_ccm_convergence <- function(lag,
   regression.parameter = rlang::sym("rho")
   grouping.variable = rlang::sym("lib_size")
 
-  g = group_by(df, !!grouping.variable) %>%
-    summarise(mean.rho = mean(regression.parameter)) %>%
-    ungroup()
+  g = dplyr::group_by(df, !!grouping.variable) %>%
+    dplyr::summarise(mean.rho = mean(regression.parameter)) %>%
+    dplyr::ungroup()
   print(g)
 
   return(df)
