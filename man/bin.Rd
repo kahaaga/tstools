@@ -4,15 +4,16 @@
 \alias{bin}
 \title{Bin a dataset by a common column.}
 \usage{
-bin(dt, bin.size, bin.column, bin.average.function = mean.narm,
-  interpolate = T, remove.na = T, time.sampled.at = "mid")
+bin(dt, bin.size, by, bin.average.function = mean.narm, interpolate = T,
+  remove.na = T, time.sampled.at = "mid", bin.min = min(dt[, by]),
+  bin.max = max(dt[, by]), add.binning.info = F)
 }
 \arguments{
 \item{dt}{A data frame containing the data to be binned.}
 
 \item{bin.size}{The size of the bins}
 
-\item{bin.column}{The column to use for binning.}
+\item{by}{The column to use for binning.}
 
 \item{bin.average.function}{The function to use for averaging bins. Default is the arithmetic mean.}
 

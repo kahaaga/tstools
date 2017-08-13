@@ -27,9 +27,9 @@ optimise_dim_simplex <- function(v,
 
     optimal.embedding.dim <- simplex.output$E[which.max(simplex.output$rho)][1]
 
-    if (plot.simplex.projection) {
-        plot(simplex.output$E, simplex.output$rho)
-    }
+    #if (plot.simplex.projection) {
+    #    plot(simplex.output$E, simplex.output$rho)
+    #}
 
     return(as.numeric(optimal.embedding.dim))
 }

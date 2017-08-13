@@ -9,6 +9,6 @@ test_that("Outliers are removed", {
 })
 
 test_that("Basic stats function works", {
-  expect_false(any(is.na(stats(dt))))
-  expect_false(is.null(stats(dt)))
+  expect_false(any(is.na(summary_stats(dt))))
+  expect_false(is.null(summary_stats(dt)))
 })
