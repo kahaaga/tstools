@@ -66,7 +66,7 @@ get_convergence_parameters <- function(ccm.result,
   wilcox = stats::wilcox.test(x = medians[indices.high, "median.rho"],
                               y = medians[indices.low, "median.rho"],
                               alternative = "greater",
-                              mu = sd(largest),
+                              mu = sd(medians[indices.high, "median.rho"]),
                               conf.level = confidence.level,
                               exact = FALSE)
 
