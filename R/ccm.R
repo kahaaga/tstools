@@ -5,16 +5,16 @@
 ccm <- function(library.size,
                 data,
                 lag = 0,
-                E = 2, 
-                tau =1, 
+                E = 2,
+                tau =1,
                 lib = c(1, dim(data)[1]),
                 pred = lib,
                 samples.original = 100,
                 samples.surrogates = 50,
                 num.neighbours = E + 1,
-                random.libs = TRUE, 
-                with.replacement = TRUE, 
-                exclusion.radius = E + 1, 
+                random.libs = TRUE,
+                with.replacement = TRUE,
+                exclusion.radius = E + 1,
                 epsilon = NULL,
                 silent = TRUE,
                 RNGseed = 1111,
@@ -33,8 +33,6 @@ ccm <- function(library.size,
                                 library.column = library.column,
                                 target.column = target.column,
                                 surrogate.column = surrogate.column)
-
-  print(cols["library.column"])
 
   if (n.surrogates > 0) {
     ValidateSurrogateMethod(surrogate.method)
@@ -61,7 +59,7 @@ ccm <- function(library.size,
                            n.surrogates = n.surrogates,
                            parallel = parallel,
                            surrogate.method = surrogate.method)
-    
+
     # Add column indicating type of analysis to each of the results
     results = mapply(`[<-`, results,
                       'analysis.type', value = "surrogate",
