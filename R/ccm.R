@@ -91,7 +91,7 @@ ccm <- function(data,
 
   # Surrogate cross map at the largest provided library size.
   if (n.surrogates > 0) {
-    ValidateSurrogateMethod(surrogate.method)
+    validate_surrogate_method(surrogate.method)
 
     surrogate.results = surrogate_ccm(original.data = data,
                                       E = 2,
