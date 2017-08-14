@@ -19,11 +19,9 @@
 #' The embedding lag is estimated from the simplex projection routine.
 #'
 #' @param v Numeric vector containing the series.
-#' @param exclude.first.col Should first column in data frame be dropped?
-#' @param min.E The minimum embedding dimension to consider.
-#' @param max.E The maximum embedding dimension to consider.
-#' @param min.tau The minimum embedding lag to consider.
-#' @param max.tau The maximum embedding lag to consider
+#' @param min.embedding.dim The minimum embedding dimension to consider.
+#' @param max.embedding.dim The maximum embedding dimension to consider.
+#' @param embedding.lag The embedding lag.
 #' @param orbital.lag The Theiler window. An orbital lag to avoid
 #'     temporal correlation. Defaults to NULL, in which case the orbital
 #'     lag is chosen as the first local minima of the autocorrelation
@@ -41,7 +39,10 @@
 #'   "mutual information").
 #' @param optimise.FNNdim Should false nearest neighbour criteria be applied?
 #' @param optimise.boxcountdim Should box counting dimension criteria be applied?
+#' @param optimise.simplex Optimise using simplex projection?
 #' @param plot.simplex.projection Plot the results of the simplex projection?
+#' @param return.all Should all optimisation results be returned? Defaults to
+#' TRUE.
 #' @return A data frame containing the optimal embeddings.
 #' @export optimise_embedding_dim
 #'
