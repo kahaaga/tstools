@@ -27,6 +27,7 @@ Imports:
     data.table,
     reshape2,
     foreach,
+    stringi,
     doSNOW
 License: GNU GPLv3
 Depends: R (>= 3.2.5)
