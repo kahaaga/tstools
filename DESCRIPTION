@@ -4,7 +4,7 @@ Title: Useful functions
 Version: 0.2.0
 Authors@R: person("Kristian", "Haaga", email = "kahaaga@gmail.com",
   role = c("aut", "cre"))
-Description: A collection of functions I regularly use.
+Description: A collection of functions I use for time series analysis.
 Imports:
     pacman,
     grDevices,
