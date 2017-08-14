@@ -44,6 +44,7 @@
 #' @param n.surrogates Should a surrogate test also be performed? If so, 'n.surrogates' sets
 #'   the number of surrogate time series to use. By default, no surrogate test is performed
 #'  (n.surrogates = 0).
+#' @param samples.surrogates The number of surrogate series in each null ensemble.
 #' @param always.run.surrogates Should surrogate analyses be performed even if the convergence test
 #'   fails? Defaults to FALSE (there is no reason to perform significance testing if the analysis is not
 #'   causal to begin with).
