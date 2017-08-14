@@ -12,7 +12,9 @@ first_mi_minima(v, lag.max, partitions = 16, plot.mi.func = F)
 
 \item{lag.max}{The maximum lag to consider in the mi function.}
 
-\item{plot.mi}{Should the mi function be plotted?}
+\item{partitions}{Number of partitions used when computing the MI function.}
+
+\item{plot.mi.func}{Should the mi function be plotted?}
 }
 \value{
 The first lag that minimises the mi function.

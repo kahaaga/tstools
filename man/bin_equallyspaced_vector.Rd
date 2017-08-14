@@ -10,6 +10,8 @@ bin_equallyspaced_vector(v, bin.size, include.lowest = T)
 \item{v}{The vector.}
 
 \item{bin.size}{The size of the bins.}
+
+\item{include.lowest}{Include endpoint bin?}
 }
 \description{
 Create equally spaced bins for a vector.

@@ -7,7 +7,8 @@ the method of false nearest neighbours (FNN).}
 \usage{
 optimise_dim_FNN(v, max.embedding.dim = 10, embedding.lag = 1,
   orbital.lag = NULL, lag.max = ceiling(length(v) * 0.2),
-  lag.method = "correlation", plot.lag.method = F, threshold = 0.95)
+  lag.method = "correlation", plot.temporal.correlation.function = F,
+  threshold = 0.95)
 }
 \arguments{
 \item{v}{A numeric vector containing the series.}
@@ -36,6 +37,8 @@ mutual information function (lag.method = "mi")}
 \item{plot.temporal.correlation.function}{Should the function used
 to determine the orbital lag (temporal separation window) be
 plotted?}
+
+\item{threshold}{The fraction of real nearest neighbours to pass the test.}
 }
 \value{
 The minimum embedding dimension yielding zero false neighbours

@@ -9,16 +9,21 @@ within a ratio firstdiffagreementratio' (default to 1, or 100%).
 Always returns a strictly increasing agemodel.}
 \usage{
 draw_agemodel(ages, sigmas, n.sigma = 2, firstdiffagreementratio = 1,
-  tolerance = 10^-(12))
+  tolerance = 10^(-12))
 }
 \arguments{
 \item{ages}{A vector containing the age data. Must be strictly increasing.}
 
-\item{sigmas}{A vector containing the 1 sigma uncertainties associated with the age data.}
+\item{sigmas}{A vector containing the 1 sigma uncertainties associated with
+the age data.}
 
-\item{firstdiffagreementratio}{How large can the slope between time steps be? Defaults to 1, or 100%.}
+\item{n.sigma}{Which sigma level?}
 
-\item{tolerance}{A tolerance level to speed up computations when age points are very close.}
+\item{firstdiffagreementratio}{How large can the slope between time steps be?
+Defaults to 1, or 100 percent.}
+
+\item{tolerance}{A tolerance level to speed up computations when age points
+are very close.}
 }
 \value{
 An randomly drawn age model.

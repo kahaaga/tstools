@@ -3,11 +3,15 @@
 #'
 #' @param v A numeric vector containing the series.
 #' @param lag.max The maximum lag to consider in the mi function.
-#' @param plot.mi Should the mi function be plotted?
+#' @param partitions Number of partitions used when computing the MI function.
+#' @param plot.mi.func Should the mi function be plotted?
 #' @return The first lag that minimises the mi function.
 #' @export first_mi_minima
 #'
-first_mi_minima <- function(v, lag.max, partitions = 16, plot.mi.func = F) {
+first_mi_minima <- function(v,
+                            lag.max,
+                            partitions = 16,
+                            plot.mi.func = F) {
     mutual.information.function = tseriesChaos::mutual(series = v,
                                           lag.max = lag.max,
                                           partitions = partitions,

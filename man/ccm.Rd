@@ -2,12 +2,7 @@
 % Please edit documentation in R/ccm.R
 \name{ccm}
 \alias{ccm}
-\title{Performs CCM for a given lag.
-#' @param library.sizes Either a single maximum library size (cross mapping
-  is performed for a range of value from the smallest possible library
-  size to the provided library size) or a user-specified range
-  of library sizes. If user-provided, make sure to provide at least
-  20 different library sizes to ensure robust convergence assessment.}
+\title{Performs CCM for a given lag.}
 \usage{
 ccm(data, library.sizes = 100, convergence.test = T, lag = 0, E = 2,
   tau = 1, lib = c(1, dim(data)[1]), pred = lib, samples.original = 100,
@@ -16,9 +11,20 @@ ccm(data, library.sizes = 100, convergence.test = T, lag = 0, E = 2,
   silent = TRUE, RNGseed = 1111, surrogate.method = "AAFT",
   n.surrogates = 0, parallel = FALSE, library.column = 1,
   target.column = 2, surrogate.column = 2, print.to.console = T,
-  print.surrogate.to.console = T, n.libsizes.to.check = 20)
+  n.libsizes.to.check = 20)
 }
 \arguments{
+\item{data}{A data frame containing two columns - one for the presumed driver
+and one for the response.}
+
+\item{library.sizes}{Either a single maximum library size (cross mapping
+is performed for a range of value from the smallest possible library
+size to the provided library size) or a user-specified range
+of library sizes. If user-provided, make sure to provide at least
+20 different library sizes to ensure robust convergence assessment.}
+
+\item{convergence.test}{Run convergence test?}
+
 \item{lag}{The lag (called prediction horizon in rEDM::ccm) for which to
 compute CCM.}
 
@@ -74,6 +80,9 @@ the 'surrogate_ensemble' function in this package.}
  the number of surrogate time series to use. By default, no surrogate test is performed
 (n.surrogates = 0).}
 
+\item{parallel}{Activate parallellisation? Defaults to true. Currently,
+this only works decently on Mac and Linux systems.}
+
 \item{library.column}{Integer indicating which column to use as the library
 column (presumed response).}
 
@@ -83,22 +92,11 @@ column (presumed driver). Defaults to the opposite of 'library.column'.}
 \item{surrogate.column}{Which column to use to generate surrogates. Defaults
 to the value of 'target.column' (the presumed driver).}
 
-\item{low.libsize}{If one library size is specified, cross map
-for library sizes ranging from 'low.libsize' to 'high.libsize'.}
+\item{print.to.console}{Display progress?}
 
-\item{high.libize}{If one library size is specified, cross map
-  for library sizes ranging from 'low.libsize' to 'high.libsize'.
-#' @param data A data frame containing two columns - one for the presumed driver
-  and one for the response.}
-
-\item{parallell}{Activate parallellisation? Defaults to true. Currently,
-this only works decently on Mac and Linux systems.}
+\item{n.libsizes.to.check}{Minimum number of library sizes in convergence
+test.}
 }
 \description{
 Performs CCM for a given lag.
-#' @param library.sizes Either a single maximum library size (cross mapping
-  is performed for a range of value from the smallest possible library
-  size to the provided library size) or a user-specified range
-  of library sizes. If user-provided, make sure to provide at least
-  20 different library sizes to ensure robust convergence assessment.
 }

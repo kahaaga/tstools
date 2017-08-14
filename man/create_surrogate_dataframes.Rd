@@ -8,13 +8,18 @@ create_surrogate_dataframes(original.data, surrogate.column,
   surrogate.method = "aaft", n.surrogates = 100, print.to.console = F)
 }
 \arguments{
-\item{Original}{data (a two-column data frame)}
+\item{original.data}{A two-column data frame.}
 
-\item{Surrogate}{data (a n.observations-by-n.surrogates matrix)}
+\item{surrogate.column}{The index or name of of the column for which
+to generate surrogate data. When doing causal analyses,
+this should correspond to the target column - the putative driver.}
 
-\item{surrogate_column}{The index or name of of the column for which
-       to generate surrogate data. When doing causal analyses,
-       this should correspond to the target column - the putative driver.
+\item{surrogate.method}{Method used to generate surrogates. Defaults to
+"aaft".}
+
+\item{n.surrogates}{Number of surrogate series to generate.}
+
+\item{print.to.console}{Display progress?
 Replaces a column of a data frame with surrogate}
 }
 \description{

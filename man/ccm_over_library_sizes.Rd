@@ -2,7 +2,8 @@
 % Please edit documentation in R/ccm-over-library-sizes.R
 \name{ccm_over_library_sizes}
 \alias{ccm_over_library_sizes}
-\title{importFrom magrittr "%>%"}
+\title{Performs CCM over multiple library sizes. This function only exists to allow
+parallelisation over library sizes at the lowermost level.}
 \usage{
 ccm_over_library_sizes(lag, data, E = 2, tau = 1, library.sizes = 100,
   low.libsize = min(E * tau + max(2, abs(lag)), 10, 20, na.rm = T),
@@ -19,6 +20,9 @@ ccm_over_library_sizes(lag, data, E = 2, tau = 1, library.sizes = 100,
 \arguments{
 \item{lag}{The lag (called prediction horizon in rEDM::ccm) for which to
 compute CCM.}
+
+\item{data}{A data frame containing two columns - one for the presumed driver
+and one for the response.}
 
 \item{E}{The embedding dimension. Defaults to NULL, which triggers automated
 optimisation of the embedding dimension up to the dimension specified by
@@ -39,6 +43,14 @@ of library sizes. If user-provided, make sure to provide at least
 
 \item{low.libsize}{If one library size is specified, cross map
 for library sizes ranging from 'low.libsize' to 'high.libsize'.}
+
+\item{n.libsizes.to.check}{Minimum number of library sizes for the
+convergence test.}
+
+\item{high.libsize}{If one library size is specified, cross map
+  for library sizes ranging from 'low.libsize' to 'high.libsize'.
+#' @param data A data frame containing two columns - one for the presumed driver
+  and one for the response.}
 
 \item{lib}{Indices of the original library time series to use as the library
 (training) set.}
@@ -62,6 +74,11 @@ ensemble.}
 time series? Defaults to "AAFT". For more options, see the description of
 the 'surrogate_ensemble' function in this package.}
 
+\item{time.unit}{The time unit of the raw time series.}
+
+\item{time.bin.size}{The temporal resolution of the raw time series (given in the units
+indicated by 'time.unit').}
+
 \item{num.neighbours}{The number of nearest neighbours to use in predictions.
 Defaults to E + 1.}
 
@@ -79,6 +96,16 @@ from the predictee.}
 
 \item{RNGseed}{A random number seed. For reproducibility.}
 
+\item{parallel}{Activate parallellisation? Defaults to true. Currently,
+this only works decently on Mac and Linux systems.}
+
+\item{time.run}{Time the run?}
+
+\item{print.to.console}{Display progress?}
+
+\item{time.series.length.threshold}{Display a warning if the time series length drops
+below this threshold.}
+
 \item{library.column}{Integer indicating which column to use as the library
 column (presumed response).}
 
@@ -89,15 +116,8 @@ column (presumed driver). Defaults to the opposite of 'library.column'.}
 to the value of 'target.column' (the presumed driver).}
 
 \item{silent}{Suppress warnings?}
-
-\item{high.libize}{If one library size is specified, cross map
-  for library sizes ranging from 'low.libsize' to 'high.libsize'.
-#' @param data A data frame containing two columns - one for the presumed driver
-  and one for the response.}
-
-\item{parallell}{Activate parallellisation? Defaults to true. Currently,
-this only works decently on Mac and Linux systems.}
 }
 \description{
-importFrom magrittr "%>%"
+Performs CCM over multiple library sizes. This function only exists to allow
+parallelisation over library sizes at the lowermost level.
 }

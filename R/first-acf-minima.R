@@ -17,7 +17,7 @@ first_acf_minima <- function(v, lag.max, plot.acf = F) {
     # indistinguishable from zero. The uncertainty bounds are calculated
     # as in the forecast::autoplot.acf function source code, but with
     # 99% confidence instead of 95%.
-    upper.uncertainty.bound = qnorm((1 + 0.99)/2)/sqrt(201)
+    upper.uncertainty.bound = stats::qnorm((1 + 0.99)/2)/sqrt(201)
     if (length(which(autocorrelation.function < upper.uncertainty.bound)) > 0) {
         lag = which(autocorrelation.function < upper.uncertainty.bound)[1] - 1 # Subtract 1 to accomodate for indexing in stats::acf
     } else {

@@ -12,9 +12,11 @@ ccm_on_single_libsize(library.size, data, lag = 0, E = 2, tau = 1,
   silent = TRUE, RNGseed = 1111, surrogate.method = "AAFT",
   n.surrogates = 0, parallel = FALSE, library.column = 1,
   target.column = 2, surrogate.column = 2, print.to.console = T,
-  print.surrogate.to.console = T, n.libsizes.to.check = 20)
+  n.libsizes.to.check = 20)
 }
 \arguments{
+\item{library.size}{The size of each random library (training set).}
+
 \item{data}{A data frame containing two columns - one for the presumed driver
 and one for the response.}
 
@@ -73,6 +75,9 @@ the 'surrogate_ensemble' function in this package.}
  the number of surrogate time series to use. By default, no surrogate test is performed
 (n.surrogates = 0).}
 
+\item{parallel}{Activate parallellisation? Defaults to true. Currently,
+this only works decently on Mac and Linux systems.}
+
 \item{library.column}{Integer indicating which column to use as the library
 column (presumed response).}
 
@@ -82,8 +87,10 @@ column (presumed driver). Defaults to the opposite of 'library.column'.}
 \item{surrogate.column}{Which column to use to generate surrogates. Defaults
 to the value of 'target.column' (the presumed driver).}
 
-\item{parallell}{Activate parallellisation? Defaults to true. Currently,
-this only works decently on Mac and Linux systems.}
+\item{print.to.console}{Display progress?}
+
+\item{n.libsizes.to.check}{Minimum number of library sizes for the
+convergence test.}
 }
 \description{
 Performs CCM for a single set of parameters and a specified library size.

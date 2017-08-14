@@ -2,7 +2,7 @@
 % Please edit documentation in R/draw-random-ages.R
 \name{draw_random_ages}
 \alias{draw_random_ages}
-\title{A wrapper around agemodel() that returns a matrix of multiple age models.
+\title{A wrapper around agemodel that returns a matrix of multiple age models.
 Each column is an age model.}
 \usage{
 draw_random_ages(ages, sigmas, n.replicates = 1, n.sigma = 2,
@@ -11,19 +11,20 @@ draw_random_ages(ages, sigmas, n.replicates = 1, n.sigma = 2,
 \arguments{
 \item{ages}{A vector containing the age data.}
 
-\item{sigmas}{A vector containing the 1 sigma uncertainties associated with the age data.}
+\item{sigmas}{A vector containing the 1 sigma uncertainties associated with
+the age data.}
 
 \item{n.replicates}{How many age vectors to draw?}
 
 \item{n.sigma}{n*sigma uncertainty. Defaults to 2.}
 
-\item{firstdiffagreementratio}{How large can the slope between time steps be? Defaults to 1, or 100%.}
+\item{firstdiffagreementratio}{How large can the slope between time steps be?
+Defaults to 1, or 100 percent.}
 
-\item{tolerance}{A tolerance level to speed up computations when age points are very close.}
-
-\item{tolerance}{A tolerance to ensure iterations don't get stuck.}
+\item{tolerance}{A tolerance level to speed up computations when age points
+are very close. Ensures that iterations don't get stuck.}
 }
 \description{
-A wrapper around agemodel() that returns a matrix of multiple age models.
+A wrapper around agemodel that returns a matrix of multiple age models.
 Each column is an age model.
 }

@@ -30,6 +30,8 @@
 #'   which excludes temporal neighbours to reduce correlation bias. Either
 #'   use the autocorrelation function (lag.method = "acf") or the lagged
 #'   mutual information function (lag.method = "mi")
+#' @param threshold The fraction of real nearest neighbours to pass the test.
+#
 #' @return The minimum embedding dimension yielding zero false neighbours
 #'   or a false neighbours proportion below some threshold.
 #' @export optimise_dim_FNN
@@ -39,7 +41,7 @@ optimise_dim_FNN <- function(v,
                     orbital.lag = NULL,
                     lag.max = ceiling(length(v)*0.2),
                     lag.method = "correlation",
-                    plot.lag.method = F,
+                    plot.temporal.correlation.function = F,
                     threshold = 0.95) {
 
     lag.method = tolower(lag.method)
@@ -49,10 +51,15 @@ optimise_dim_FNN <- function(v,
             lag.method == "afc" ||
             lag.method == "autocorrelation" ||
             lag.method == "autocorrelationfunction") {
-            if (plot.lag.method) stats::acf(x = v, lag.max = lag.max, plot = TRUE)$acf
+
+            if (plot.temporal.correlation.function) {
+              stats::acf(x = v, lag.max = lag.max, plot = TRUE)$acf
+            }
             orbital.lag = first_acf_minima(v, lag.max = lag.max)
+
         } else if (lag.method == "mutual information" ||
                    lag.method == "mi") {
+
             orbital.lag = first_mi_minima(v, lag.max = lag.max)
         }
     }

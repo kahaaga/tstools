@@ -40,9 +40,15 @@ with the training set, make sure to use leave-K-out cross validation setting the
 
 \item{samples}{The number of random libraries to draw when calculating cross map skill.}
 
+\item{samples.surrogates}{The number of surrogate time series in the null
+ensemble.}
+
 \item{n.surrogates}{Should a surrogate test also be performed? If so, 'n.surrogates' sets
  the number of surrogate time series to use. By default, no surrogate test is performed
 (n.surrogates = 0).}
+
+\item{surrogate.method}{The type of surrogate time series to generate. Will vary depending
+on what null hypothesis is being tested. Defaults to AAFT surrogates.}
 
 \item{always.run.surrogates}{Should surrogate analyses be performed even if the convergence test
 fails? Defaults to FALSE (there is no reason to perform significance testing if the analysis is not
@@ -62,7 +68,16 @@ indicated by 'time.unit').}
 \item{exclusion.radius}{The number of temporal neighbours to exclude for the leave-K-out cross
 validation.}
 
+\item{epsilon}{Exlude neighbours if the are within a distance of 'epsilon'
+from the predictee.}
+
 \item{RNGseed}{For reproducivility. Seed to use for the random number generator.}
+
+\item{silent}{Suppress warnings?}
+
+\item{time.run}{Time the run?}
+
+\item{print.to.console}{Display progress?}
 
 \item{time.series.length.threshold}{Display a warning if the time series length drops
 below this threshold.}
@@ -79,6 +94,9 @@ Defaults to the opposite of 'library.column'.}
 \item{convergence.test}{Should a convergence test be performed? Analyses where CCM does not
 convergence are nonsensical, so this option defaults to TRUE.}
 
+\item{parallel}{Activate parallellisation? Defaults to true. Currently, this only works
+decently on Mac and Linux systems.}
+
 \item{parallelize.on.each.lag}{Should parallellisation be done on the outer lag loop?
 Defaults to TRUE. Otherwise, parallellisation is done over the surrogate analyses.}
 
@@ -94,12 +112,6 @@ Defaults to FALSE.}
 \item{max.E}{The maximum embedding dimension for which to optimise 'E'.}
 
 \item{max.tau}{The maximum embedding lag for which to optimise 'tau'.}
-
-\item{surrogate_method}{The type of surrogate time series to generate. Will vary depending
-on what null hypothesis is being tested. Defaults to AAFT surrogates.}
-
-\item{parallell}{Activate parallellisation? Defaults to true. Currently, this only works
-decently on Mac and Linux systems.}
 }
 \description{
 Cross-mapping from one variable to another variable over a range of lags.

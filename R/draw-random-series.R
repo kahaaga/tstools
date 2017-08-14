@@ -1,16 +1,15 @@
-#' Draws random datagiven a vector 'data' and
-#' its associated uncertainties, either in the form of
-#' 'sigmas' or a set of 'lower.bounds' and 'upper.bounds'.
-#' If 'sigmas' is provided, draw from a Gaussian centered
-#' on the data. If bounds are provided, draw from a
-#' Gaussian truncated at the lower and upper bounds.
+#' Draws random datagiven a vector 'data' and its associated uncertainties,
+#' either in the form of 'sigmas' or a set of 'lower.bounds' and 'upper.bounds'.
+#' If 'sigmas' is provided, draw from a Gaussian centered on the data. If bounds
+#' are provided, draw from a Gaussian truncated at the lower and upper bounds.
 #'
 #' @param data A vector of data.
 #' @param sigmas A vector of 1 sigma uncertainties associated with the data.
 #' @param n.sigma How many sigmas should be allowed?
+#' @param n.replicates The number of random data series to draw.
 #' @param lower.bounds A vector of lower bounds for the data.
 #' @param upper.bounds A vector of upper bounds for the data.
-#' @return  A matrix of randomly drawn data.
+#' @return  A matrix of randomly drawn data series.
 #'
 #' @export draw_random_data
 draw_random_data <- function(data,
