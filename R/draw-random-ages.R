@@ -1,14 +1,17 @@
-#' A wrapper around agemodel() that returns a matrix of multiple age models.
+#'
+#' A wrapper around agemodel that returns a matrix of multiple age models.
 #' Each column is an age model.
 #'
 #' @param ages A vector containing the age data.
-#' @param sigmas A vector containing the 1 sigma uncertainties associated with the age data.
-#' @param firstdiffagreementratio How large can the slope between time steps be? Defaults to 1, or 100%.
-#' @param tolerance A tolerance level to speed up computations when age points are very close.
+#' @param sigmas A vector containing the 1 sigma uncertainties associated with
+#' the age data.
+#' @param firstdiffagreementratio How large can the slope between time steps be?
+#'  Defaults to 1, or 100 percent.
+#' @param tolerance A tolerance level to speed up computations when age points
+#' are very close. Ensures that iterations don't get stuck.
 #' @param n.sigma n*sigma uncertainty. Defaults to 2.
-#' @param tolerance A tolerance to ensure iterations don't get stuck.
 #' @param n.replicates How many age vectors to draw?
-#' @export draw_random_ages
+#' @export
 draw_random_ages <- function(ages,
                       sigmas,
                       n.replicates = 1,
@@ -33,15 +36,21 @@ draw_random_ages <- function(ages,
 #' Always returns a strictly increasing agemodel.
 #'
 #' @param ages A vector containing the age data. Must be strictly increasing.
-#' @param sigmas A vector containing the 1 sigma uncertainties associated with the age data.
-#' @param firstdiffagreementratio How large can the slope between time steps be? Defaults to 1, or 100%.
-#' @param tolerance A tolerance level to speed up computations when age points are very close.
+#' @param sigmas A vector containing the 1 sigma uncertainties associated with
+#' the age data.
+#' @param n.sigma Which sigma level?
+#' @param firstdiffagreementratio How large can the slope between time steps be?
+#' Defaults to 1, or 100 percent.
+#' @param tolerance A tolerance level to speed up computations when age points
+#' are very close.
 #' @return An randomly drawn age model.
-#' @export draw_agemodel
-draw_agemodel <- function(ages, sigmas,
-                     n.sigma = 2,
-                     firstdiffagreementratio = 1,
-                     tolerance = 10^-(12)) {
+#'
+draw_agemodel <- function(ages,
+                          sigmas,
+                          n.sigma = 2,
+                          firstdiffagreementratio = 1,
+                          tolerance = 10^(-12)
+                          ) {
 
     # Verify input
     if (!all(ages == cummax(ages))) stop("Ages not strictly increasing")
