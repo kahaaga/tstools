@@ -8,12 +8,15 @@ surrogate_ccm(original.data, E = 2, tau = 1,
   library.size = ceiling(nrow(original.data) * 0.9), with.replacement = T,
   RNGseed = 1111, exclusion.radius = E + 1, num.neighbours = E + 1,
   epsilon = NULL, silent = T, lag = 0, lib = c(1,
-  nrow(original.data)[1]), pred = lib, num_neighbors = E + 1,
-  random.libs = TRUE, library.column = 1, target.column = 2,
-  surrogate.column = target.column, samples.surrogates = 100,
-  n.surrogates = 100, parallel = F, surrogate.method = "aaft")
+  nrow(original.data)[1]), pred = lib, random.libs = TRUE,
+  library.column = 1, target.column = 2, surrogate.column = target.column,
+  samples.surrogates = 100, n.surrogates = 100, parallel = F,
+  surrogate.method = "aaft")
 }
 \arguments{
+\item{original.data}{A data frame containing two columns - one for the
+presumed driver and one for the response.}
+
 \item{E}{The embedding dimension. Defaults to NULL, which triggers automated
 optimisation of the embedding dimension up to the dimension specified by
 'max.E'.}
@@ -24,6 +27,8 @@ optimisation of the embedding lag up to the dimension specified by 'max.tau'.
   wise to set this value to 1. For densely sampled time series, this should
   be set to the first minima of the autocorrelation function of the presumed
   driver.}
+
+\item{library.size}{The size of each random library (training set).}
 
 \item{with.replacement}{Should samples be drawn with replacement? Defaults
 to TRUE.}
@@ -77,9 +82,6 @@ this only works decently on Mac and Linux systems.}
 \item{surrogate.method}{Which method should be used to generate surrogate
 time series? Defaults to "AAFT". For more options, see the description of
 the 'surrogate_ensemble' function in this package.}
-
-\item{data}{A data frame containing two columns - one for the presumed driver
-and one for the response.}
 }
 \description{
 Cross-mapping for a surrogate ensemble.
