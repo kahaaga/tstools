@@ -234,13 +234,11 @@ ccm_lagged_oneway <- function(data,
   cols[cols == "num_pred"] = "num.pred"
   colnames(lagccm) = cols
 
-
   # Add information about the analysis.
   lagccm$time.bin.size = rep(time.bin.size)
   lagccm$time.unit = rep(time.unit)
   lagccm$ts.length = rep(length(data[,1]))
   lagccm$samples.original = rep(samples.surrogates)
-  lagccm$n.library.sizes =  rep(n.libsizes.to.check)
   lagccm$samples.surrogates =  rep(samples.surrogates)
   lagccm$surrogate.column =  rep(surrogate.column)
   lagccm$surrogate.method =  rep(surrogate.method)
