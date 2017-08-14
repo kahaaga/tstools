@@ -35,28 +35,22 @@ ccm_over_library_sizes <- function(lag,
                                    exclusion.radius = E, # Exclude vectors from nearest neighbor search space  whose time index are within the exclusion.radius
                                    epsilon = NULL, ## Exclude vectors from nearest neighbor search space that are within a distance epsilon from the predictee #
                                    RNGseed = 1111,
-                                   silent = TRUE,
                                    parallel = F,
                                    time.run = F,
                                    print.to.console = F,
                                    time.series.length.threshold = 100,
                                    library.column = 1,
                                    target.column = 1,
-                                   surrogate.column = target.column) {
+                                   surrogate.column = target.column,
+                                   silent = T) {
   if (n.libsizes.to.check < 20) {
-    warning("@CheckConvergence()\tOnly ", n.libsizes.to.check, "library sizes are being checked for convergence. Spurious non-convergence or convergence might be the result. Consider increasing the value of 'n.libsizes.convergence.check'")
+    if (!silent) warning("@CheckConvergence()\tOnly ", n.libsizes.to.check, "library sizes are being checked for convergence. Spurious non-convergence or convergence might be the result. Consider increasing the value of 'n.libsizes.convergence.check'")
   }
-
-  # Refer to library and target columns by name, not index.
-  cols = column_names_as_string(column.names = colnames(data),
-                                library.column = library.column,
-                                target.column = target.column,
-                                surrogate.column = surrogate.column)
 
   # Either generate a custom range of library sizes, or use the one
   # provided by the user.
   if (length(library.sizes) < 20) {
-    warning("The number of library sizes provided is not sufficient to perform robust convergence testing.\nGenerating a valid selection of library sizes and using these instead.")
+    if (!silent) warning("The number of library sizes provided is not sufficient to perform robust convergence testing.\nGenerating a valid selection of library sizes and using these instead.")
 
     l1 = as.integer(seq(from = low.libsize,
                         to = ceiling(high.libsize / 4),
@@ -87,35 +81,32 @@ ccm_over_library_sizes <- function(lag,
                     pred = pred,
                     num.neighbours = num.neighbours,
                     random.libs = random.libs,
-                    library.column = cols["library.column"],
-                    target.column = cols["target.column"],
+                    library.column = library.column,
+                    target.column = target.column,
                     mc.cores = parallel::detectCores() - 1
     )
 
   } else {
-    ccm =  lapply(library.sizes,
-                  FUN = ccm_on_single_libsize,
-                  data = data,
+    results = rEDM::ccm(block = data,
                   E = E,
                   tau = tau,
-                  samples.original = samples.original,
-                  with.replacement = with.replacement,
+                  lib_sizes = library.sizes,
+                  num_samples = samples.original,
+                  replace = with.replacement,
                   RNGseed = RNGseed,
-                  exclusion.radius = exclusion.radius,
+                  exclusion_radius = exclusion.radius,
                   epsilon = epsilon,
                   silent = silent,
-                  lag = lag,
+                  tp = lag,
                   lib = lib,
                   pred = pred,
-                  num.neighbours = num.neighbours,
-                  random.libs = random.libs,
-                  library.column = cols["library.column"],
-                  target.column = cols["target.column"])
+                  num_neighbors = num.neighbours,
+                  random_libs = random.libs,
+                  lib_column = library.column,
+                  target_column = target.column,
+                  first_column_time = FALSE)
 
   }
-
-  results = data.table::rbindlist(ccm)
-
 
   # Indicate that the analysis type is original (not surrogate)
   results$analysis.type = rep("original")
