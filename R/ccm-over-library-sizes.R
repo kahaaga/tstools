@@ -1,9 +1,6 @@
-#' Performs CCM over multiple library sizes. This function only exists to allow
-#' parallelisation over library sizes at the lowermost level.
-#'
-#' @importFrom magrittr "%>%"
-#' @param data A data frame containing two columns - one for the presumed driver
-#'   and one for the response.
+
+
+#' importFrom magrittr "%>%"
 #' @param library.sizes Either a single maximum library size (cross mapping
 #'   is performed for a range of value from the smallest possible library
 #'   size to the provided library size) or a user-specified range
@@ -11,7 +8,7 @@
 #'   20 different library sizes to ensure robust convergence assessment.
 #' @param low.libsize If one library size is specified, cross map
 #'   for library sizes ranging from 'low.libsize' to 'high.libsize'.
-#' @param high.libsize If one library size is specified, cross map
+#' @param high.libize If one library size is specified, cross map
 #'   for library sizes ranging from 'low.libsize' to 'high.libsize'.
 #' #' @param data A data frame containing two columns - one for the presumed driver
 #'   and one for the response.
@@ -54,7 +51,7 @@
 #' @param n.surrogates Should a surrogate test also be performed? If so, 'n.surrogates' sets
 #'   the number of surrogate time series to use. By default, no surrogate test is performed
 #'  (n.surrogates = 0).
-#' @param parallel Activate parallellisation? Defaults to true. Currently,
+#' @param parallell Activate parallellisation? Defaults to true. Currently,
 #'   this only works decently on Mac and Linux systems.
 #' @param library.column Integer indicating which column to use as the library
 #'   column (presumed response).
@@ -62,15 +59,6 @@
 #'   column (presumed driver). Defaults to the opposite of 'library.column'.
 #' @param surrogate.column Which column to use to generate surrogates. Defaults
 #'   to the value of 'target.column' (the presumed driver).
-#' @param n.libsizes.to.check Minimum number of library sizes for the
-#' convergence test.
-#' @param time.series.length.threshold Display a warning if the time series length drops
-#'   below this threshold.
-#' @param time.unit The time unit of the raw time series.
-#' @param time.bin.size The temporal resolution of the raw time series (given in the units
-#'   indicated by 'time.unit').
-#' @param print.to.console Display progress?
-#' @param time.run Time the run?
 #' @export
 ccm_over_library_sizes <- function(lag,
                                    data,

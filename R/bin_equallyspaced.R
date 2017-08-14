@@ -4,7 +4,6 @@
 #' @param by The column of the data frame.
 #' @param bin.size The size of the bins.
 #' @param include.lowest Include endpoint bin?
-#'
 bin_equallyspaced_df <- function(df, by = NULL, bin.size, include.lowest = T) {
   # Minimum bin time is rounded down to nearest bin
   bin.min = plyr::round_any(min(df[, by]), bin.size, f = floor)
@@ -25,7 +24,6 @@ bin_equallyspaced_df <- function(df, by = NULL, bin.size, include.lowest = T) {
 #'
 #' @param v The vector.
 #' @param bin.size The size of the bins.
-#' @param include.lowest Include endpoint bin?
 bin_equallyspaced_vector <- function(v, bin.size, include.lowest = T) {
 
   if (!is.vector(v)) stop("v is not a vector")

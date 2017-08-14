@@ -13,9 +13,15 @@ optimise_embedding_dim(v, optimise.simplex = T, optimise.FNNdim = T,
 \arguments{
 \item{v}{Numeric vector containing the series.}
 
+\item{optimise.simplex}{Optimise using simplex projection?}
+
 \item{optimise.FNNdim}{Should false nearest neighbour criteria be applied?}
 
 \item{optimise.boxcountdim}{Should box counting dimension criteria be applied?}
+
+\item{min.embedding.dim}{The minimum embedding dimension to consider.}
+
+\item{max.embedding.dim}{The maximum embedding dimension to consider.}
 
 \item{orbital.lag}{The Theiler window. An orbital lag to avoid
 temporal correlation. Defaults to NULL, in which case the orbital
@@ -35,17 +41,12 @@ use the autocorrelation function (lag.method = "acf" or "autocorrelation")
 or the lagged mutual information function (lag.method = "mi" or
 "mutual information").}
 
+\item{embedding.lag}{The embedding lag.}
+
 \item{plot.simplex.projection}{Plot the results of the simplex projection?}
 
-\item{exclude.first.col}{Should first column in data frame be dropped?}
-
-\item{min.E}{The minimum embedding dimension to consider.}
-
-\item{max.E}{The maximum embedding dimension to consider.}
-
-\item{min.tau}{The minimum embedding lag to consider.}
-
-\item{max.tau}{The maximum embedding lag to consider}
+\item{return.all}{Should all optimisation results be returned? Defaults to
+TRUE.}
 }
 \value{
 A data frame containing the optimal embeddings.

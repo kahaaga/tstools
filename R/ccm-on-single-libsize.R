@@ -1,7 +1,6 @@
 #' Performs CCM for a single set of parameters and a specified library size.
 #' Convenience function to allow low-level parallellisation.
 #'
-#' @param library.size The size of each random library (training set).
 #' @param data A data frame containing two columns - one for the presumed driver
 #'   and one for the response.
 #' @param lag The lag (called prediction horizon in rEDM::ccm) for which to
@@ -43,7 +42,7 @@
 #' @param n.surrogates Should a surrogate test also be performed? If so, 'n.surrogates' sets
 #'   the number of surrogate time series to use. By default, no surrogate test is performed
 #'  (n.surrogates = 0).
-#' @param parallel Activate parallellisation? Defaults to true. Currently,
+#' @param parallell Activate parallellisation? Defaults to true. Currently,
 #'   this only works decently on Mac and Linux systems.
 #' @param library.column Integer indicating which column to use as the library
 #'   column (presumed response).
@@ -51,9 +50,6 @@
 #'   column (presumed driver). Defaults to the opposite of 'library.column'.
 #' @param surrogate.column Which column to use to generate surrogates. Defaults
 #'   to the value of 'target.column' (the presumed driver).
-#' @param print.to.console Display progress?
-#' @param n.libsizes.to.check Minimum number of library sizes for the
-#' convergence test.
 
 #' @export
 ccm_on_single_libsize <- function(library.size,
@@ -79,6 +75,7 @@ ccm_on_single_libsize <- function(library.size,
                 target.column = 2,
                 surrogate.column = 2,
                 print.to.console = T,
+                print.surrogate.to.console = T,
                 n.libsizes.to.check = 20) {
 
 

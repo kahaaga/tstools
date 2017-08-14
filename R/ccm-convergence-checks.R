@@ -4,7 +4,7 @@
 #'
 #' @param data A data frame containing two columns.
 ExponentalRegression2 <- function(data) {
-  exp.model = stats::nls(data = data,
+  exp.model = stats::nls(data = df,
                   formula = rho ~ a * L/(b + L),
                   start = list(a = 0.1, b = 0.1))
   return(exp.model)
@@ -18,7 +18,6 @@ ExponentalRegression2 <- function(data) {
 #' @param confidence.level The confidence level. Defaults to 0.99.
 #' @param plot Plot the convergence analysis?
 #' @importFrom magrittr "%>%"
-#' @importFrom stats "coef" "nls" "qnorm"
 get_convergence_parameters <- function(ccm.result,
                                        confidence.level = 0.99,
                                        plot = F) {
@@ -72,7 +71,7 @@ get_convergence_parameters <- function(ccm.result,
   wilcox = stats::wilcox.test(x = medians[indices.high, "median.rho"],
                               y = medians[indices.low, "median.rho"],
                               alternative = "greater",
-                              mu = stats::sd(medians[indices.high, "median.rho"]),
+                              mu = sd(medians[indices.high, "median.rho"]),
                               conf.level = confidence.level,
                               exact = FALSE)
 
@@ -118,10 +117,10 @@ get_convergence_parameters <- function(ccm.result,
     if (all(!is.finite(dt$logrhos))) {
       slope = 0
     } else {
-      slope = stats::lm(dt$logrhos ~ dt$L)$coefficients[2]
+      slope = lm(dt$logrhos ~ dt$L)$coefficients[2]
       f2 <- suppressWarnings(rho ~ rho.max - rho0*exp(-(k) * (L - L0)))
 
-      exp.model2 = try(stats::nls(data = df,
+      exp.model2 = try(nls(data = df,
                            formula = f2,
                            start = list(k = .1)),
                        silent = T)
@@ -170,10 +169,7 @@ get_convergence_parameters <- function(ccm.result,
                             outlier.alpha = 0.05) +
       ggplot2::geom_line(data = pred1, mapping = ggplot2::aes(x = L, y = predicted.rho.model1, col = "Slowly converging model")) +
       ggplot2::geom_line(data = pred2, mapping = ggplot2::aes(x = L, y = predicted.rho.model2, col = "Exponential model"), size = 1) +
-      ggplot2::geom_point(data = medians, mapping = ggplot2::aes_string(x = "lib_size",
-                                                                        y = "median.rho",
-                                                                        col = "Smoothed medians"),
-                          size = 1) +
+      ggplot2::geom_point(data = medians, mapping = ggplot2::aes(x = lib_size, y = median.rho, col = "Smoothed medians"), size = 1) +
       ggplot2::scale_y_continuous(limits = c(0, 0.7)) +
       ggplot2::theme_bw() +
       ggplot2::theme(panel.grid = ggplot2::element_blank(),

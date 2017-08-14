@@ -1,7 +1,7 @@
 #' Cross-mapping for a surrogate ensemble.
 #'
-#' @param original.data A data frame containing two columns - one for the
-#' presumed driver and one for the response.
+#' @param data A data frame containing two columns - one for the presumed driver
+#'   and one for the response.
 #' @param lag The lag (called prediction horizon in rEDM::ccm) for which to
 #' compute CCM.
 #' @param E The embedding dimension. Defaults to NULL, which triggers automated
@@ -13,7 +13,6 @@
 #'   wise to set this value to 1. For densely sampled time series, this should
 #'   be set to the first minima of the autocorrelation function of the presumed
 #'   driver.
-#' @param library.size The size of each random library (training set).
 #' @param lib Indices of the original library time series to use as the library
 #' (training) set.
 #' @param pred Indices of the original target time series to use as prediction
@@ -63,6 +62,7 @@ surrogate_ccm <- function(original.data,
                          lag = 0,
                          lib = c(1, nrow(original.data)[1]),
                          pred = lib, # Training and prediction libraries overlap (uses leave-n-out cross validation instead of separate libraries)
+                         num_neighbors = E + 1,
                          random.libs = TRUE,
                          library.column = 1,
                          target.column  = 2,
@@ -139,14 +139,11 @@ surrogate_ccm <- function(original.data,
 
 #' Create a dataframe of multiple surrogate series.
 #'
-#' @param original.data A two-column data frame.
-#' @param surrogate.method Method used to generate surrogates. Defaults to
-#' "aaft".
-#' @param n.surrogates Number of surrogate series to generate.
-#' @param surrogate.column The index or name of of the column for which
+#' @param Original data (a two-column data frame)
+#' @param Surrogate data (a n.observations-by-n.surrogates matrix)
+#' @param surrogate_column The index or name of of the column for which
 #'        to generate surrogate data. When doing causal analyses,
 #'        this should correspond to the target column - the putative driver.
-#' @param print.to.console Display progress?
 create_surrogate_dataframes <- function(original.data,
                                       surrogate.column,
                                       surrogate.method = "aaft",

@@ -1,12 +1,15 @@
 #' Performs CCM for a given lag.
-#'
-#' @param data A data frame containing two columns - one for the presumed driver
-#'   and one for the response.
-#' @param library.sizes Either a single maximum library size (cross mapping
+#' #' @param library.sizes Either a single maximum library size (cross mapping
 #'   is performed for a range of value from the smallest possible library
 #'   size to the provided library size) or a user-specified range
 #'   of library sizes. If user-provided, make sure to provide at least
 #'   20 different library sizes to ensure robust convergence assessment.
+#' @param low.libsize If one library size is specified, cross map
+#'   for library sizes ranging from 'low.libsize' to 'high.libsize'.
+#' @param high.libize If one library size is specified, cross map
+#'   for library sizes ranging from 'low.libsize' to 'high.libsize'.
+#' #' @param data A data frame containing two columns - one for the presumed driver
+#'   and one for the response.
 #' @param lag The lag (called prediction horizon in rEDM::ccm) for which to
 #' compute CCM.
 #' @param E The embedding dimension. Defaults to NULL, which triggers automated
@@ -46,7 +49,7 @@
 #' @param n.surrogates Should a surrogate test also be performed? If so, 'n.surrogates' sets
 #'   the number of surrogate time series to use. By default, no surrogate test is performed
 #'  (n.surrogates = 0).
-#' @param parallel Activate parallellisation? Defaults to true. Currently,
+#' @param parallell Activate parallellisation? Defaults to true. Currently,
 #'   this only works decently on Mac and Linux systems.
 #' @param library.column Integer indicating which column to use as the library
 #'   column (presumed response).
@@ -54,10 +57,6 @@
 #'   column (presumed driver). Defaults to the opposite of 'library.column'.
 #' @param surrogate.column Which column to use to generate surrogates. Defaults
 #'   to the value of 'target.column' (the presumed driver).
-#' @param print.to.console Display progress?
-#' @param convergence.test Run convergence test?
-#' @param n.libsizes.to.check Minimum number of library sizes in convergence
-#'   test.
 #' @export
 ccm <- function(data,
                 library.sizes = 100,
@@ -83,6 +82,7 @@ ccm <- function(data,
                 target.column = 2,
                 surrogate.column = 2,
                 print.to.console = T,
+                print.surrogate.to.console = T,
                 n.libsizes.to.check = 20) {
 
 
@@ -162,6 +162,7 @@ ccm <- function(data,
                                       lag = lag,
                                       lib = lib,
                                       pred = pred,
+                                      num_neighbors = num_neighbors,
                                       random.libs = random.libs,
                                       library.column = cols["library.column"],
                                       target.column = cols["target.column"],
