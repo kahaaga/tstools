@@ -1,6 +1,8 @@
 #' Performs an exponential regression on the form p = p_max - p0*exp(-c*(L-L0))
 #' The same as in van Nes et al. (2016). In this paper, we use it with data
 #' where where p is the CCM predictive skill and L is the library size.
+#'
+#' @param data A data frame containing two columns.
 ExponentalRegression2 <- function(data) {
   exp.model = stats::nls(data = df,
                   formula = rho ~ a * L/(b + L),
@@ -13,6 +15,8 @@ ExponentalRegression2 <- function(data) {
 #' cross-map skill increases with increasing library size.
 #'
 #' @param ccm.result A data frame
+#' @param confidence.level The confidence level. Defaults to 0.99.
+#' @param plot Plot the convergence analysis?
 #' @importFrom magrittr "%>%"
 get_convergence_parameters <- function(ccm.result,
                                        confidence.level = 0.99,

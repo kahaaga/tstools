@@ -8,6 +8,9 @@ where where p is the CCM predictive skill and L is the library size.}
 \usage{
 ExponentalRegression2(data)
 }
+\arguments{
+\item{data}{A data frame containing two columns.}
+}
 \description{
 Performs an exponential regression on the form p = p_max - p0*exp(-c*(L-L0))
 The same as in van Nes et al. (2016). In this paper, we use it with data

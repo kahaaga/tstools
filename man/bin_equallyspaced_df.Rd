@@ -12,6 +12,8 @@ bin_equallyspaced_df(df, by = NULL, bin.size, include.lowest = T)
 \item{by}{The column of the data frame.}
 
 \item{bin.size}{The size of the bins.}
+
+\item{include.lowest}{Include endpoint bin?}
 }
 \description{
 Create equally spaced bins for a column of a data frame.

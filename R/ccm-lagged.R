@@ -50,7 +50,7 @@
 #'   causal to begin with).
 #' @param surrogate.column Which column to use to generate surrogates. Defaults to the value of
 #'   'target.column' (the presumed driver).
-#' @param surrogate_method The type of surrogate time series to generate. Will vary depending
+#' @param surrogate.method The type of surrogate time series to generate. Will vary depending
 #'   on what null hypothesis is being tested. Defaults to AAFT surrogates.
 #' @param num.neighbours The number of nearest neighbours to use in predictions. Defaults to E + 1.
 #' @param RNGseed For reproducivility. Seed to use for the random number generator.

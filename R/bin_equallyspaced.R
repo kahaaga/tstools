@@ -3,6 +3,7 @@
 #' @param df The data frame.
 #' @param by The column of the data frame.
 #' @param bin.size The size of the bins.
+#' @param include.lowest Include endpoint bin?
 bin_equallyspaced_df <- function(df, by = NULL, bin.size, include.lowest = T) {
   # Minimum bin time is rounded down to nearest bin
   bin.min = plyr::round_any(min(df[, by]), bin.size, f = floor)

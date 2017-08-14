@@ -35,6 +35,8 @@ with the training set, make sure to use leave-K-out cross validation setting the
 
 \item{samples}{The number of random libraries to draw when calculating cross map skill.}
 
+\item{samples.surrogates}{The number of surrogate series in each null ensemble.}
+
 \item{n.surrogates}{Should a surrogate test also be performed? If so, 'n.surrogates' sets
  the number of surrogate time series to use. By default, no surrogate test is performed
 (n.surrogates = 0).}
@@ -111,7 +113,7 @@ up to the dimension specified by 'max.tau'. For sparsely sampled time series (fo
 time series), it is wise to set this value to 1. For densely sampled time series, this should be set to
 the first minima of the autocorrelation function of the presumed driver.}
 
-\item{surrogate_method}{The type of surrogate time series to generate. Will vary depending
+\item{surrogate.method}{The type of surrogate time series to generate. Will vary depending
 on what null hypothesis is being tested. Defaults to AAFT surrogates.}
 
 \item{parallell}{Activate parallellisation? Defaults to true. Currently, this only works

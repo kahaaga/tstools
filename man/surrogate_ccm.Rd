@@ -13,6 +13,74 @@ surrogate_ccm(original.data, E = 2, tau = 1,
   surrogate.column = target.column, samples.surrogates = 100,
   n.surrogates = 100, parallel = F, surrogate.method = "aaft")
 }
+\arguments{
+\item{E}{The embedding dimension. Defaults to NULL, which triggers automated
+optimisation of the embedding dimension up to the dimension specified by
+'max.E'.}
+
+\item{tau}{The embedding lag. Defaults to NULL, which triggers automated
+optimisation of the embedding lag up to the dimension specified by 'max.tau'.
+ For sparsely sampled time series (for example geological time series), it is
+  wise to set this value to 1. For densely sampled time series, this should
+  be set to the first minima of the autocorrelation function of the presumed
+  driver.}
+
+\item{with.replacement}{Should samples be drawn with replacement? Defaults
+to TRUE.}
+
+\item{RNGseed}{A random number seed. For reproducibility.}
+
+\item{exclusion.radius}{The number of temporal neighbours to exclude for the
+leave-K-out cross validation. Defaults to E + 1.}
+
+\item{num.neighbours}{The number of nearest neighbours to use in predictions.
+Defaults to E + 1.}
+
+\item{epsilon}{Exlude neighbours if the are within a distance of 'epsilon'
+from the predictee.}
+
+\item{silent}{Suppress warnings?}
+
+\item{lag}{The lag (called prediction horizon in rEDM::ccm) for which to
+compute CCM.}
+
+\item{lib}{Indices of the original library time series to use as the library
+(training) set.}
+
+\item{pred}{Indices of the original target time series to use as prediction
+set. If this overlaps with the training set, make sure to use leave-K-out
+cross validation setting the 'exclusion.radius' parameters to a minimum of
+E + 1.}
+
+\item{random.libs}{Whether or not to sample random library (training) sets.
+Defaults to TRUE.}
+
+\item{library.column}{Integer indicating which column to use as the library
+column (presumed response).}
+
+\item{target.column}{Integer indicating which column to use as the target
+column (presumed driver). Defaults to the opposite of 'library.column'.}
+
+\item{surrogate.column}{Which column to use to generate surrogates. Defaults
+to the value of 'target.column' (the presumed driver).}
+
+\item{samples.surrogates}{The number of surrogate time series in the null
+ensemble.}
+
+\item{n.surrogates}{Should a surrogate test also be performed? If so, 'n.surrogates' sets
+ the number of surrogate time series to use. By default, no surrogate test is performed
+(n.surrogates = 0).}
+
+\item{parallel}{Activate parallellisation? Defaults to true. Currently,
+this only works decently on Mac and Linux systems.}
+
+\item{surrogate.method}{Which method should be used to generate surrogate
+time series? Defaults to "AAFT". For more options, see the description of
+the 'surrogate_ensemble' function in this package.}
+
+\item{data}{A data frame containing two columns - one for the presumed driver
+and one for the response.}
+}
 \description{
 Cross-mapping for a surrogate ensemble.
 }

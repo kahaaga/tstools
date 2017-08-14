@@ -2,11 +2,19 @@
 #'
 #' @param dt A data frame containing the data to be binned.
 #' @param bin.size The size of the bins
-#' @param bin.average.function The function to use for averaging bins. Default is the arithmetic mean.
+#' @param bin.average.function The function to use for averaging bins. Default
+#'   is the arithmetic mean.
 #' @param by The column to use for binning.
+#' @param bin.min The minimum value of the 'by' column for which to subset data.
+#' @param bin.max The maximum value of the 'by' column for which to subset data.
+#' @param add.binning.info Should info on the binning be added to the resulting
+#'   dataframe?
 #' @param interpolate Should empty bins be interpolated linearly?
-#' @param remove.na Should NAs remaining after interpolation (usually at endpoints after interpolatin) be removed? BEWARE: be careful about removing nans before interpolating.
-#' @param time.sampled.at How time indices are constructed. Either 'start', 'mid' or 'end' of bins. Defaults to 'mid'.
+#' @param remove.na Should NAs remaining after interpolation (usually at
+#'   endpoints after interpolatin) be removed? BEWARE: be careful about removing
+#'    nans before interpolating.
+#' @param time.sampled.at How time indices are constructed. Either 'start',
+#'   'mid' or 'end' of bins. Defaults to 'mid'.
 #' @export bin
 bin <- function(dt,
                 bin.size,

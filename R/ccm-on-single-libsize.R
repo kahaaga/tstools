@@ -51,7 +51,6 @@
 #' @param surrogate.column Which column to use to generate surrogates. Defaults
 #'   to the value of 'target.column' (the presumed driver).
 
-
 #' @export
 ccm_on_single_libsize <- function(library.size,
                 data,

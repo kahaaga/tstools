@@ -15,13 +15,24 @@ bin(dt, bin.size, by, bin.average.function = mean.narm, interpolate = T,
 
 \item{by}{The column to use for binning.}
 
-\item{bin.average.function}{The function to use for averaging bins. Default is the arithmetic mean.}
+\item{bin.average.function}{The function to use for averaging bins. Default
+is the arithmetic mean.}
 
 \item{interpolate}{Should empty bins be interpolated linearly?}
 
-\item{remove.na}{Should NAs remaining after interpolation (usually at endpoints after interpolatin) be removed? BEWARE: be careful about removing nans before interpolating.}
+\item{remove.na}{Should NAs remaining after interpolation (usually at
+endpoints after interpolatin) be removed? BEWARE: be careful about removing
+ nans before interpolating.}
 
-\item{time.sampled.at}{How time indices are constructed. Either 'start', 'mid' or 'end' of bins. Defaults to 'mid'.}
+\item{time.sampled.at}{How time indices are constructed. Either 'start',
+'mid' or 'end' of bins. Defaults to 'mid'.}
+
+\item{bin.min}{The minimum value of the 'by' column for which to subset data.}
+
+\item{bin.max}{The maximum value of the 'by' column for which to subset data.}
+
+\item{add.binning.info}{Should info on the binning be added to the resulting
+dataframe?}
 }
 \description{
 Bin a dataset by a common column.

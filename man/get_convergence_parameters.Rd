@@ -9,6 +9,10 @@ get_convergence_parameters(ccm.result, confidence.level = 0.99, plot = F)
 }
 \arguments{
 \item{ccm.result}{A data frame}
+
+\item{confidence.level}{The confidence level. Defaults to 0.99.}
+
+\item{plot}{Plot the convergence analysis?}
 }
 \description{
 Computes various parameters that can be used to determine if

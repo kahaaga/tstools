@@ -31,7 +31,9 @@
 #'
 #' @param ts Time series for which to generate surrogate time series. A vector.
 #' @param n.surrogates The number of surrogates to generate.
-#' @param method String indicating the surrogate time series generation method.
+#' @param surrogate.method String indicating the surrogate time series
+#'   generation method.
+#' @param print.to.console Display run info?
 #'
 #' @export surrogate_ensemble
 surrogate_ensemble <- function(ts,

@@ -10,9 +10,12 @@ surrogate_ensemble(ts, surrogate.method = "random", n.surrogates = 1,
 \arguments{
 \item{ts}{Time series for which to generate surrogate time series. A vector.}
 
+\item{surrogate.method}{String indicating the surrogate time series
+generation method.}
+
 \item{n.surrogates}{The number of surrogates to generate.}
 
-\item{method}{String indicating the surrogate time series generation method.}
+\item{print.to.console}{Display run info?}
 }
 \description{
 Implemented methods are:
