@@ -6,7 +6,8 @@ test_that("Lagged cross mapping works with convergence test", {
                               lags = -1:1,
                               n.surrogates = 1,
                               library.sizes = 100,
-                              print.to.console = F))
+                              print.to.console = F,
+                              parallel = F))
 })
 
 test_that("Lagged cross mapping works without convergence test", {
@@ -15,5 +16,6 @@ test_that("Lagged cross mapping works without convergence test", {
                               n.surrogates = 1,
                               library.sizes = 100,
                               print.to.console = F,
-                              convergence.test = F))
+                              convergence.test = F,
+                              parallel = F))
 })
