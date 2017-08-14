@@ -239,22 +239,22 @@ ccm_lagged_oneway <- function(data,
   lagccm$time.bin.size = rep(time.bin.size)
   lagccm$time.unit = rep(time.unit)
   lagccm$ts.length = rep(length(data[,1]))
-  lagccm$samples.original = samples.surrogates
-  lagccm$n.library.sizes = n.libsizes.to.check
-  lagccm$samples.surrogates = samples.surrogates
-  lagccm$surrogate.column = surrogate.column
-  lagccm$surrogate.method = surrogate.method
-  lagccm$exclusion.radius = exclusion.radius
-  lagccm$RNGseed = RNGseed
-  lagccm$lib.start = min(lib)
-  lagccm$lib.end = max(lib)
-  lagccm$pred.start = min(pred)
-  lagccm$pred.end = max(pred)
-  lagccm$num.neighbours = num.neighbours
-  lagccm$random.libs = random.libs
-  lagccm$with.replacement = with.replacement
-  lagccm$max.E = max.E
-  lagccm$max.tau = max.tau
+  lagccm$samples.original = rep(samples.surrogates)
+  lagccm$n.library.sizes =  rep(n.libsizes.to.check)
+  lagccm$samples.surrogates =  rep(samples.surrogates)
+  lagccm$surrogate.column =  rep(surrogate.column)
+  lagccm$surrogate.method =  rep(surrogate.method)
+  lagccm$exclusion.radius =  rep(exclusion.radius)
+  lagccm$RNGseed =  rep(RNGseed)
+  lagccm$lib.start =  rep(min(lib))
+  lagccm$lib.end =  rep(max(lib))
+  lagccm$pred.start =  rep(min(pred))
+  lagccm$pred.end =  rep(max(pred))
+  lagccm$num.neighbours =  rep(num.neighbours)
+  lagccm$random.libs =  rep(random.libs)
+  lagccm$with.replacement =  rep(with.replacement)
+  lagccm$max.E =  rep(max.E)
+  lagccm$max.tau = rep(max.tau)
 
   return(lagccm)
 }
