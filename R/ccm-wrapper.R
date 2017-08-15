@@ -74,7 +74,7 @@
 #'
 #' @export
 ccm_lagged <- function(data,
-                       lags,
+                       lags = 0,
                        Es = NULL,
                        taus = NULL,
                        library.sizes = c(as.integer(nrow(data)/2)),
@@ -117,11 +117,15 @@ ccm_lagged <- function(data,
                        plot.simplex.projection = F,
                        ...) {
 
+  if (n.libsizes.to.check < 20) {
+    warning("Minimum number of library sizes to check is too low. Setting it to 20.")
+    n.libsizes.to.check = 20
+  }
+
   # If no embedding parameters are provided, find the best embedding
   # for the putatitive driver and use that embedding.
   if (is.null(Es) | is.null(taus)) {
     #cat("\nOptimizing embedding dimension and lags ..\n")
-
     if (is.null(taus)) taus = 1
 
 
@@ -153,8 +157,8 @@ ccm_lagged <- function(data,
 
     ccm = ccm_lagged_oneway(lags = lags,
                             data = data,
-                            E = E,
-                            tau = tau,
+                            E = Es,
+                            tau = taus,
                             library.sizes = library.sizes,
                             lib = lib,
                             pred = lib,
