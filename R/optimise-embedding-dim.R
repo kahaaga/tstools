@@ -83,7 +83,7 @@ optimise_embedding_dim <- function(v,
                                max.embedding.dim = max.embedding.dim,
                                embedding.lag = embedding.lag,
                                orbital.lag = orbital.lag,
-                               lag.max = )
+                               lag.max = lag.max)
         optimal.embedding.dims["FNN.criterion"] = dim
     }
     if (optimise.boxcountdim) {
