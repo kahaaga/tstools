@@ -80,8 +80,7 @@ ccm_over_library_sizes <- function(lag,
                                    low.libsize = min(E * tau + max(2, abs(lag)),
                                                      10, 20, na.rm = T),
                                    n.libsizes.to.check = 30,
-                                   high.libsize = min(ceiling(max(library.sizes) * 1.5),
-                                                      max(library.sizes) - E*tau - abs(lag)),
+                                   high.libsize = low.libsize, #min(floor(max(library.sizes) * 1.5), max(library.sizes) - E*tau - abs(lag)),
                                    lib = c(1, dim(data)[1]),
                                    pred = lib, # Training and prediction libraries overlap (uses leave-n-out cross validation instead of separate libraries)
                                    samples.original = 300,
@@ -104,14 +103,12 @@ ccm_over_library_sizes <- function(lag,
                                    target.column = 1,
                                    surrogate.column = target.column,
                                    silent = T) {
-  if (n.libsizes.to.check < 20) {
-    if (!silent) warning("@CheckConvergence()\tOnly ", n.libsizes.to.check, "library sizes are being checked for convergence. Spurious non-convergence or convergence might be the result. Consider increasing the value of 'n.libsizes.convergence.check'")
-  }
+
 
   # Either generate a custom range of library sizes, or use the one
   # provided by the user.
   if (length(library.sizes) < 20) {
-    if (!silent) warning("The number of library sizes provided is not sufficient to perform robust convergence testing.\nGenerating a valid selection of library sizes and using these instead.")
+    warning("The number of library sizes provided is not sufficient to perform robust convergence testing. Generating a valid selection of library sizes and using these instead.")
 
     l1 = as.integer(seq(from = low.libsize,
                         to = ceiling(high.libsize / 4),
@@ -148,7 +145,7 @@ ccm_over_library_sizes <- function(lag,
     )
 
   } else {
-    results = rEDM::ccm(block = data,
+    results = suppressWarnings(rEDM::ccm(block = data,
                   E = E,
                   tau = tau,
                   lib_sizes = library.sizes,
@@ -165,7 +162,7 @@ ccm_over_library_sizes <- function(lag,
                   random_libs = random.libs,
                   lib_column = library.column,
                   target_column = target.column,
-                  first_column_time = FALSE)
+                  first_column_time = FALSE))
 
   }
 
