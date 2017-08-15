@@ -93,7 +93,7 @@ optimise_embedding_dim <- function(v,
 
     if (optimise.simplex) {
       dim = optimise_dim_simplex(v = v,
-                                 min.embedding.dim = min(min.embedding.dim, max(optimal.embedding.dims, na.rm = T)),
+                                 min.embedding.dim = max(min.embedding.dim, max(optimal.embedding.dims, na.rm = T)),
                                  max.embedding.dim = max.embedding.dim,
                                  embedding.lag = embedding.lag,
                                  plot.simplex.projection = plot.simplex.projection
