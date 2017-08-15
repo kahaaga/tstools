@@ -25,7 +25,7 @@ test_that("Optimisation using false nearest neighbours (FNN) works", {
   expect_that(length(optimal.dim.FNN), equals(1))
 })
 
-test_that("Optimisation using boxcouting dimension works", {
+test_that("Optimisation using boxcounting dimension works", {
   # Only estimate dimension and proceed with other tests.
   optimal.dim.boxcount = suppressWarnings(optimise_dim_boxcount(dt))
 
