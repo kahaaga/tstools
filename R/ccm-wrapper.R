@@ -152,9 +152,9 @@ ccm_lagged <- function(data,
 
   for (i in 1:nrow(params)) {
     E = params[i, "E"]
+    num.neighbours = E + 1
     tau = params[i, "tau"]
     surrogate.method = as.character(params[i, "surrogate.method"])
-
     ccm = ccm_lagged_oneway(lags = lags,
                             data = data,
                             E = Es,
