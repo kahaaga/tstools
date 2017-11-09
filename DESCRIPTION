@@ -28,7 +28,8 @@ Imports:
     reshape2,
     foreach,
     stringi,
-    doSNOW
+    doSNOW,
+    multitaper
 License: GNU GPLv3
 Depends: R (>= 3.2.3)
 Encoding: UTF-8
