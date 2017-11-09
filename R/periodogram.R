@@ -3,6 +3,7 @@
 #' @param ts A time series of equally spaced data for which to compute the periodogram.
 #' @param nw nw a positive double precision number, the time-bandwidth parameter.
 #' @param k k a positive integer, the number of tapers, often 2*nw.
+#' @export
 periodogram <- function(ts,
                         frequency = 1, dtUnits = "year", deltat = 1000,
                         nw = 4.0, k = 8) {
