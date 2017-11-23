@@ -7,15 +7,15 @@ parallelisation over library sizes at the lowermost level.}
 \usage{
 ccm_over_library_sizes(lag, data, E = 2, tau = 1, library.sizes = 100,
   low.libsize = min(E * tau + max(2, abs(lag)), 10, 20, na.rm = T),
-  n.libsizes.to.check = 30, high.libsize = min(ceiling(max(library.sizes) *
-  1.5), max(library.sizes) - E * tau - abs(lag)), lib = c(1, dim(data)[1]),
-  pred = lib, samples.original = 300, samples.surrogates = 0,
-  n.surrogates = 0, surrogate.method = "AAFT", time.unit = "bins",
-  time.bin.size = 1, num.neighbours = E + 1, random.libs = TRUE,
-  with.replacement = TRUE, exclusion.radius = E, epsilon = NULL,
-  RNGseed = 1111, parallel = F, time.run = F, print.to.console = F,
-  time.series.length.threshold = 100, library.column = 1,
-  target.column = 1, surrogate.column = target.column, silent = T)
+  n.libsizes.to.check = 30, high.libsize = max(library.sizes), lib = c(1,
+  dim(data)[1]), pred = lib, samples.original = 300,
+  samples.surrogates = 0, n.surrogates = 0, surrogate.method = "AAFT",
+  time.unit = "bins", time.bin.size = 1, num.neighbours = E + 1,
+  random.libs = TRUE, with.replacement = TRUE, exclusion.radius = E,
+  epsilon = NULL, RNGseed = 1111, parallel = F, time.run = F,
+  print.to.console = F, time.series.length.threshold = 100,
+  library.column = 1, target.column = 1, surrogate.column = target.column,
+  silent = T)
 }
 \arguments{
 \item{lag}{The lag (called prediction horizon in rEDM::ccm) for which to

@@ -5,7 +5,7 @@
 \title{Cross-mapping from one variable to another variable over a range of lags.
 Wrapper around OnewayLaggedCCM allowing multiple values for each input argument.}
 \usage{
-ccm_lagged(data, lags, Es = NULL, taus = NULL,
+ccm_lagged(data, lags = 0, Es = NULL, taus = NULL,
   library.sizes = c(as.integer(nrow(data)/2)), lib = c(1, dim(data)[1]),
   pred = lib, samples = 100, samples.surrogates = 50, n.surrogates = 0,
   surrogate.methods = c("aaft"), time.unit = NULL, time.bin.size = NULL,
