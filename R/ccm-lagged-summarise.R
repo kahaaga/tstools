@@ -48,7 +48,7 @@ directionalcausaltest <- function(res, library.size = max(res$library.size)) {
     results[[toString(l)]] = cbind(data.frame(lag = l), statsummary)
   }
   # Combine results for all the lags.
-  res = results %>% bind_rows
+  res = results %>% data.table::rbindlist() %>% as.data.frame
 
   # Separate negative and positive lags.
   negatives = res %>% filter(lag < 0) %>% select(median) %>% sum
