@@ -6,7 +6,8 @@
 #'
 #' @export
 summary_stats <- function(v,
-                          percentiles = c(0.01, 0.05, 0.1, 0.3, 0.7, 0.9, 0.95, 0.99)) {
+                          percentiles = c(0.01, 0.05, 0.1, 0.3, 0.7, 0.9, 0.95, 0.99),
+                          as.df = F) {
     if (class(v) == "data.frame") v = as.vector(v)
 
     v.samplesize.without.nans = length(v[stats::complete.cases(v)])
@@ -55,5 +56,7 @@ summary_stats <- function(v,
                       "samplesize.without.nans" = v.samplesize.without.nans,
                       "outlier.fraction" = v.outliers.fraction)
 
-    return(c(summary.stats, percentiles))
+    comb = c(summary.stats, percentiles)
+    if (as.df) return(as.data.frame(as.list(comb)))
+    else return(comb)
 }
