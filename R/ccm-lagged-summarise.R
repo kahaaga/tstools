@@ -45,7 +45,7 @@ directionalcausaltest <- function(res, library.size = max(res$library.size)) {
       statsummary = tstools::summary_stats(results_this_lag$rho, as.df = T)
     }
     # Add information about lag again.
-    results[[toString(l)]] = cbind(data.frame(lag = l), statsummary)
+    results[[toString(lag)]] = cbind(data.frame(lag = lag), statsummary)
   }
   # Combine results for all the lags.
   res = results %>% dplyr::bind_rows()
