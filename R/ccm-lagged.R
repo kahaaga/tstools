@@ -71,7 +71,7 @@ ccm_lagged_oneway <- function(data,
                             library.sizes = as.integer(nrow(data)/2),
                             lib = c(1, dim(data)[1]),
                             pred = lib,
-                            samples = 100,
+                            samples.original = 100,
                             samples.surrogates = 50,
                             n.surrogates = 0,
                             surrogate.method = "AAFT",
@@ -117,7 +117,7 @@ ccm_lagged_oneway <- function(data,
                                            library.sizes = library.sizes,
                                            lib = lib,
                                            pred = pred,
-                                           samples = samples,
+                                           samples.original = samples.original,
                                            samples.surrogates = samples.surrogates,
                                            surrogate.method = surrogate.method,
                                            n.surrogates = n.surrogates,
@@ -157,7 +157,7 @@ ccm_lagged_oneway <- function(data,
                                          surrogate.column = surrogate.column,
                                          library.sizes = library.sizes,
                                          lib = lib, pred = pred,
-                                         samples = samples,
+                                         samples.original = samples.original,
                                          samples.surrogates = samples.surrogates,
                                          surrogate.method = surrogate.method,
                                          n.surrogates = n.surrogates,
@@ -193,7 +193,7 @@ ccm_lagged_oneway <- function(data,
                                library.sizes = library.sizes,
                                lib = lib,
                                pred = pred,
-                               samples = samples,
+                               samples.original = samples.original,
                                samples.surrogates = samples.surrogates,
                                surrogate.method = surrogate.method,
                                n.surrogates = n.surrogates,
@@ -213,16 +213,21 @@ ccm_lagged_oneway <- function(data,
   # Combine results from all lags
   lagccm = data.table::rbindlist(lagged.ccm.result)
 
-  # Add analysis parameters
-  if (is.numeric(library.column) &
-      is.numeric(target.column)) {
-    lagccm$causal.direction = rep(paste(colnames(data)[target.column], "->", colnames(data)[library.column]))
-    lagccm$crossmap.direction = rep(paste(colnames(data)[library.column], "xmap.", colnames(data)[target.column]))
+  # Get columns as strings, not integers
+  columns = column_names_as_string(column.names = colnames(data),
+                         library.column = library.column,
+                         target.column = target.column,
+                         surrogate.column = surrogate.column)
 
-  } else {
-    lagccm$crossmap.direction = rep(paste(library.column, "xmap.", target.column))
-    lagccm$causal.direction = rep(paste(target.column, "->", library.column))
-  }
+  library.column = columns["library.column"]
+  target.column = columns["target.column"]
+  surrogate.column = columns["surrogate.column"]
+
+  cat(library.column, target.column, surrogate.column)
+
+  # Add analysis parameters
+  lagccm$causal.direction = rep(paste(target.column, "->", library.column))
+  lagccm$crossmap.direction = rep(paste(library.column, "xmap.", target.column))
 
   # Change column names to conform with R naming conventions
   cols = colnames(lagccm)
@@ -238,11 +243,12 @@ ccm_lagged_oneway <- function(data,
   lagccm$time.bin.size = rep(time.bin.size)
   lagccm$time.unit = rep(time.unit)
   lagccm$ts.length = rep(length(data[,1]))
-  lagccm$samples.original = rep(samples.surrogates)
+  lagccm$samples.original = rep(samples.original)
   lagccm$samples.surrogates =  rep(samples.surrogates)
   lagccm$surrogate.column =  rep(surrogate.column)
   lagccm$surrogate.method =  rep(surrogate.method)
   lagccm$exclusion.radius =  rep(exclusion.radius)
+  lagccm$n.surrogates =  rep(n.surrogates)
   lagccm$RNGseed =  rep(RNGseed)
   lagccm$lib.start =  rep(min(lib))
   lagccm$lib.end =  rep(max(lib))
@@ -253,6 +259,7 @@ ccm_lagged_oneway <- function(data,
   lagccm$with.replacement =  rep(with.replacement)
   lagccm$max.E =  rep(max.E)
   lagccm$max.tau = rep(max.tau)
+
 
   return(lagccm)
 }
