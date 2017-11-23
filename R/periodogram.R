@@ -6,7 +6,7 @@
 #' @export
 periodogram <- function(ts,
                         frequency = 1, dtUnits = "year", deltat = 1000,
-                        nw = 4.0, k = 8) {
+                        nw = 4.0, k = 2*nw) {
   timeseries = stats::ts(ts, deltat = 1, frequency = 1)
   multitaper.spec = multitaper::spec.mtm(timeseries, dtUnits = dtUnits, deltat = deltat, nw = nw, k = k)
   spec = multitaper.spec$spec
