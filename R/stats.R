@@ -2,6 +2,7 @@
 #'
 #' @param v A scalar valued vector.
 #' @param percentiles Which percentiles to calculate for?
+#' @param as.df Return as a data frame? Gives a named vector otherwise.
 #' @return A named vector of statistical parameters of the vector 'v'
 #'
 #' @export
