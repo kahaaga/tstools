@@ -54,7 +54,6 @@
 #' @param print.to.console Display progress?
 #' @param n.libsizes.to.check Minimum number of library sizes for the
 #' convergence test.
-
 #' @export
 ccm_on_single_libsize <- function(library.size,
                 data,
@@ -81,14 +80,13 @@ ccm_on_single_libsize <- function(library.size,
                 print.to.console = T,
                 n.libsizes.to.check = 20) {
 
-
   # Refer to library and target columns by name, not index.
   cols = column_names_as_string(column.names = colnames(data),
                                 library.column = library.column,
                                 target.column = target.column,
                                 surrogate.column = surrogate.column)
 
-  original.ccm = rEDM::ccm(block = data,
+  original.ccm = suppressWarnings(rEDM::ccm(block = data,
                            E = E,
                            tau = tau,
                            lib_sizes = library.size,
@@ -105,13 +103,12 @@ ccm_on_single_libsize <- function(library.size,
                              random_libs = random.libs,
                              lib_column = cols["library.column"],
                              target_column = cols["target.column"],
-                             first_column_time = FALSE)
+                             first_column_time = FALSE))
 
 
   # Indicate that the analysis type is original (not surrogate)
   original.ccm$analysis.type = rep("original")
   original.ccm$surrogate.index = rep(0)
-
 
   return(original.ccm)
 }
