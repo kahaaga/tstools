@@ -141,7 +141,7 @@ ccm <- function(data,
   if (convergence.test == TRUE) {
     params = suppressWarnings(get_convergence_parameters(ccm.result))
   } else {
-    params = get_convergence_parameters(ccm.result = NULL)
+    params = suppressWarnings(get_convergence_parameters(ccm.result = NULL))
   }
 
 
