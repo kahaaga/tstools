@@ -113,7 +113,7 @@ ccm_over_library_sizes <- function(lag,
     l1 = as.integer(seq(from = low.libsize,
                         to = ceiling(high.libsize / 4),
                         length.out = ceiling(2 * n.libsizes.to.check / 3))) # More points at lower library sizes
-    l2 = ceiling((high.libsize-low.libsize)/2)
+    l2 = ceiling((high.libsize - low.libsize)/2)
     l3 = as.integer(seq(from = ceiling(high.libsize / 1.5),
                         to = high.libsize,
                         length.out = ceiling(n.libsizes.to.check / 3)) - 1) # More points at higher library sizes
