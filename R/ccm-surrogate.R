@@ -85,7 +85,7 @@ surrogate_ccm <- function(original.data,
   # has been replaced by a surrogate realization.
   if (parallel) {
     n.available.cores = parallel::detectCores() - 1
-    surrogate.ccms = parallel::mclapply(X = surrogate.datasets,
+    surrogate.ccms = suppressWarnings(parallel::mclapply(X = surrogate.datasets,
                               FUN = rEDM::ccm,
                                 E = E,
                                 tau = tau,
@@ -104,9 +104,9 @@ surrogate_ccm <- function(original.data,
                                 lib_column = library.column,
                                 target_column = target.column,
                                 mc.cores = n.available.cores
-                              )
+                              ))
   } else {
-    surrogate.ccms = lapply(X = surrogate.datasets,
+    surrogate.ccms = suppressWarnings(lapply(X = surrogate.datasets,
                             FUN = rEDM::ccm,
                               E = E,
                               tau = tau,
@@ -124,7 +124,7 @@ surrogate_ccm <- function(original.data,
                               random_libs = random.libs,
                               lib_column = library.column,
                               target_column = target.column
-                            )
+                            ))
   }
   # Add column indicating type of analysis to each of the results
   surrogate.ccms = mapply(`[<-`, surrogate.ccms,
