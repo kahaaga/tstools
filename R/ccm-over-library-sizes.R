@@ -83,7 +83,7 @@ ccm_over_library_sizes <- function(lag,
                                    high.libsize = max(library.sizes), #min(floor(max(library.sizes) * 1.5), max(library.sizes) - E*tau - abs(lag)),
                                    lib = c(1, dim(data)[1]),
                                    pred = lib, # Training and prediction libraries overlap (uses leave-n-out cross validation instead of separate libraries)
-                                   samples.original = 300,
+                                   samples.original = 100,
                                    samples.surrogates = 0,
                                    n.surrogates = 0,
                                    surrogate.method = "AAFT",
