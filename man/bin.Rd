@@ -2,18 +2,18 @@
 % Please edit documentation in R/bin.R
 \name{bin}
 \alias{bin}
-\title{Bin a dataset by a common column.}
+\title{Bin a dataset with multiple columns by one of the columns.}
 \usage{
 bin(dt, bin.size, by, bin.average.function = mean.narm, interpolate = T,
-  remove.na = T, time.sampled.at = "mid", bin.min = min(dt[, by]),
-  bin.max = max(dt[, by]), add.binning.info = F)
+  remove.na = T, time.sampled.at = "mid", start = NULL, end = NULL,
+  add.binning.info = F)
 }
 \arguments{
 \item{dt}{A data frame containing the data to be binned.}
 
 \item{bin.size}{The size of the bins}
 
-\item{by}{The column to use for binning.}
+\item{by}{The name of the column to bin by.}
 
 \item{bin.average.function}{The function to use for averaging bins. Default
 is the arithmetic mean.}
@@ -27,13 +27,15 @@ endpoints after interpolatin) be removed? BEWARE: be careful about removing
 \item{time.sampled.at}{How time indices are constructed. Either 'start',
 'mid' or 'end' of bins. Defaults to 'mid'.}
 
-\item{bin.min}{The minimum value of the 'by' column for which to subset data.}
+\item{start}{The minimum value of the 'by' column for which to subset data.
+Defaults to the first lower bin limit < min(dt[, by]), obeying bin.size.}
 
-\item{bin.max}{The maximum value of the 'by' column for which to subset data.}
+\item{end}{The maximum value of the 'by' column for which to subset data.
+Defaults to the first upper bin limit > max(dt[, by]), obeying bin.size.}
 
 \item{add.binning.info}{Should info on the binning be added to the resulting
 dataframe?}
 }
 \description{
-Bin a dataset by a common column.
+Bin a dataset with multiple columns by one of the columns.
 }

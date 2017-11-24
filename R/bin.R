@@ -1,12 +1,14 @@
-#' Bin a dataset by a common column.
+#'  Bin a dataset with multiple columns by one of the columns.
 #'
 #' @param dt A data frame containing the data to be binned.
 #' @param bin.size The size of the bins
 #' @param bin.average.function The function to use for averaging bins. Default
 #'   is the arithmetic mean.
-#' @param by The column to use for binning.
-#' @param bin.min The minimum value of the 'by' column for which to subset data.
-#' @param bin.max The maximum value of the 'by' column for which to subset data.
+#' @param by The name of the column to bin by.
+#' @param start The minimum value of the 'by' column for which to subset data.
+#'     Defaults to the first lower bin limit < min(dt[, by]), obeying bin.size.
+#' @param end The maximum value of the 'by' column for which to subset data.
+#'     Defaults to the first upper bin limit > max(dt[, by]), obeying bin.size.
 #' @param add.binning.info Should info on the binning be added to the resulting
 #'   dataframe?
 #' @param interpolate Should empty bins be interpolated linearly?
@@ -23,14 +25,15 @@ bin <- function(dt,
                 interpolate = T,
                 remove.na = T,
                 time.sampled.at = "mid",
-                bin.min = min(dt[, by]),
-                bin.max = max(dt[, by]),
+                start = NULL,
+                end = NULL,
                 add.binning.info = F) {
 
-  # Allow programmatic dplyr
   bin.func = dplyr::enquo(bin.average.function)
 
-  dt$bin = create_bins_df(df = dt, by = by, bin.size = bin.size)
+  dt$bin = create_bins_df(df = dt, by = by,
+                          start = start, end = end,
+                          bin.size = bin.size)
 
   # Summarise observations bin-wise using the supplied function.
   dt = dplyr::group_by(dt, bin)
@@ -74,12 +77,22 @@ bin <- function(dt,
   return(dt)
 }
 
-create_bins_df <- function(df, by, bin.size, include.lowest = T) {
-  # Minimum bin time is rounded down to nearest bin
-  bin.min = plyr::round_any(min(df[, by]), bin.size, f = floor)
+create_bins_df <- function(df, by, bin.size,
+                           start = NULL,
+                           end = NULL,
+                           include.lowest = T) {
 
-  # Maximum bin time is rounded up to nearest bin
-  bin.max = plyr::round_any(max(df[, by]), bin.size, f = ceiling)
+  # If not provided, minimum bin time is rounded down to nearest bin edge, given
+  # the minimum of df[, by]. Otherwise, use the provided value.
+  bin.min = ifelse(test = is.finite(start),
+                   yes = start,
+                   no = plyr::round_any(min(df[, by]), bin.size, f = floor))
+
+  # If not provided, maximum bin time is rounded up to nearest bin edge, given
+  # the maximum of df[, by]. Otherwise, use the provided value.
+  bin.max = ifelse(test = is.finite(end),
+                   yes = end,
+                   no = plyr::round_any(max(df[, by]), bin.size, f = ceiling))
 
   # Find bin breaks
   bin.breaks = seq(from = bin.min, to = bin.max, by = bin.size)

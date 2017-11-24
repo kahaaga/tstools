@@ -1,5 +1,5 @@
-#' @name directionalcausaltest
-#' @description Summarise a lagged CCM result.
+#' Summarise a lagged CCM result.
+#'
 #' @details CCM predictability for a given lag is only considered if the analysis is
 #'    convergent. Convergence is determined by Wilcoxon rank-sum test on the smallest and largest library sizes. If CCM
 #'    skill for the largest library sizes is higher (p < 0.01) than for the
