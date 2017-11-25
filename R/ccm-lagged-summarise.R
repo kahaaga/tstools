@@ -24,6 +24,8 @@
 #' res %>%
 #'   group_by(causal.direction) %>%
 #'   do(directionalcausaltest(.))
+#'
+#' @importFrom magrittr "%>%"
 #' @export
 directionalcausaltest <- function(res, library.size = max(res$library.size)) {
   res = res[res$library.size == library.size, ]
@@ -52,8 +54,8 @@ directionalcausaltest <- function(res, library.size = max(res$library.size)) {
   res = results %>% dplyr::bind_rows()
 
   # Separate negative and positive lags.
-  negatives = res %>% filter(lag < 0) %>% select(median) %>% sum
-  positives = res %>% filter(lag > 0) %>% select(median) %>% sum
+  negatives = res %>% filter(lag < 0) %>% dplyr::select(median) %>% sum
+  positives = res %>% filter(lag > 0) %>% dplyr::select(median) %>% sum
 
   # Take the difference between causal (negative lags) and non-causal (positive
   # lags) skills.

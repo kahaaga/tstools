@@ -40,4 +40,5 @@ res \%>\% directionalcausaltest
 res \%>\%
   group_by(causal.direction) \%>\%
   do(directionalcausaltest(.))
+
 }

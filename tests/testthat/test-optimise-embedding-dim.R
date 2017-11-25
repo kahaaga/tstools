@@ -29,7 +29,6 @@ test_that("Optimisation using boxcounting dimension works", {
   # Only estimate dimension and proceed with other tests.
   optimal.dim.boxcount = suppressWarnings(optimise_dim_boxcount(dt))
 
-  # Tests
   expect_that(optimal.dim.boxcount, is_a("numeric"))
   expect_that(length(optimal.dim.boxcount), equals(1))
 })

@@ -1,21 +1,19 @@
 context("Convergent cross mapping (CCM)")
 
-dt = rbind(CO2[4:5], CO2[4:5])
-test_that("Lagged cross mapping works with convergence test", {
-  suppressWarnings(ccm_lagged(data = dt,
-                              lags = -1:1,
-                              n.surrogates = 1,
-                              library.sizes = 100,
-                              print.to.console = F,
-                              parallel = F))
-})
+dt = rbind(CO2[4:5], CO2[4:5])[1:100, ]
 
-test_that("Lagged cross mapping works without convergence test", {
-  suppressWarnings(ccm_lagged(data = dt,
-                              lags = -1:1,
-                              n.surrogates = 1,
-                              library.sizes = 100,
-                              print.to.console = F,
-                              convergence.test = F,
-                              parallel = F))
-})
+# Optimise embedding dimension
+ccm = suppressWarnings(
+  ccm_lagged(data = dt, lags = -1:1,
+           samples.original = 30,
+           samples.surrogates = 30,
+           n.surrogates = 20)
+  )
+
+# Explicitly set embedding dimension
+ccm = suppressWarnings(
+  ccm_lagged(data = dt, lags = 0, E = 2, tau = 1,
+             samples.original = 30,
+             n.surrogates = 0)
+)
+#summary = directionalcausaltest(res = ccm)
