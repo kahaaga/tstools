@@ -16,7 +16,7 @@
 #'   the first minima of the autocorrelation function of the presumed driver.
 #' @param max.E The maximum embedding dimension for which to optimise 'E'.
 #' @param max.tau The maximum embedding lag for which to optimise 'tau'.
-#' @param samples The number of random libraries to draw when calculating cross map skill.
+#' @param samples.original The number of random libraries to draw when calculating cross map skill.
 #' @param library.sizes The size of the random libraries drawn when calculating cross map skill.
 #' @param lib Indices of the original library time series to use as the library (training) set.
 #' @param pred Indices of the original target time series to use as prediction set. If this overlaps

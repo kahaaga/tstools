@@ -8,7 +8,7 @@ parallelisation over library sizes at the lowermost level.}
 ccm_over_library_sizes(lag, data, E = 2, tau = 1, library.sizes = 100,
   low.libsize = min(E * tau + max(2, abs(lag)), 10, 20, na.rm = T),
   n.libsizes.to.check = 30, high.libsize = max(library.sizes), lib = c(1,
-  dim(data)[1]), pred = lib, samples.original = 300,
+  dim(data)[1]), pred = lib, samples.original = 100,
   samples.surrogates = 0, n.surrogates = 0, surrogate.method = "AAFT",
   time.unit = "bins", time.bin.size = 1, num.neighbours = E + 1,
   random.libs = TRUE, with.replacement = TRUE, exclusion.radius = E,

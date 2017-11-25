@@ -7,11 +7,11 @@ Wrapper around OnewayLaggedCCM allowing multiple values for each input argument.
 \usage{
 ccm_lagged(data, lags = 0, Es = NULL, taus = NULL,
   library.sizes = c(as.integer(nrow(data)/2)), lib = c(1, dim(data)[1]),
-  pred = lib, samples = 100, samples.surrogates = 50, n.surrogates = 0,
-  surrogate.methods = c("aaft"), time.unit = NULL, time.bin.size = NULL,
-  num.neighbours = E + 1, random.libs = TRUE, with.replacement = TRUE,
-  exclusion.radius = E + 1, epsilon = NULL, RNGseed = 1111,
-  silent = TRUE, time.run = F, print.to.console = T,
+  pred = lib, samples.original = 100, samples.surrogates = 50,
+  n.surrogates = 0, surrogate.methods = c("aaft"), time.unit = NULL,
+  time.bin.size = NULL, num.neighbours = E + 1, random.libs = TRUE,
+  with.replacement = TRUE, exclusion.radius = E + 1, epsilon = NULL,
+  RNGseed = 1111, silent = TRUE, time.run = F, print.to.console = T,
   time.series.length.threshold = 100, library.column = 1,
   target.column = 2, surrogate.column = target.column,
   convergence.test = TRUE, parallel = TRUE, parallelize.on.each.lag = F,
@@ -40,8 +40,6 @@ the first minima of the autocorrelation function of the presumed driver.}
 \item{pred}{Indices of the original target time series to use as prediction set. If this overlaps
 with the training set, make sure to use leave-K-out cross validation setting the
 'exclusion.radius' parameters to a minimum of E + 1.}
-
-\item{samples}{The number of random libraries to draw when calculating cross map skill.}
 
 \item{samples.surrogates}{The number of surrogate series in each null ensemble.}
 
@@ -129,6 +127,8 @@ FNN algorithm, if activated). Only relevant if either 'E' or tau is set to NULL.
 \item{max.tau}{The maximum embedding lag for which to optimise 'tau'. Only relevant if either 'E' or tau is set to NULL.}
 
 \item{plot.simplex.projection}{Plot simplex projection output?}
+
+\item{samples}{The number of random libraries to draw when calculating cross map skill.}
 }
 \description{
 Cross-mapping from one variable to another variable over a range of lags.

@@ -49,7 +49,6 @@
 #' @param surrogate.column Which column to use to generate surrogates. Defaults
 #'   to the value of 'target.column' (the presumed driver).
 #' @export
-#'
 surrogate_ccm <- function(original.data,
                          E = 2,
                          tau = 1,
@@ -62,7 +61,10 @@ surrogate_ccm <- function(original.data,
                          silent=T,
                          lag = 0,
                          lib = c(1, nrow(original.data)[1]),
-                         pred = lib, # Training and prediction libraries overlap (uses leave-n-out cross validation instead of separate libraries)
+                         # Training and prediction libraries overlap (uses
+                         # leave-n-out cross validation instead of separate
+                         #  libraries)
+                         pred = lib,
                          random.libs = TRUE,
                          library.column = 1,
                          target.column  = 2,

@@ -6,12 +6,13 @@
 \usage{
 ccm_lagged_oneway(data, lags, E = NULL, tau = NULL,
   library.sizes = as.integer(nrow(data)/2), lib = c(1, dim(data)[1]),
-  pred = lib, samples = 100, samples.surrogates = 50, n.surrogates = 0,
-  surrogate.method = "AAFT", always.run.surrogates = F, time.unit = NULL,
-  time.bin.size = NULL, num.neighbours = E + 1, random.libs = TRUE,
-  with.replacement = TRUE, exclusion.radius = ifelse(is.null(E), yes = 10,
-  no = E + 1), epsilon = NULL, RNGseed = 1111, silent = TRUE,
-  time.run = F, print.to.console = T, time.series.length.threshold = 100,
+  pred = lib, samples.original = 100, samples.surrogates = 50,
+  n.surrogates = 0, surrogate.method = "AAFT", always.run.surrogates = F,
+  time.unit = NULL, time.bin.size = NULL, num.neighbours = E + 1,
+  random.libs = TRUE, with.replacement = TRUE,
+  exclusion.radius = ifelse(is.null(E), yes = 10, no = E + 1),
+  epsilon = NULL, RNGseed = 1111, silent = TRUE, time.run = F,
+  print.to.console = T, time.series.length.threshold = 100,
   library.column = 1, target.column = 2, surrogate.column = target.column,
   convergence.test = TRUE, parallel = TRUE, parallelize.on.each.lag = F,
   num.cores = parallel::detectCores() - 1, n.libsizes.to.check = 30,
@@ -38,7 +39,7 @@ the first minima of the autocorrelation function of the presumed driver.}
 with the training set, make sure to use leave-K-out cross validation setting the
 'exclusion.radius' parameters to a minimum of E + 1.}
 
-\item{samples}{The number of random libraries to draw when calculating cross map skill.}
+\item{samples.original}{The number of random libraries to draw when calculating cross map skill.}
 
 \item{samples.surrogates}{The number of surrogate time series in the null
 ensemble.}

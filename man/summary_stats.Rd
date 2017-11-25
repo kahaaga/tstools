@@ -4,12 +4,15 @@
 \alias{summary_stats}
 \title{Computes a set of basic statistics for a scalar valued vector}
 \usage{
-summary_stats(v, percentiles = c(0.01, 0.05, 0.1, 0.3, 0.7, 0.9, 0.95, 0.99))
+summary_stats(v, percentiles = c(0.01, 0.05, 0.1, 0.3, 0.7, 0.9, 0.95, 0.99),
+  as.df = F)
 }
 \arguments{
 \item{v}{A scalar valued vector.}
 
 \item{percentiles}{Which percentiles to calculate for?}
+
+\item{as.df}{Return as a data frame? Gives a named vector otherwise.}
 }
 \value{
 A named vector of statistical parameters of the vector 'v'

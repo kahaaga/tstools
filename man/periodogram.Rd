@@ -5,7 +5,7 @@
 \title{Computes a periodogram for a time series. Wrapper around multitaper::spec.}
 \usage{
 periodogram(ts, frequency = 1, dtUnits = "year", deltat = 1000, nw = 4,
-  k = 8)
+  k = 2 * nw)
 }
 \arguments{
 \item{ts}{A time series of equally spaced data for which to compute the periodogram.}
