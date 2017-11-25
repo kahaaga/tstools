@@ -10,6 +10,10 @@ periodogram(ts, frequency = 1, dtUnits = "year", deltat = 1000, nw = 4,
 \arguments{
 \item{ts}{A time series of equally spaced data for which to compute the periodogram.}
 
+\item{dtUnits}{the units of the time}
+
+\item{deltat}{time incrment in units of dtUnits}
+
 \item{nw}{nw a positive double precision number, the time-bandwidth parameter.}
 
 \item{k}{k a positive integer, the number of tapers, often 2*nw.}
