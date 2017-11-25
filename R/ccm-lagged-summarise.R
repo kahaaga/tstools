@@ -8,7 +8,7 @@
 #'    satisfactorily fitted by a convergent exponential function. If both these
 #'    criteria are met, then the analysis is labelled convergent. The only grouping variable in this summary function is the lag, so all
 #'    further groupings must be handled outside this function.
-#' @param dt A data frame containing the result of a tstools::ccm_lagged() call.
+#' @param res A data frame containing the result of a tstools::ccm_lagged() call.
 #' @param library.size The library size to summarise over. Defaults to the
 #'     largest available library size.
 #' @return The difference between summed negative median CCM skills and

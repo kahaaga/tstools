@@ -7,10 +7,10 @@
 directionalcausaltest(res, library.size = max(res$library.size))
 }
 \arguments{
+\item{res}{A data frame containing the result of a tstools::ccm_lagged() call.}
+
 \item{library.size}{The library size to summarise over. Defaults to the
 largest available library size.}
-
-\item{dt}{A data frame containing the result of a tstools::ccm_lagged() call.}
 }
 \value{
 The difference between summed negative median CCM skills and
