@@ -216,7 +216,6 @@ ccm_lagged <- function(data,
     )
   }
 
-
   # Estimate embedding dimension ----
   if (is.null(Es)) {
     Es = vector(length = length(taus))
