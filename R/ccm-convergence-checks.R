@@ -34,9 +34,11 @@ get_convergence_parameters <- function(ccm.result,
   # Extract the library sizes to use for regressions
   library.sizes <- unique(df$lib_size)
 
-  # Create a vector to store the various test results
-  coeffs <- c(NA, NA, NA, NA, NA, NA, NA, NA)
-  names(coeffs) <- c("k", "a", "b", "highlow.difference", "p.value", "alpha", "confidence.level", "convergent")
+  # Create a named vector to store the various test results
+  coeffs <- c(NA, NA, NA, NA,
+              NA, NA, NA, NA)
+  names(coeffs) <- c("k", "a", "b", "highlow.difference",
+                     "p.value", "alpha", "confidence.level", "convergent")
 
   if (is.null(ccm.result)) return(coeffs)
 
@@ -166,12 +168,15 @@ get_convergence_parameters <- function(ccm.result,
         data = reshape2::melt(df, id.vars = "L", measure.vars = "rho"),
         mapping = ggplot2::aes(x = L, y = value, group = L),
           alpha = 0.8, fill = "blue", col = "black", outlier.alpha = 0.05) +
-      ggplot2::geom_line(data = pred1, mapping = ggplot2::aes(x = L, y = predicted.rho.model1, col = "Slowly converging model")) +
-      ggplot2::geom_line(data = pred2, mapping = ggplot2::aes(x = L, y = predicted.rho.model2, col = "Exponential model"), size = 1) +
-      ggplot2::geom_point(data = medians, mapping = ggplot2::aes_string(x = "lib_size",
-                                                                        y = "median.rho",
-                                                                        col = "Smoothed medians"),
-                          size = 1) +
+      ggplot2::geom_line(
+        data = pred1,
+        mapping = ggplot2::aes(x = L, y = predicted.rho.model1,
+                               col = "Slowly converging model")) +
+      ggplot2::geom_line(
+        data = pred2,
+        mapping = ggplot2::aes(x = L, y = predicted.rho.model2,
+                               col = "Exponential model"), size = 1) +
+
       ggplot2::scale_y_continuous(limits = c(0, 0.7)) +
       ggplot2::theme_bw() +
       ggplot2::theme(panel.grid = ggplot2::element_blank(),
