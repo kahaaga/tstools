@@ -168,6 +168,12 @@ ccm_lagged <- function(data,
                        plot.simplex.projection = F,
                        ...) {
 
+  # Save optimisation status.
+  lagoptimisation = ifelse(taus == "acf" | taus == "mi", taus, "none")
+  dimoptimisation = ifelse(is.null(Es), T, F)
+  exclusionradiusoptim = ifelse(exclusion.radius == "acf" | exclusion.radius == "mi", exclusion.radius, "none")
+  #optimisationtest = ifelse(dimoptimisation, "none", which.optimdim.test)
+
   # Warn if the number of library.sizes is too low. ----
   if (n.libsizes.to.check < 20) {
     # We need a reasonable amount if point to do a proper exponential
@@ -335,12 +341,15 @@ ccm_lagged <- function(data,
     ccm$max.tau = rep(max.tau)
     ccm$n.libsizes.to.check = rep(n.libsizes.to.check)
 
-    # Optimising simplex projection is always activated
-    ccm$which.optimlag.test =  rep(ifelse(is.null(taus) | is.numeric(taus), "none", taus))
-    ccm$optimise.simplex = rep(ifelse(is.null(Es), TRUE, FALSE))
-    ccm$optimise.FNNdim = rep(ifelse(is.null(Es), optimise.FNNdim, FALSE))
-    ccm$optimise.boxcountdim = rep(ifelse(is.null(Es), optimise.boxcountdim, FALSE))
-    ccm$which.optimdim.test = rep(ifelse(is.null(Es), "none", which.optimdim.test))
+    # Information about optimisation
+    ccm$which.exclusionradius.test = rep(exclusionradiusoptim)
+
+    ccm$which.optimlag.test =  rep(lagoptimisation)
+
+    ccm$which.optimdim.test = rep(ifelse(dimoptimisation, which.optimdim.test, "none"))
+    ccm$optimise.simplex = rep(ifelse(dimoptimisation, T, F))
+    ccm$optimise.FNNdim = rep(ifelse(dimoptimisation, optimise.FNNdim, F))
+    ccm$optimise.boxcountdim = rep(ifelse(dimoptimisation, optimise.boxcountdim, F))
 
     # Store the result.
     results[[i]] = ccm
