@@ -5,11 +5,6 @@ warnings_are_errors: false
 r_github_packages:
   - jimhester/covr
 
-script:
-- |
-  R CMD build .
-  travis_wait 40 R CMD check tstools*tar.gz
-
 after_failure:
   find *Rcheck -name '*.fail' -print -exec cat '{}' \;
 
