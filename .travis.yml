@@ -5,5 +5,12 @@ warnings_are_errors: false
 r_github_packages:
   - jimhester/covr
 
+script: -|
+  R CMD build .
+  travis_wait 40 R CMD check packageName*tar.gz
+
+after_failure:
+  find *Rcheck -name '*.fail' -print -exec cat '{}' \;
+
 after_success:
   - Rscript -e 'library(covr);codecov()'
