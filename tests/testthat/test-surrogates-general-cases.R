@@ -1,8 +1,7 @@
 testthat::context("Surrogates general cases test")
 
-
 # Some time series.
-ts = as.numeric(precip)
+ts <- as.numeric(precip)
 
 test_that("Surrogate ensembles are created successfully", {
   expect_that(surrogate_ensemble(ts, "aaft", 2), is_a("matrix"))
@@ -18,7 +17,7 @@ test_that("Bad surrogate method name gives error", {
   expect_error(surrogate_ensemble(ts, surrogate.method = "wrong method", 2))
 })
 
-ts[2] = NA
+ts[2] <- NA
 
 test_that("Creating surrogate for series with NA fails", {
   expect_error(aaft_surrogate(ts))
@@ -31,7 +30,7 @@ test_that("Creating surrogate for series with NA fails", {
   expect_error(ebisuzaki_surrogate(ts))
 })
 
-tsnull = NULL
+tsnull <- NULL
 
 test_that("Creating surrogate for NULL fails", {
   expect_error(aaft_surrogate(tsnull))

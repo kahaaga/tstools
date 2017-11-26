@@ -224,8 +224,10 @@ ccm_lagged_oneway <- function(data,
   surrogate.column <- columns["surrogate.column"]
 
   # Add analysis parameters
-  lagccm$causal.direction <- rep(paste(target.column, "->", library.column))
-  lagccm$crossmap.direction <- rep(paste(library.column, "xmap.", target.column))
+  lagccm$causal.direction <- rep(paste(target.column, "->",
+                                       library.column))
+  lagccm$crossmap.direction <- rep(paste(library.column, "xmap.",
+                                         target.column))
 
   # Change column names to conform with R naming conventions
   cols <- colnames(lagccm)
@@ -240,7 +242,7 @@ ccm_lagged_oneway <- function(data,
   # Add information about the analysis.
   lagccm$time.bin.size <- rep(time.bin.size)
   lagccm$time.unit <- rep(time.unit)
-  lagccm$ts.length <- rep(length(data[,1]))
+  lagccm$ts.length <- rep(length(data[, 1]))
   lagccm$samples.original <- rep(samples.original)
   lagccm$samples.surrogates <- rep(samples.surrogates)
   lagccm$surrogate.column <- rep(surrogate.column)

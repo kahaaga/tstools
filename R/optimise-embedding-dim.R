@@ -53,7 +53,7 @@ optimise_embedding_dim <- function(v,
                                    min.embedding.dim = 2,
                                    max.embedding.dim = 10,
                                    orbital.lag = NULL,
-                                   lag.max = ceiling(length(v)*0.2),
+                                   lag.max = ceiling(length(v) * 0.2),
                                    lag.method = "mi",
                                    embedding.lag = 1,
                                    plot.simplex.projection = F,
@@ -89,7 +89,7 @@ optimise_embedding_dim <- function(v,
     # Box counting method
     if (optimise.boxcountdim) {
         dim <- optimise_dim_boxcount(v = v)
-        optimal.embedding.dims["boxcount.criterion"] = dim
+        optimal.embedding.dims["boxcount.criterion"] <- dim
     }
 
     # Simplex projection method

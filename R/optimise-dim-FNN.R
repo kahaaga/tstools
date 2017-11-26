@@ -39,12 +39,12 @@ optimise_dim_FNN <- function(v,
                     max.embedding.dim= 10,
                     embedding.lag = 1,
                     orbital.lag = NULL,
-                    lag.max = ceiling(length(v)*0.2),
+                    lag.max = ceiling(length(v) * 0.2),
                     lag.method = "correlation",
                     plot.temporal.correlation.function = F,
                     threshold = 0.95) {
 
-    lag.method = tolower(lag.method)
+    lag.method <- tolower(lag.method)
 
     if (is.null(orbital.lag)) {
         if (lag.method == "correlation" ||
@@ -55,17 +55,17 @@ optimise_dim_FNN <- function(v,
             if (plot.temporal.correlation.function) {
               stats::acf(x = v, lag.max = lag.max, plot = TRUE)$acf
             }
-            orbital.lag = first_acf_minima(v, lag.max = lag.max)
+            orbital.lag <- first_acf_minima(v, lag.max = lag.max)
 
         } else if (lag.method == "mutual information" ||
                    lag.method == "mi") {
 
-            orbital.lag = first_mi_minima(v, lag.max = lag.max)
+            orbital.lag <- first_mi_minima(v, lag.max = lag.max)
         }
     }
     # Estimate the fraction of false nearest neighbours in embedding
     # dimension ranging from 1:max.embedding dimension
-    fnn = tseriesChaos::false.nearest(series = v,
+    fnn <- tseriesChaos::false.nearest(series = v,
                                       m = max.embedding.dim,
                                       d = embedding.lag,
                                       t = orbital.lag)
@@ -74,7 +74,7 @@ optimise_dim_FNN <- function(v,
     # and return it if an acceptable FNN has been accomplished
     # within the range of dimensions. If not, return
     # 'max.embedding.dimension'.
-    minimum.FNN.dimension = which(fnn[1, ] < (1 - threshold))[1]
+    minimum.FNN.dimension <- which(fnn[1, ] < (1 - threshold))[1]
 
     if (!is.na(minimum.FNN.dimension)) {
         return(as.integer(minimum.FNN.dimension))

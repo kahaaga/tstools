@@ -6,6 +6,6 @@
 #'   boxcounting dimension criterion.
 #' @export optimise_dim_boxcount
 optimise_dim_boxcount <- function(v) {
-    boxcount.dimension = fractaldim::fd.estim.boxcount(v)$fd
+    boxcount.dimension <- fractaldim::fd.estim.boxcount(v)$fd
     return(ceiling(boxcount.dimension * 2))
 }

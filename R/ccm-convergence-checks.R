@@ -119,7 +119,7 @@ get_convergence_parameters <- function(ccm.result,
       slope <- 0
     } else {
       slope <- stats::lm(dt$logrhos ~ dt$L)$coefficients[2]
-      f2 <- suppressWarnings(rho ~ rho.max - rho0*exp(-(k) * (L - L0)))
+      f2 <- suppressWarnings(rho ~ rho.max - rho0 * exp((-k) * (L - L0)))
 
       exp.model2 <- try(stats::nls(data = df,
                            formula = f2,
@@ -152,7 +152,7 @@ get_convergence_parameters <- function(ccm.result,
 
       # Define training points (library sizes L) to predict rho for.
       L <- seq(min(library.sizes), max(library.sizes), 1)
-      predicted.rho.model1 = stats::predict(exp.model1, list(L = L))
+      predicted.rho.model1 <- stats::predict(exp.model1, list(L = L))
       pred1 <- cbind(L, predicted.rho.model1)
       pred1 <- as.data.frame(pred1)
 
@@ -162,12 +162,10 @@ get_convergence_parameters <- function(ccm.result,
   }
   if (plot) {
     p <- ggplot2::ggplot() +
-      ggplot2::geom_boxplot(data = reshape2::melt(df, id.vars = "L", measure.vars = "rho"),
-                            mapping = ggplot2::aes(x = L, y = value, group = L),
-                            alpha = 0.8,
-                            fill = "blue",
-                            col = "black",
-                            outlier.alpha = 0.05) +
+      ggplot2::geom_boxplot(
+        data = reshape2::melt(df, id.vars = "L", measure.vars = "rho"),
+        mapping = ggplot2::aes(x = L, y = value, group = L),
+          alpha = 0.8, fill = "blue", col = "black", outlier.alpha = 0.05) +
       ggplot2::geom_line(data = pred1, mapping = ggplot2::aes(x = L, y = predicted.rho.model1, col = "Slowly converging model")) +
       ggplot2::geom_line(data = pred2, mapping = ggplot2::aes(x = L, y = predicted.rho.model2, col = "Exponential model"), size = 1) +
       ggplot2::geom_point(data = medians, mapping = ggplot2::aes_string(x = "lib_size",
@@ -185,4 +183,3 @@ get_convergence_parameters <- function(ccm.result,
 
   return(coeffs)
 }
-

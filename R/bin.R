@@ -59,7 +59,8 @@ bin <- function(dt,
     dt[, !(names(dt) %in% c(by))] <- zoo::na.approx(dt[, 2:ncol(dt)])
   }
   if (!interpolate & remove.na) {
-    warning("Careful! Removing NA bins without interpolating. Data are not on on an equidistant grid anymore!!")
+    warning(paste("Careful! Removing NA bins without interpolating.",
+                   "Data are not on on an equidistant grid anymore!!"))
     dt <- dt[stats::complete.cases(dt), ]
   }
 

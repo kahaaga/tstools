@@ -45,43 +45,43 @@ surrogate_ensemble <- function(ts,
     validate_surrogate_method(surrogate.method)
 
     if (tolower(surrogate.method) == "ebisuzaki") {
-      surr.data = replicate(n.surrogates, ebisuzaki_surrogate(series = ts))
+      surr.data <- replicate(n.surrogates, ebisuzaki_surrogate(series = ts))
 
     # Random shuffle
     } else if (tolower(surrogate.method) == "random") {
-      surr.data = replicate(n.surrogates, random_surrogate(series = ts))
+      surr.data <- replicate(n.surrogates, random_surrogate(series = ts))
 
     # Iterated amplitude adjusted Fourier transform
     } else if (tolower(surrogate.method) == "iaaft" ||
              tolower(surrogate.method) == "i-aaft" ) {
-        surr.data = replicate(n.surrogates, iaaft_surrogate(series = ts))
+        surr.data <- replicate(n.surrogates, iaaft_surrogate(series = ts))
     }
 
     # Amplitude adjusted Fourier transform (Theiler, 1992).
     if (tolower(surrogate.method) == "aaft") {
-        surr.data = replicate(n.surrogates, aaft_surrogate(series = ts))
+        surr.data <- replicate(n.surrogates, aaft_surrogate(series = ts))
 
     # Phase randomisation (Theiler, 1992).
     } else if (tolower(surrogate.method) == "phase") {
-        surr.data = replicate(n.surrogates,
+        surr.data <- replicate(n.surrogates,
                               phase_randomised_surrogate(series = ts))
 
     # Circulant embedding (non-constrained realizations)
     } else if (tolower(surrogate.method) == "ce" ||
                tolower(surrogate.method) == "circulant embedding") {
-        surr.data = replicate(n.surrogates, ce_surrogate(series = ts))
+        surr.data <- replicate(n.surrogates, ce_surrogate(series = ts))
 
     # Phase and amplitude randomisation (non-constrained realizations)
-    } else if (tolower(surrogate.method) == "dh" ||
-               tolower(surrogate.method) == "davison-hinkley" ||
-               tolower(surrogate.method) == "phase and amplitude randomisation" ||
-               tolower(surrogate.method) == "phase and amplitude") {
-        surr.data = replicate(n.surrogates, dh_surrogate(series = ts))
+    } else if (
+      tolower(surrogate.method) == "dh" ||
+      tolower(surrogate.method) == "davison-hinkley" ||
+      tolower(surrogate.method) == "phase and amplitude randomisation" ||
+      tolower(surrogate.method) == "phase and amplitude") {
+        surr.data <- replicate(n.surrogates, dh_surrogate(series = ts))
     }
 
     return(surr.data)
 }
-
 
 #' Checks if a given surrogate method is among the currently
 #' implemented surrogate methods.
@@ -97,7 +97,7 @@ validate_surrogate_method <- function(surrogate.method) {
       ) {
 
     stop(paste("Surrogate type",
-               paste("'", surrogate.method, "'", sep=""),
+               paste("'", surrogate.method, "'", sep = ""),
                "not valid"))
   }
 }

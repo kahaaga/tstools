@@ -17,15 +17,16 @@ draw_random_ages <- function(ages,
                       n.replicates = 1,
                       n.sigma = 2,
                       firstdiffagreementratio = 1,
-                      tolerance = 10^-(10)
+                      tolerance = 10 ^ -10
                       ) {
 
-    agemodels = replicate(n = n.replicates,
-                          expr = draw_agemodel(ages = ages,
-                                        sigmas = sigmas,
-                                        n.sigma = n.sigma,
-                                        firstdiffagreementratio = firstdiffagreementratio,
-                                        tolerance = tolerance))
+    agemodels <- replicate(
+      n = n.replicates,
+      expr = draw_agemodel(ages = ages,
+                           sigmas = sigmas,
+                           n.sigma = n.sigma,
+                           firstdiffagreementratio = firstdiffagreementratio,
+                           tolerance = tolerance))
     return(agemodels)
 }
 
@@ -49,7 +50,7 @@ draw_agemodel <- function(ages,
                           sigmas,
                           n.sigma = 2,
                           firstdiffagreementratio = 1,
-                          tolerance = 10^(-12)
+                          tolerance = 10 ^ -12
                           ) {
 
     # Verify input
@@ -57,16 +58,16 @@ draw_agemodel <- function(ages,
     if (any(sigmas < 0)) stop("Some uncertainties are negative.")
 
     #cat("Drawing agemodel ... \n")
-    l = length(ages)
-    agemodel = numeric(l)
+    l <- length(ages)
+    agemodel <- numeric(l)
 
     # Set upper and lower bounds for first draw
-    lower_bound = ages[1] - n.sigma * sigmas[1]
-    upper_bound = max(ages[1] - n.sigma * sigmas[1],
+    lower_bound <- ages[1] - n.sigma * sigmas[1]
+    upper_bound <- max(ages[1] - n.sigma * sigmas[1],
                       ages[2] - n.sigma * sigmas[2])
 
     # First age
-    agemodel[1] = msm::rtnorm(n = 1,
+    agemodel[1] <- msm::rtnorm(n = 1,
                               mean = ages[1],
                               sd = abs(n.sigma * sigmas[1]),
                               lower = lower_bound,
@@ -74,33 +75,34 @@ draw_agemodel <- function(ages,
 
     # Iteratively draw ages from 2:n-1
     for (i in 2:(l - 1)) {
-        lower_bound = max(ages[i] - n.sigma * sigmas[i],
+        lower_bound <- max(ages[i] - n.sigma * sigmas[i],
                           agemodel[i - 1] + tolerance)
 
-        upper_bound = min(ages[i] + n.sigma * sigmas[i],
+        upper_bound <- min(ages[i] + n.sigma * sigmas[i],
                           ages[i + 1] + n.sigma * sigmas[i + 1],
                           agemodel[i - 1] * (1 + firstdiffagreementratio))
 
-        upper_bound = max(lower_bound + tolerance, upper_bound)
+        upper_bound <- max(lower_bound + tolerance, upper_bound)
 
         if (lower_bound > upper_bound) {
-            redraw_n = 0
+            redraw_n <- 0
             #cat("got stuck. restarting function\n")
 
             break;
             while (lower_bound > upper_bound) {
-                redraw_n = redraw_n + 1
+                redraw_n <- redraw_n + 1
                 if (redraw_n > 5000) {
                     break
                 }
-                lower_bound = max(mean_age - n.sigma * sigma,
-                                  agemodel[i-2] + tolerance)
-                upper_bound = min(mean_age + n.sigma * sigma,
+                lower_bound <- max(mean_age - n.sigma * sigma,
+                                  agemodel[i - 2] + tolerance)
+                upper_bound <- min(mean_age + n.sigma * sigma,
                                   ages[i] + n.sigma * sigma,
-                                  agemodel[i-2] * (1 + firstdiffagreementratio))
+                                  agemodel[i - 2] *
+                                    (1 + firstdiffagreementratio))
             }
         } else {
-            agemodel[i] =  msm::rtnorm(n = 1,
+            agemodel[i] <- msm::rtnorm(n = 1,
                                        mean = ages[i],
                                        sd = n.sigma * sigmas[i],
                                        lower = lower_bound,
@@ -109,13 +111,13 @@ draw_agemodel <- function(ages,
     }
 
     # Final age
-    lower_bound = max(ages[l] - n.sigma * sigmas[l],
+    lower_bound <- max(ages[l] - n.sigma * sigmas[l],
                       agemodel[l - 1] + tolerance)
 
-    upper_bound = max(ages[l] + n.sigma * sigmas[l],
+    upper_bound <- max(ages[l] + n.sigma * sigmas[l],
                       agemodel[l - 1] * (1 + firstdiffagreementratio))
 
-    agemodel[l] = msm::rtnorm(n = 1,
+    agemodel[l] <- msm::rtnorm(n = 1,
                               mean = ages[l],
                               sd = n.sigma * sigmas[l],
                               lower = lower_bound,
@@ -123,18 +125,19 @@ draw_agemodel <- function(ages,
 
     # Make sure final agemodel is strictly increasing,
     # if not, redraw
-    monotonically.strictly.increasing = F
+    monotonically.strictly.increasing <- F
 
     while (!(monotonically.strictly.increasing)) {
         if (all(diff(agemodel) > 0)) {
-          monotonically.strictly.increasing = TRUE
+          monotonically.strictly.increasing <- TRUE
         } else {
             cat("Agemodel not strictly increasing. Re-drawing.")
-            agemodel = draw_agemodel(ages = ages,
-                                sigmas = sigmas,
-                                n.sigma = n.sigma,
-                                firstdiffagreementratio = firstdiffagreementratio,
-                                tolerance = tolerance)
+            agemodel <- draw_agemodel(
+              ages = ages,
+              sigmas = sigmas,
+              n.sigma = n.sigma,
+              firstdiffagreementratio = firstdiffagreementratio,
+              tolerance = tolerance)
         }
     }
 

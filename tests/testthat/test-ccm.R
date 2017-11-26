@@ -23,7 +23,7 @@ suppressWarnings(
 
 
 # Default for exclusion radius, embedding lag and embedding dimension
-ex1b = suppressWarnings(
+ex1b <- suppressWarnings(
   ccm_lagged(data = chaoticmaps::dejong_map(n = 80), lags = 0,
              library.sizes = 40, convergence.test = F,
              samples.original = 30,
@@ -32,7 +32,7 @@ ex1b = suppressWarnings(
 )
 
 # Explicitly set embedding lag and embedding dimensions, default for exclusion radius.
-ex2 = suppressWarnings(
+ex2 <- suppressWarnings(
   ccm_lagged(data = chaoticmaps::dejong_map(n = 80), lags = 0,
              library.sizes = 40, convergence.test = F,
              samples.original = 30,
@@ -41,7 +41,7 @@ ex2 = suppressWarnings(
 )
 
 # Default for exclusion radius, embedding lag and embedding dimension
-ex3 = suppressWarnings(
+ex3 <- suppressWarnings(
   ccm_lagged(data = chaoticmaps::dejong_map(n = 80), lags = 0,
              library.sizes = 40, convergence.test = F,
              samples.original = 30,
@@ -66,4 +66,3 @@ suppressWarnings(
              exclusion.radius = NULL,
              taus = "acf",  Es = NULL)
 )
-

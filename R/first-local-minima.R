@@ -7,8 +7,8 @@
 #' @return The index or value of the first local minima.
 #' @export first_local_minima
 first_local_minima <- function(v, value = F) {
-    tmp = zoo::rollapply(v, 3, function(x) which.min(x) == 2)
-    index = which(tmp == TRUE)[1] + 1
+    tmp <- zoo::rollapply(v, 3, function(x) which.min(x) == 2)
+    index <- which(tmp == TRUE)[1] + 1
 
     if (is.na(index)) {
         if (value == T) return(min(v))

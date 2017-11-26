@@ -170,40 +170,45 @@ ccm_lagged <- function(data,
 
   # Save optimisation status.
   if (is.null(Es)) {
-    dimoptimisation = ifelse(is.null(Es), T, F)
-    assertthat::assert_that(which.optimdim.test %in% c("FNN", "boxcount", "simplex", "all"),
-                            msg = paste("which.optimdim.test argument",
-                                        which.optimdim.test, "is not valid."))
+    dimoptimisation <- ifelse(is.null(Es), T, F)
+    assertthat::assert_that(
+      which.optimdim.test %in% c("FNN", "boxcount", "simplex", "all"),
+      msg = paste("which.optimdim.test argument",
+                 which.optimdim.test, "is not valid."))
   } else {
-    dimoptimisation = F
+    dimoptimisation <- F
   }
 
   if (is.null(taus)) {
-    lagoptimisation = "default"
+    lagoptimisation <- "default"
   } else if (all(taus == "mi" | taus == "acf")) {
-    lagoptimisation = taus
+    lagoptimisation <- taus
   } else if (is.numeric(taus)) {
-    lagoptimisation = "none"
+    lagoptimisation <- "none"
   } else {
     if (class(taus) == "character") {
       assertthat::assert_that(taus %in% c("mi", "acf"),
                               msg = paste("taus argument",
                                           taus, "is not valid."))
     } else {
-      lagoptimisation = "none"
+      lagoptimisation <- "none"
     }
   }
 
-  if (is.null(exclusion.radius)) exclusionradiusoptim = "default"
-  else if (exclusion.radius %in% c("mi", "acf")) exclusionradiusoptim = exclusion.radius
-  else exclusionradiusoptim = "none"
+  if (is.null(exclusion.radius)) {
+    exclusionradiusoptim <- "default"
+  } else if (exclusion.radius %in% c("mi", "acf")) {
+    exclusionradiusoptim <- exclusion.radius
+  } else {
+    exclusionradiusoptim <- "none"
+  }
 
   # Warn if the number of library.sizes is too low. ----
   if (n.libsizes.to.check < 20) {
     # We need a reasonable amount if point to do a proper exponential
     # function fit, so default to 20 if the provided number is less.
     warning("Minimum number of libsizes to check is too low. Default to 20.")
-    n.libsizes.to.check = 20
+    n.libsizes.to.check <- 20
   }
 
   # If no embedding parameters are provided, find the best embedding parameters.
@@ -224,24 +229,24 @@ ccm_lagged <- function(data,
 
   # We use the putative driver time series to estimate best embedding lag.
   if (is.numeric(taus)) {
-    taus = taus
+    taus <- taus
   } else if (is.null(taus)) {
-    taus = 1
+    taus <- 1
   } else if (taus == "mi") {
     # Estimate the first minima of the lagged mutual information function for
     # the putative driver time series.
-    v = data[, target.column]
+    v <- data[, target.column]
 
-    taus = first_mi_minima(
+    taus <- first_mi_minima(
       v = v,
       lag.max = min(max.tau, ceiling(length(v) * 0.05))
     )
   } else if (taus == "acf") {
     # Estimate the first minima of the lagged autocorrelation function
     # for the putative driver time series.
-    v = data[, target.column]
+    v <- data[, target.column]
 
-    taus = first_mi_minima(
+    taus <- first_mi_minima(
       v = v,
       lag.max = min(max.tau, ceiling(length(v) * 0.05))
     )
@@ -249,10 +254,10 @@ ccm_lagged <- function(data,
 
   # Estimate embedding dimension ----
   if (is.null(Es)) {
-    Es = vector(length = length(taus))
+    Es <- vector(length = length(taus))
 
     for (i in 1:length(taus)) {
-      optimal.embed.dim = optimise_embedding_dim(
+      optimal.embed.dim <- optimise_embedding_dim(
         v = data[, target.column],
         min.embedding.dim = min.E,
         max.embedding.dim = max.E,
@@ -265,13 +270,13 @@ ccm_lagged <- function(data,
 
       # Select the embedding dimension.
       if (which.optimdim.test == "FNN") {
-        Es[i] = optimal.embed.dim["FNN.criterion"]
+        Es[i] <- optimal.embed.dim["FNN.criterion"]
       } else if (which.optimdim.test == "boxcount") {
-        Es[i] = optimal.embed.dim["boxcount.criterion"]
+        Es[i] <- optimal.embed.dim["boxcount.criterion"]
       } else if (which.optimdim.test == "simplex") {
-        Es[i] = optimal.embed.dim["simplex.projection.optimisation"]
+        Es[i] <- optimal.embed.dim["simplex.projection.optimisation"]
       } else if (which.optimdim.test == "all") {
-        Es[i] = max(optimal.embed.dim, na.rm = T)
+        Es[i] <- max(optimal.embed.dim, na.rm = T)
       }
     }
   }
@@ -279,14 +284,14 @@ ccm_lagged <- function(data,
   # Perform lagged CCM for each combination of the parameters ----
 
   # Generate all possible combinations of the input parameters
-  params = expand.grid(Es, taus, surrogate.methods)
-  colnames(params) = c("E", "tau", "surrogate.method")
+  params <- expand.grid(Es, taus, surrogate.methods)
+  colnames(params) <- c("E", "tau", "surrogate.method")
 
-  results = list()
+  results <- list()
   for (i in 1:nrow(params)) {
-    tau = params[i, "tau"]
-    E = params[i, "E"]
-    surrogate.method = as.character(params[i, "surrogate.method"])
+    tau <- params[i, "tau"]
+    E <- params[i, "E"]
+    surrogate.method <- as.character(params[i, "surrogate.method"])
 
     # If exclusion radius or number of neighbours is explicitly provided,
     # use the provided values. Otherwise, use the first minimum of the
@@ -294,35 +299,35 @@ ccm_lagged <- function(data,
     # of 5% of the number of available data points. If this number is lower
     # than E + 1, use E + 1.
     if (is.numeric(exclusion.radius)) {
-      exclusion.radius = exclusion.radius
+      exclusion.radius <- exclusion.radius
     } else if (is.null(exclusion.radius)) {
-      exclusion.radius = E + 1
+      exclusion.radius <- E + 1
     } else if (exclusion.radius == "mi") {
       # Estimate the first minima of the lagged mutual information function for
       # the putative driver time series.
-      v = data[, target.column]
-      exclusion.radius = first_mi_minima(v = v,
+      v <- data[, target.column]
+      exclusion.radius <- first_mi_minima(v = v,
                                          lag.max = ceiling(length(v) * 0.05))
     } else if (exclusion.radius == "acf") {
       # Estimate the first minima of the lagged autocorrelation function
       # for the putative driver time series.
-      v = data[, target.column]
-      exclusion.radius = first_mi_minima(v = v,
+      v <- data[, target.column]
+      exclusion.radius <- first_mi_minima(v = v,
                                   lag.max = ceiling(length(v) * 0.05))
     }
 
     # Use E + 1 nearest neighbours unless otherwise specified. If the provided
     # number of neighbours is too low, also use E + 1.
     if (is.null(num.neighbours)) {
-      num.neighbours = E + 1
+      num.neighbours <- E + 1
     } else if (num.neighbours < E + 1) {
       warning(paste("num.neighbours (", num.neighbours, ") is too low.",
                     "Defaulting to E + 1 neighbours."))
-      num.neighbours = E + 1
+      num.neighbours <- E + 1
     }
 
     # Perform CCM for the given set of parameters
-    ccm = ccm_lagged_oneway(
+    ccm <- ccm_lagged_oneway(
       lags = lags,
       data = data,
       E = E,
@@ -361,26 +366,31 @@ ccm_lagged <- function(data,
 
     # Add information about the parameters that are not recorded in deeper
     # CCM functions.
-    ccm$max.E = rep(max.E)
-    ccm$max.tau = rep(max.tau)
-    ccm$n.libsizes.to.check = rep(n.libsizes.to.check)
+    ccm$max.E <- rep(max.E)
+    ccm$max.tau <- rep(max.tau)
+    ccm$n.libsizes.to.check <- rep(n.libsizes.to.check)
 
     # Information about optimisation
-    ccm$which.exclusionradius.test = rep(exclusionradiusoptim)
+    ccm$which.exclusionradius.test <- rep(exclusionradiusoptim)
 
-    ccm$which.optimlag.test =  rep(lagoptimisation)
+    ccm$which.optimlag.test <- rep(lagoptimisation)
 
-    ccm$which.optimdim.test = rep(ifelse(dimoptimisation, which.optimdim.test, "none"))
-    ccm$optimise.simplex = rep(ifelse(dimoptimisation, T, F))
-    ccm$optimise.FNNdim = rep(ifelse(dimoptimisation, optimise.FNNdim, F))
-    ccm$optimise.boxcountdim = rep(ifelse(dimoptimisation, optimise.boxcountdim, F))
+    ccm$which.optimdim.test <- rep(ifelse(test = dimoptimisation,
+                                          yes = which.optimdim.test,
+                                          no = "none"))
+    ccm$optimise.simplex <- rep(ifelse(test = dimoptimisation,
+                                       yes = T, no = F))
+    ccm$optimise.FNNdim <- rep(ifelse(test = dimoptimisation,
+                                      yes = optimise.FNNdim, no = F))
+    ccm$optimise.boxcountdim <- rep(ifelse(test = dimoptimisation,
+                                           yes = optimise.boxcountdim, no = F))
 
     # Store the result.
-    results[[i]] = ccm
+    results[[i]] <- ccm
   }
 
   # Bind all results together.
-  results = data.table::rbindlist(results)
+  results <- data.table::rbindlist(results)
 
   return(results)
 }
