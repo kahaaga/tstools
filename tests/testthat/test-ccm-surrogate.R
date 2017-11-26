@@ -1,4 +1,4 @@
-context("Convergent cross mapping (CCM)")
+context("Convergent cross mapping (CCM) with surrogates")
 
 
 # Default for exclusion radius, embedding lag and embedding dimension
