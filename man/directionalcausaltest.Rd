@@ -18,9 +18,6 @@ The difference between summed negative median CCM skills and
     passes the lag test.
 }
 \description{
-Summarise a lagged CCM result.
-}
-\details{
 CCM predictability for a given lag is only considered if the analysis is
    convergent. Convergence is determined by Wilcoxon rank-sum test on the smallest and largest library sizes. If CCM
    skill for the largest library sizes is higher (p < 0.01) than for the
@@ -29,16 +26,4 @@ CCM predictability for a given lag is only considered if the analysis is
    satisfactorily fitted by a convergent exponential function. If both these
    criteria are met, then the analysis is labelled convergent. The only grouping variable in this summary function is the lag, so all
    further groupings must be handled outside this function.
-}
-\examples{
-# res is the result of a tstools::ccm_lagged() call
-library(dplyr)
-res \%>\% directionalcausaltest
-
-# res is a data frame containing vertically concatenated results of
-# tstools::ccm_lagged() calls for different causal variables.
-res \%>\%
-  group_by(causal.direction) \%>\%
-  do(directionalcausaltest(.))
-
 }
