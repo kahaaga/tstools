@@ -18,15 +18,7 @@ first_mi_minima <- function(v,
                                           plot = plot.mi.func)
     mutual.information.function <- as.vector(mutual.information.function)
 
-
-    # If the mi function crosses zero
-    if (length(which(mutual.information.function < 0)) > 0) {
-        # subtract 1 because of indexing in tseriesChaos::mutual
-        lag <- which(mutual.information.function < 0)[1] - 1
-    } else {
-        # subtract 1 because of indexing in tseriesChaos::mutual
-        lag <- tstools::first_local_minima(mutual.information.function) - 1
-    }
+    lag <- tstools::first_local_minima(mutual.information.function) - 1
 
     return(lag)
 }
