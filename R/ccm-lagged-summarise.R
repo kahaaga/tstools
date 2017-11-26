@@ -15,15 +15,29 @@
 #'     summed positive median CCM skills. If the sum > 0, then the analysis
 #'     passes the lag test.
 #' @examples
+#' \dontrun{
 #' # res is the result of a tstools::ccm_lagged() call
 #' library(dplyr)
-#' res %>% directionalcausaltest
+#' # Example data
+#' dt = rbind(CO2[4:5], CO2[4:5])[1:80, ]
 #'
-#' # res is a data frame containing vertically concatenated results of
-#' # tstools::ccm_lagged() calls for different causal variables.
-#' res %>%
-#'   group_by(causal.direction) %>%
-#'   do(directionalcausaltest(.))
+#' # Perform ccm
+#' # Explicitly set embedding dimension
+#' ccm = suppressWarnings(
+#'  ccm_lagged(data = dt, lags = 0, E = 2, tau = 1,
+#'             samples.original = 30,
+#'             n.surrogates = 0)
+#' )
+#' summary = res %>% directionalcausaltest
+#'
+#' # Use dplyr::groupby with relevant before calling directionalcausaltest if
+#' # your result consists of vertically concatenated result data frames.
+#' res1 = res %>% dplyr::mutate(id == rep(1))
+#' res2 = res %>% dplyr::mutate(id == rep(2))
+#' summary =  dplyr::bind_rows(res1, res2) %>%
+#'     group_by(causal.direction) %>%
+#'     do(directionalcausaltest(.))
+#' }
 #'
 #' @importFrom magrittr "%>%"
 #' @export
