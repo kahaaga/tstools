@@ -14,7 +14,7 @@ ccm_over_library_sizes(lag, data, E = 2, tau = 1, library.sizes = 100,
   random.libs = TRUE, with.replacement = TRUE, exclusion.radius = E,
   epsilon = NULL, RNGseed = 1111, parallel = F, time.run = F,
   print.to.console = F, time.series.length.threshold = 100,
-  library.column = 1, target.column = 1, surrogate.column = target.column,
+  library.column = 1, target.column = 2, surrogate.column = target.column,
   silent = T)
 }
 \arguments{
