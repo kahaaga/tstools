@@ -66,3 +66,43 @@ suppressWarnings(
              exclusion.radius = NULL,
              taus = "acf",  Es = NULL)
 )
+
+
+# Different methods for optimising the embedding dimension
+suppressWarnings(
+  ccm_lagged(data = chaoticmaps::dejong_map(n = 80), lags = 0,
+             library.sizes = 40, convergence.test = F,
+             samples.original = 30,
+             exclusion.radius = NULL,
+             taus = "acf",  Es = NULL,
+             which.optimdim.test = "FNN")
+)
+
+suppressWarnings(
+  ccm_lagged(data = chaoticmaps::dejong_map(n = 80), lags = 0,
+             library.sizes = 40, convergence.test = F,
+             samples.original = 30,
+             exclusion.radius = NULL,
+             taus = "acf",  Es = NULL,
+             which.optimdim.test = "boxcount")
+)
+
+suppressWarnings(
+  ccm_lagged(data = chaoticmaps::dejong_map(n = 80), lags = 0,
+             library.sizes = 40, convergence.test = T,
+             n.libsizes.to.check = 15,
+             samples.original = 30,
+             exclusion.radius = NULL,
+             taus = "acf",  Es = NULL,
+             which.optimdim.test = "simplex")
+)
+
+expect_error(
+  ccm_lagged(data = chaoticmaps::dejong_map(n = 80), lags = -1:1,
+             library.sizes = 40, convergence.test = T,
+             n.libsizes.to.check = 15,
+             samples.original = 30,
+             exclusion.radius = NULL,
+             taus = "acff",  Es = NULL,
+             which.optimdim.test = "simplex")
+)
