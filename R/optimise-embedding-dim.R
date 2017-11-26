@@ -58,49 +58,53 @@ optimise_embedding_dim <- function(v,
                                    embedding.lag = 1,
                                    plot.simplex.projection = F,
                                    return.all = T) {
-    optimal.embedding.dims = c("simplex.projection.optimisation" = NA,
+
+    optimal.embedding.dims <- c("simplex.projection.optimisation" = NA,
                                "FNN.criterion" = NA,
                                "boxcount.criterion" = NA)
 
-    if (!optimise.simplex &&
-        !optimise.FNNdim &&
-        !optimise.boxcountdim) {
-            warning("No optimization activated. Defaulting to simplex projection only",
-                    immediate. = T)
-            dim = optimise_dim_simplex(v,
-                                       min.embedding.dim = min.embedding.dim,
-                                       max.embedding.dim = max.embedding.dim,
-                                       embedding.lag = embedding.lag,
-                                       plot.simplex.projection = plot.simplex.projection
-                                       )
-            optimal.embedding.dims[["simplex.projection"]] = dim
+    if (!optimise.simplex && !optimise.FNNdim && !optimise.boxcountdim) {
+      warning("No optimization activated. Defaulting to simplex projection",
+             "only", immediate. = T)
+      optimal.embedding.dims[["simplex.projection"]] <- optimise_dim_simplex(
+        v = v,
+        min.embedding.dim = min.embedding.dim,
+        max.embedding.dim = max.embedding.dim,
+        embedding.lag = embedding.lag,
+        plot.simplex.projection = plot.simplex.projection
+      )
     }
 
-
-
+    # False nearest neighbours method
     if (optimise.FNNdim) {
-        dim = optimise_dim_FNN(v = v,
-                               max.embedding.dim = max.embedding.dim,
-                               embedding.lag = embedding.lag,
-                               orbital.lag = orbital.lag,
-                               lag.max = lag.max)
-        optimal.embedding.dims["FNN.criterion"] = dim
+        optimal.embedding.dims["FNN.criterion"] <- optimise_dim_FNN(
+          v = v,
+          max.embedding.dim = max.embedding.dim,
+          embedding.lag = embedding.lag,
+          orbital.lag = orbital.lag,
+          lag.max = lag.max
+        )
     }
+
+    # Box counting method
     if (optimise.boxcountdim) {
-        dim = optimise_dim_boxcount(v = v)
+        dim <- optimise_dim_boxcount(v = v)
         optimal.embedding.dims["boxcount.criterion"] = dim
     }
 
+    # Simplex projection method
     if (optimise.simplex) {
-      dim = optimise_dim_simplex(v = v,
-                                 min.embedding.dim = max(min.embedding.dim, max(optimal.embedding.dims, na.rm = T)),
-                                 max.embedding.dim = max.embedding.dim,
-                                 embedding.lag = embedding.lag,
-                                 plot.simplex.projection = plot.simplex.projection)
+      dim <- optimise_dim_simplex(
+        v = v,
+        min.embedding.dim = max(min.embedding.dim,
+                                max(optimal.embedding.dims, na.rm = T)),
+        max.embedding.dim = max.embedding.dim,
+        embedding.lag = embedding.lag,
+        plot.simplex.projection = plot.simplex.projection)
 
-      optimal.embedding.dims["simplex.projection.optimisation"] = dim
+      optimal.embedding.dims["simplex.projection.optimisation"] <- dim
     }
 
     if (return.all) return(optimal.embedding.dims)
-    return(max(optimal.embedding.dims))
+    else return(max(optimal.embedding.dims))
 }
