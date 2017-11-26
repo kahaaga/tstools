@@ -169,10 +169,34 @@ ccm_lagged <- function(data,
                        ...) {
 
   # Save optimisation status.
-  lagoptimisation = ifelse(taus == "acf" | taus == "mi", taus, "none")
-  dimoptimisation = ifelse(is.null(Es), T, F)
-  exclusionradiusoptim = ifelse(exclusion.radius == "acf" | exclusion.radius == "mi", exclusion.radius, "none")
-  #optimisationtest = ifelse(dimoptimisation, "none", which.optimdim.test)
+  if (is.null(Es)) {
+    dimoptimisation = ifelse(is.null(Es), T, F)
+    assertthat::assert_that(which.optimdim.test %in% c("FNN", "boxcount", "simplex", "all"),
+                            msg = paste("which.optimdim.test argument",
+                                        which.optimdim.test, "is not valid."))
+  } else {
+    dimoptimisation = F
+  }
+
+  if (is.null(taus)) {
+    lagoptimisation = "default"
+  } else if (all(taus == "mi" | taus == "acf")) {
+    lagoptimisation = taus
+  } else if (is.numeric(taus)) {
+    lagoptimisation = "none"
+  } else {
+    if (class(taus) == "character") {
+      assertthat::assert_that(taus %in% c("mi", "acf"),
+                              msg = paste("taus argument",
+                                          taus, "is not valid."))
+    } else {
+      lagoptimisation = "none"
+    }
+  }
+
+  if (is.null(exclusion.radius)) exclusionradiusoptim = "default"
+  else if (exclusion.radius %in% c("mi", "acf")) exclusionradiusoptim = exclusion.radius
+  else exclusionradiusoptim = "none"
 
   # Warn if the number of library.sizes is too low. ----
   if (n.libsizes.to.check < 20) {
