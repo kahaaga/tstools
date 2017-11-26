@@ -86,10 +86,10 @@ ccm_lagged <- function(data,
                        surrogate.methods = c("aaft"),
                        time.unit = NULL,
                        time.bin.size = NULL,
-                       num.neighbours = E + 1,
+                       num.neighbours = ifelse(is.finite(Es), Es + 1, NULL),
                        random.libs = TRUE,
                        with.replacement = TRUE,
-                       exclusion.radius = E + 1,
+                       exclusion.radius = ifelse(is.finite(Es), Es + 1, NULL),
                        epsilon = NULL,
                        RNGseed = 1111,
                        silent = TRUE,
@@ -155,9 +155,11 @@ ccm_lagged <- function(data,
     num.neighbours = E + 1
     tau = params[i, "tau"]
     surrogate.method = as.character(params[i, "surrogate.method"])
+
+
     ccm = ccm_lagged_oneway(lags = lags,
                             data = data,
-                            E = Es,
+                            E = E,
                             tau = taus,
                             library.sizes = library.sizes,
                             lib = lib,

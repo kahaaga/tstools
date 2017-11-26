@@ -110,20 +110,19 @@ ccm_over_library_sizes <- function(lag,
   if (length(library.sizes) < 20) {
     warning("The number of library sizes provided is not sufficient to perform robust convergence testing. Generating a valid selection of library sizes and using these instead.")
 
-    l1 = as.integer(seq(from = low.libsize,
+    l1 <- as.integer(seq(from = low.libsize,
                         to = ceiling(high.libsize / 4),
                         length.out = ceiling(2 * n.libsizes.to.check / 3))) # More points at lower library sizes
-    l2 = ceiling((high.libsize - low.libsize)/2)
-    l3 = as.integer(seq(from = ceiling(high.libsize / 1.5),
+    l2 <- ceiling((high.libsize - low.libsize)/2)
+    l3 <- as.integer(seq(from = ceiling(high.libsize / 1.5),
                         to = high.libsize,
                         length.out = ceiling(n.libsizes.to.check / 3)) - 1) # More points at higher library sizes
-    library.sizes = unique(c(l1, l3, library.sizes))
+    library.sizes <- unique(c(l1, l3, library.sizes))
   }
 
 
   if (parallel) {
-
-    ccm =  mclapply(library.sizes,
+    ccm <- parallel::mclapply(library.sizes,
                     FUN = ccm_on_single_libsize,
                     data = data,
                     E = E,
@@ -145,7 +144,7 @@ ccm_over_library_sizes <- function(lag,
     )
 
   } else {
-    results = suppressWarnings(rEDM::ccm(block = data,
+    results <- suppressWarnings(rEDM::ccm(block = data,
                   E = E,
                   tau = tau,
                   lib_sizes = library.sizes,
@@ -167,8 +166,8 @@ ccm_over_library_sizes <- function(lag,
   }
 
   # Indicate that the analysis type is original (not surrogate)
-  results$analysis.type = rep("original")
-  results$surrogate.index = rep(0)
+  results$analysis.type <- rep("original")
+  results$surrogate.index <- rep(0)
 
   return(results)
 }
