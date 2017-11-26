@@ -11,6 +11,35 @@ suppressWarnings(
              taus = NULL,  Es = NULL)
 )
 
+# A CCM result to test on.
+ccmex <- suppressWarnings(
+  ccm_lagged(data = chaoticmaps::dejong_map(n = 80),
+             lags = 0,
+             convergence.test = T,
+             library.size = 80,
+             regression.convergence.plots = T,
+             samples.original = 30,
+             exclusion.radius = NULL,
+             taus = NULL,  Es = NULL)
+)
+
+# Test summarising data
+# test_that(desc = "summarising ccm",
+#   directionalcausaltest(res = ccmex)
+# )
+
+conv.data = ccmex[, c("library.size", "rho")]
+colnames(conv.data) = c("L", "rho")
+test_that(desc = "exponental regression over a result works",
+  ExponentalRegression2(conv.data)
+)
+
+colnames(conv.data) = c("lib_size", "rho")
+test_that(desc = "getting convergence parameters",
+  suppressWarnings(get_convergence_parameters(conv.data, plot = T))
+)
+
+
 
 # Default for exclusion radius, embedding lag and embedding dimension
 suppressWarnings(
