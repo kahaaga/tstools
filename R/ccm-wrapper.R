@@ -25,7 +25,7 @@
 #'   for optimisation. If TRUE, simplex projection is performed with the minimum embedding dimension as the first integer
 #'   larger than twice the box counting algorithm of the attractor (also considering the minimum dimension indicated by the
 #'   FNN algorithm, if activated). Only relevant if either 'E' or tau is set to NULL.
-#' @param samples The number of random libraries to draw when calculating cross map skill.
+#' @param samples.original The number of random libraries to draw when calculating cross map skill.
 #' @param library.sizes The size of the random libraries drawn when calculating cross map skill.
 #' @param lib Indices of the original library time series to use as the library (training) set.
 #' @param pred Indices of the original target time series to use as prediction set. If this overlaps
