@@ -108,7 +108,7 @@ ccm_over_library_sizes <- function(
   print.to.console = F,
   time.series.length.threshold = 100,
   library.column = 1,
-  target.column = 1,
+  target.column = 2,
   surrogate.column = target.column,
   silent = T) {
 
@@ -134,7 +134,7 @@ ccm_over_library_sizes <- function(
 
 
   if (parallel) {
-    ccm <- parallel::mclapply(library.sizes,
+    results <- parallel::mclapply(library.sizes,
                     FUN = ccm_on_single_libsize,
                     data = data,
                     E = E,
@@ -154,6 +154,8 @@ ccm_over_library_sizes <- function(
                     target.column = target.column,
                     mc.cores = parallel::detectCores() - 1
     )
+
+    results = dplyr::bind_rows(results)
 
   } else {
     results <- suppressWarnings(rEDM::ccm(block = data,
