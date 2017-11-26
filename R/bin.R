@@ -59,8 +59,10 @@ bin <- function(dt,
     dt[, !(names(dt) %in% c(by))] <- zoo::na.approx(dt[, 2:ncol(dt)])
   }
   if (!interpolate & remove.na) {
-    warning(paste("Careful! Removing NA bins without interpolating.",
-                   "Data are not on on an equidistant grid anymore!!"))
+    warning(paste("Careful! Removing rows containing NA without interpolating.",
+                   "Data are not on on an eqully spaced grid anymore.",
+                  "Data will be missing for some values of the binning (by)",
+                  "variable!"))
     dt <- dt[stats::complete.cases(dt), ]
   }
 
@@ -85,13 +87,13 @@ create_bins_df <- function(df, by, bin.size,
 
   # If not provided, minimum bin time is rounded down to nearest bin edge, given
   # the minimum of df[, by]. Otherwise, use the provided value.
-  bin.min <- ifelse(test = is.finite(start),
+  bin.min <- ifelse(test = !is.null(start),
                    yes = start,
                    no = plyr::round_any(min(df[, by]), bin.size, f = floor))
 
   # If not provided, maximum bin time is rounded up to nearest bin edge, given
   # the maximum of df[, by]. Otherwise, use the provided value.
-  bin.max <- ifelse(test = is.finite(end),
+  bin.max <- ifelse(test = !is.null(end),
                    yes = end,
                    no = plyr::round_any(max(df[, by]), bin.size, f = ceiling))
 
@@ -128,10 +130,4 @@ interval_mean <- function(interval, time.sampled.at = "start") {
 
 mean.narm <- function(v) {
   return(mean(v, na.rm = T))
-}
-
-
-interpolate_binned_data <- function(ds) {
-    ds[2:ncol(ds)] <- zoo::na.approx(ds[, 2:ncol(ds)], rule = 2)
-    return(ds)
 }
