@@ -183,6 +183,8 @@ Only relevant if 'Es' is set to NULL.}
 relevant if 'taus' is set to "mi" or "acf".}
 
 \item{plot.simplex.projection}{Plot simplex projection output?}
+
+\item{...}{Additional arguments to pass to lower-level functions.}
 }
 \description{
 Cross-mapping from one variable to another variable over a range of lags.

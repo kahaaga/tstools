@@ -124,6 +124,7 @@
 #' @param print.to.console Display progress?
 #' @param time.run Time the run?
 #' @param plot.simplex.projection Plot simplex projection output?
+#' @param ... Additional arguments to pass to lower-level functions.
 #'
 #' @export
 ccm_lagged <- function(data,
