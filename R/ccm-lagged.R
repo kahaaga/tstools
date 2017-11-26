@@ -223,8 +223,6 @@ ccm_lagged_oneway <- function(data,
   target.column <- columns["target.column"]
   surrogate.column <- columns["surrogate.column"]
 
-  cat(library.column, target.column, surrogate.column)
-
   # Add analysis parameters
   lagccm$causal.direction <- rep(paste(target.column, "->", library.column))
   lagccm$crossmap.direction <- rep(paste(library.column, "xmap.", target.column))
