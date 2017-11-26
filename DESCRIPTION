@@ -29,7 +29,9 @@ Imports:
     foreach,
     stringi,
     doSNOW,
-    multitaper
+    multitaper,
+    chaoticmaps
+Remotes: kahaaga/chaoticmaps
 License: GNU GPLv3
 Depends: R (>= 3.2.3)
 Encoding: UTF-8
