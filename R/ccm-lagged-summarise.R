@@ -1,6 +1,6 @@
 #' Summarise a lagged CCM result.
 #'
-#' @details CCM predictability for a given lag is only considered if the analysis is
+#' CCM predictability for a given lag is only considered if the analysis is
 #'    convergent. Convergence is determined by Wilcoxon rank-sum test on the smallest and largest library sizes. If CCM
 #'    skill for the largest library sizes is higher (p < 0.01) than for the
 #'    lowest library sizes, then the analysis is potentially convergent.
@@ -14,8 +14,6 @@
 #' @return The difference between summed negative median CCM skills and
 #'     summed positive median CCM skills. If the sum > 0, then the analysis
 #'     passes the lag test.
-#'
-#' @importFrom magrittr "%>%"
 #' @export
 directionalcausaltest <- function(res, library.size = max(res$library.size)) {
   res = res[res$library.size == library.size, ]
