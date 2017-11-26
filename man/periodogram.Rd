@@ -10,9 +10,15 @@ periodogram(ts, frequency = 1, dtUnits = "year", deltat = 1000, nw = 4,
 \arguments{
 \item{ts}{A time series of equally spaced data for which to compute the periodogram.}
 
-\item{dtUnits}{the units of the time}
+\item{frequency}{The time series is converted to a stats::ts object before
+being fed to multitaper::spec.mtm. dtUnits gives the frequency for
+the stats::ts object.}
 
-\item{deltat}{time incrment in units of dtUnits}
+\item{dtUnits}{The time unit for the time series.}
+
+\item{deltat}{The time series is converted to a stats::ts object before
+being fed to multitaper::spec.mtm. deltat gives time increment for ths
+stats::ts object in terms of dtUnits}
 
 \item{nw}{nw a positive double precision number, the time-bandwidth parameter.}
 
