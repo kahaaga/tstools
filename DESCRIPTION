@@ -9,6 +9,7 @@ Imports:
     pacman,
     grDevices,
     magrittr,
+    graphics,
     stats,
     plyr,
     dplyr,
