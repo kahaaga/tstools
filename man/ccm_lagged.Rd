@@ -20,8 +20,8 @@ ccm_lagged(data, lags = 0, Es = NULL, taus = NULL,
   convergence.test = TRUE, parallel = TRUE, parallelize.on.each.lag = F,
   num.cores = parallel::detectCores() - 1, regression.convergence.plots = F,
   always.run.surrogates = F, n.libsizes.to.check = 20,
-  optimise.FNNdim = F, optimise.boxcountdim = F, which.optim.test = "all",
-  min.E = 2, max.E = 10, min.tau = 1, max.tau = 1,
+  optimise.FNNdim = T, optimise.boxcountdim = T,
+  which.optimdim.test = "all", min.E = 2, max.E = 10, max.tau = 10,
   plot.simplex.projection = F, ...)
 }
 \arguments{
@@ -169,7 +169,7 @@ as the first integer larger than twice the box counting algorithm of the
 attractor (also considering the minimum dimension indicated by the FNN
 algorithm, if activated). Only relevant if either 'E' or tau is set to NULL.}
 
-\item{which.optim.test}{Use the embedding dimension estimated by which
+\item{which.optimdim.test}{Use the embedding dimension estimated by which
 optimisation procedure? Defaults to "all", which uses the maximum of the
 three methods. Other options are "FNN", "boxcount" or "simplex".}
 

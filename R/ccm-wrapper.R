@@ -47,7 +47,7 @@
 #'   as the first integer larger than twice the box counting algorithm of the
 #'   attractor (also considering the minimum dimension indicated by the FNN
 #'   algorithm, if activated). Only relevant if either 'E' or tau is set to NULL.
-#' @param which.optim.test Use the embedding dimension estimated by which
+#' @param which.optimdim.test Use the embedding dimension estimated by which
 #'   optimisation procedure? Defaults to "all", which uses the maximum of the
 #'   three methods. Other options are "FNN", "boxcount" or "simplex".
 #' @param samples.original The number of random libraries to draw when
@@ -159,13 +159,12 @@ ccm_lagged <- function(data,
                        regression.convergence.plots = F,
                        always.run.surrogates = F,
                        n.libsizes.to.check = 20,
-                       optimise.FNNdim = F,
-                       optimise.boxcountdim = F,
-                       which.optim.test = "all",
+                       optimise.FNNdim = T,
+                       optimise.boxcountdim = T,
+                       which.optimdim.test = "all",
                        min.E = 2,
                        max.E = 10,
-                       min.tau = 1,
-                       max.tau = 1,
+                       max.tau = 10,
                        plot.simplex.projection = F,
                        ...) {
 
@@ -202,6 +201,7 @@ ccm_lagged <- function(data,
     # Estimate the first minima of the lagged mutual information function for
     # the putative driver time series.
     v = data[, target.column]
+
     taus = first_mi_minima(
       v = v,
       lag.max = min(max.tau, ceiling(length(v) * 0.05))
@@ -210,6 +210,7 @@ ccm_lagged <- function(data,
     # Estimate the first minima of the lagged autocorrelation function
     # for the putative driver time series.
     v = data[, target.column]
+
     taus = first_mi_minima(
       v = v,
       lag.max = min(max.tau, ceiling(length(v) * 0.05))
@@ -233,13 +234,13 @@ ccm_lagged <- function(data,
       )
 
       # Select the embedding dimension.
-      if (which.optim.test == "FNN") {
+      if (which.optimdim.test == "FNN") {
         Es[i] = optimal.embed.dim["FNN.criterion"]
-      } else if (which.optim.test == "boxcount") {
+      } else if (which.optimdim.test == "boxcount") {
         Es[i] = optimal.embed.dim["boxcount.criterion"]
-      } else if (which.optim.test == "simplex") {
+      } else if (which.optimdim.test == "simplex") {
         Es[i] = optimal.embed.dim["simplex.projection.optimisation"]
-      } else if (which.optim.test == "all") {
+      } else if (which.optimdim.test == "all") {
         Es[i] = max(optimal.embed.dim, na.rm = T)
       }
     }
@@ -333,9 +334,13 @@ ccm_lagged <- function(data,
     ccm$max.E = rep(max.E)
     ccm$max.tau = rep(max.tau)
     ccm$n.libsizes.to.check = rep(n.libsizes.to.check)
-    ccm$optimise.FNNdim = rep(optimise.FNNdim)
-    ccm$optimise.boxcountdim = rep(optimise.boxcountdim)
-    ccm$which.optim.test = rep(which.optim.test)
+
+    # Optimising simplex projection is always activated
+    ccm$which.optimlag.test =  rep(ifelse(is.null(taus) | is.numeric(taus), "none", taus))
+    ccm$optimise.simplex = rep(ifelse(is.null(Es), TRUE, FALSE))
+    ccm$optimise.FNNdim = rep(ifelse(is.null(Es), optimise.FNNdim, FALSE))
+    ccm$optimise.boxcountdim = rep(ifelse(is.null(Es), optimise.boxcountdim, FALSE))
+    ccm$which.optimdim.test = rep(ifelse(is.null(Es), "none", which.optimdim.test))
 
     # Store the result.
     results[[i]] = ccm
