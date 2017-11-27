@@ -20,14 +20,14 @@ test_that("ccm over multiple library sizes", {
                            parallel = F))
   }
 )
-
-test_that("convergence check works", {
-  ccm <- suppressWarnings(
-    ccm_over_library_sizes(lag = 0,
-                                data = dt[1:100, 2:3],
-                                samples.original = 30,
-                                library.sizes = 70,
-                                parallel = T))
-  get_convergence_parameters(ccm.result = ccm)
-}
-)
+#
+# test_that("convergence check works", {
+#   ccm <- suppressWarnings(
+#     ccm_over_library_sizes(lag = 0,
+#                                 data = dt[1:100, 2:3],
+#                                 samples.original = 30,
+#                                 library.sizes = 70,
+#                                 parallel = T))
+#   get_convergence_parameters(ccm.result = ccm)
+# }
+# )
