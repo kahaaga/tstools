@@ -1,4 +1,4 @@
-require(testthat)
-require(tstools)
+library(testthat)
+library(tstools)
 
 test_check("tstools")
