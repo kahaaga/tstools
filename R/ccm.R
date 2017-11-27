@@ -87,7 +87,7 @@ ccm <- function(data,
 
 
   # Refer to library and target columns by name, not index.
-  cols = column_names_as_string(column.names = colnames(data),
+  cols <- column_names_as_string(column.names = colnames(data),
                                 library.column = library.column,
                                 target.column = target.column,
                                 surrogate.column = surrogate.column)
@@ -95,7 +95,7 @@ ccm <- function(data,
 
   # Cross map using the provided data
   if (convergence.test == TRUE) {
-    ccm.result = ccm_over_library_sizes(
+    ccm.result <- ccm_over_library_sizes(
       data = data,
       library.sizes = library.sizes,
              E = E,
@@ -115,7 +115,7 @@ ccm <- function(data,
              target.column = cols["target.column"])
   } else {
     if (length(library.sizes) == 1) {
-      ccm.result = ccm_on_single_libsize(data = data,
+      ccm.result <- ccm_on_single_libsize(data = data,
                                            library.size = library.sizes,
                                            E = E,
                                            tau = tau,
@@ -139,9 +139,9 @@ ccm <- function(data,
   # Convergence check
   #######################
   if (convergence.test == TRUE) {
-    params = suppressWarnings(get_convergence_parameters(ccm.result))
+    params <- suppressWarnings(get_convergence_parameters(ccm.result))
   } else {
-    params = suppressWarnings(get_convergence_parameters(ccm.result = NULL))
+    params <- suppressWarnings(get_convergence_parameters(ccm.result = NULL))
   }
 
 
@@ -149,58 +149,60 @@ ccm <- function(data,
   if (n.surrogates > 0) {
     validate_surrogate_method(surrogate.method)
 
-    surrogate.results = surrogate_ccm(original.data = data,
-                                      E = 2,
-                                      tau = 1,
-                                      library.size = library.sizes,
-                                      with.replacement = with.replacement,
-                                      RNGseed = RNGseed,
-                                      exclusion.radius = exclusion.radius,
-                                      num.neighbours = num.neighbours,
-                                      epsilon = epsilon,
-                                      silent = silent,
-                                      lag = lag,
-                                      lib = lib,
-                                      pred = pred,
-                                      random.libs = random.libs,
-                                      library.column = cols["library.column"],
-                                      target.column = cols["target.column"],
-                                      surrogate.column = cols["surrogate.column"],
-                                      samples.surrogates = samples.surrogates,
-                                      n.surrogates = n.surrogates,
-                                      parallel = parallel,
-                                      surrogate.method = surrogate.method)
+    surrogate.results <- surrogate_ccm(
+      original.data = data,
+      E = 2,
+      tau = 1,
+      library.size = library.sizes,
+      with.replacement = with.replacement,
+      RNGseed = RNGseed,
+      exclusion.radius = exclusion.radius,
+      num.neighbours = num.neighbours,
+      epsilon = epsilon,
+      silent = silent,
+      lag = lag,
+      lib = lib,
+      pred = pred,
+      random.libs = random.libs,
+      library.column = cols["library.column"],
+      target.column = cols["target.column"],
+      surrogate.column = cols["surrogate.column"],
+      samples.surrogates = samples.surrogates,
+      n.surrogates = n.surrogates,
+      parallel = parallel,
+      surrogate.method = surrogate.method)
 
-    ccm.results = data.table::rbindlist(l = list(ccm.result, surrogate.results),
+    ccm.results <- data.table::rbindlist(l = list(ccm.result,
+                                                  surrogate.results),
                                         use.names = TRUE)
 
-    ccm.results$confidence.level = params["confidence.level"]
-    ccm.results$p.value = params["p.value"]
-    ccm.results$alpha = params["alpha"]
-    ccm.results$convergent = params["convergent"]
-    ccm.results$k = params["k"]
-    ccm.results$a = params["a"]
-    ccm.results$b = params["b"]
+    ccm.results$confidence.level <- params["confidence.level"]
+    ccm.results$p.value <- params["p.value"]
+    ccm.results$alpha <- params["alpha"]
+    ccm.results$convergent <- params["convergent"]
+    ccm.results$k <- params["k"]
+    ccm.results$a <- params["a"]
+    ccm.results$b <- params["b"]
   }
 
   # Combine everything
   if (n.surrogates == 0) {
-    ccm.results = ccm.result
-    ccm.results$confidence.level = params["confidence.level"]
-    ccm.results$p.value = params["p.value"]
-    ccm.results$alpha = params["alpha"]
-    ccm.results$convergent = params["convergent"]
-    ccm.results$k = params["k"]
-    ccm.results$a = params["a"]
-    ccm.results$b = params["b"]
+    ccm.results <- ccm.result
+    ccm.results$confidence.level <- params["confidence.level"]
+    ccm.results$p.value <- params["p.value"]
+    ccm.results$alpha <- params["alpha"]
+    ccm.results$convergent <- params["convergent"]
+    ccm.results$k <- params["k"]
+    ccm.results$a <- params["a"]
+    ccm.results$b <- params["b"]
   }
 
   # Some analysis info
-  ccm.results$time.of.analysis = Sys.time()
-  ccm.results$analyst = Sys.info()["effective_user"]
-  ccm.results$sysname = Sys.info()["sysname"]
-  ccm.results$Rversion = version$version.string
-  ccm.results$id = stringi::stri_rand_strings(n = 1, length = 20)
+  ccm.results$time.of.analysis <- Sys.time()
+  ccm.results$analyst <- Sys.info()["effective_user"]
+  ccm.results$sysname <- Sys.info()["sysname"]
+  ccm.results$Rversion <- version$version.string
+  ccm.results$id <- stringi::stri_rand_strings(n = 1, length = 20)
 
   return(ccm.results)
 }

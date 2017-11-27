@@ -1,14 +1,14 @@
 context("IAAFT surrogates test")
 
 # Some time series.
-ts1 = as.numeric(precip)
-ts2 = as.numeric(datasets::BJsales.lead)
-ts3 = as.numeric(datasets::treering)
+ts1 <- as.numeric(precip)
+ts2 <- as.numeric(datasets::BJsales.lead)
+ts3 <- as.numeric(datasets::treering)
 
 # Create surrogates for the time series.
-iaaft.surr1 = iaaft_surrogate(ts1)
-iaaft.surr2 = iaaft_surrogate(ts2)
-iaaft.surr3 = iaaft_surrogate(ts3)
+iaaft.surr1 <- iaaft_surrogate(ts1)
+iaaft.surr2 <- iaaft_surrogate(ts2)
+iaaft.surr3 <- iaaft_surrogate(ts3)
 
 # Original data and surrogates should contain the exact same values
 test_that("iaaft surrogates are constrained to original data", {
@@ -24,5 +24,3 @@ test_that("iaaft surrogates and original series are not identical", {
   expect_failure(expect_equal(iaaft.surr2, ts2))
   expect_failure(expect_equal(iaaft.surr3, ts3))
 })
-
-

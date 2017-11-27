@@ -19,7 +19,7 @@ optimise_dim_simplex <- function(v,
     # as they do by default. Just ignore this, so turn off
     # warnings temporarily.
     options(warn = -1)
-    simplex.output = rEDM::simplex(time_series = v,
+    simplex.output <- rEDM::simplex(time_series = v,
                   E = min.embedding.dim:max.embedding.dim,
                   tau = embedding.lag)
     options(warn = 0) # Reactivate warnings.
@@ -27,10 +27,9 @@ optimise_dim_simplex <- function(v,
 
     optimal.embedding.dim <- simplex.output$E[which.max(simplex.output$rho)][1]
 
-    #if (plot.simplex.projection) {
-    #    plot(simplex.output$E, simplex.output$rho)
-    #}
+    if (plot.simplex.projection) {
+       graphics::plot(simplex.output$E, simplex.output$rho)
+    }
 
     return(as.numeric(optimal.embedding.dim))
 }
-

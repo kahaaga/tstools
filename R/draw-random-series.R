@@ -19,7 +19,7 @@ draw_random_data <- function(data,
                        lower.bounds = NULL,
                        upper.bounds = NULL) {
 
-    models = replicate(n = n.replicates,
+    models <- replicate(n = n.replicates,
                        expr = datamodel(data = data,
                                         sigmas = sigmas,
                                         n.sigma = n.sigma,
@@ -72,9 +72,11 @@ datamodel <- function(data,
 #' @param sigmas A vector of standard deviations.
 #' @param n.sigma The number of standard deviations for the Gaussian.
 datamodel_sigmas <- function(data, sigmas, n.sigma) {
-    datamodel = matrix(nrow = length(data), ncol = 1)
+    datamodel <- matrix(nrow = length(data), ncol = 1)
     for (i in 1:length(data)) {
-        datamodel[i] = msm::rtnorm(n = 1, mean = data[i], sd = n.sigma * sigmas[i],
+        datamodel[i] <- msm::rtnorm(n = 1,
+                                    mean = data[i],
+                                    sd = n.sigma * sigmas[i],
                                    lower = data[i] - n.sigma * sigmas[i],
                                    upper = data[i] + n.sigma * sigmas[i])
     }
@@ -89,9 +91,9 @@ datamodel_sigmas <- function(data, sigmas, n.sigma) {
 #' @param upper.bounds A vector of upper bounds.
 #' @param n.sigma The number of standard deviations for the Gaussian.
 datamodel_truncated <- function(data, lower.bounds, upper.bounds, n.sigma) {
-    datamodel = matrix(nrow = length(data), ncol = 1)
+    datamodel <- matrix(nrow = length(data), ncol = 1)
     for (i in 1:length(data)) {
-        datamodel[i] = msm::rtnorm(n = 1,
+        datamodel[i] <- msm::rtnorm(n = 1,
                                    mean = data[i],
                                    sd = n.sigma,
                                    lower = lower.bounds[i],

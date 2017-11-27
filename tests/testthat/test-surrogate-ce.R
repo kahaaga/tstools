@@ -1,14 +1,14 @@
 context("Circulant embedding surrogates test")
 
 # Some time series.
-ts1 = as.numeric(precip)
-ts2 = as.numeric(datasets::BJsales.lead)
-ts3 = as.numeric(datasets::treering)
+ts1 <- as.numeric(precip)
+ts2 <- as.numeric(datasets::BJsales.lead)
+ts3 <- as.numeric(datasets::treering)
 
 # Create surrogates for the time series.
-ce.surr1 = ce_surrogate(ts1)
-ce.surr2 = ce_surrogate(ts2)
-ce.surr3 = ce_surrogate(ts3)
+ce.surr1 <- ce_surrogate(ts1)
+ce.surr2 <- ce_surrogate(ts2)
+ce.surr3 <- ce_surrogate(ts3)
 
 
 test_that("ce surrogate doesn't equal original data", {

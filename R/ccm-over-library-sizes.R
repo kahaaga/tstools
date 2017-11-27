@@ -72,58 +72,69 @@
 #' @param print.to.console Display progress?
 #' @param time.run Time the run?
 #' @export
-ccm_over_library_sizes <- function(lag,
-                                   data,
-                                   E = 2, # Attractor reconstruction dimensions
-                                   tau = 1, # Attractor reconstruction lags
-                                   library.sizes = 100,
-                                   low.libsize = min(E * tau + max(2, abs(lag)),
-                                                     10, 20, na.rm = T),
-                                   n.libsizes.to.check = 30,
-                                   high.libsize = max(library.sizes), #min(floor(max(library.sizes) * 1.5), max(library.sizes) - E*tau - abs(lag)),
-                                   lib = c(1, dim(data)[1]),
-                                   pred = lib, # Training and prediction libraries overlap (uses leave-n-out cross validation instead of separate libraries)
-                                   samples.original = 100,
-                                   samples.surrogates = 0,
-                                   n.surrogates = 0,
-                                   surrogate.method = "AAFT",
-                                   time.unit = "bins",
-                                   time.bin.size = 1,
-                                   num.neighbours = E + 1,
-                                   random.libs = TRUE, #
-                                   with.replacement = TRUE, # Indicates whether to sample vectors with replacement
-                                   exclusion.radius = E, # Exclude vectors from nearest neighbor search space  whose time index are within the exclusion.radius
-                                   epsilon = NULL, ## Exclude vectors from nearest neighbor search space that are within a distance epsilon from the predictee #
-                                   RNGseed = 1111,
-                                   parallel = F,
-                                   time.run = F,
-                                   print.to.console = F,
-                                   time.series.length.threshold = 100,
-                                   library.column = 1,
-                                   target.column = 1,
-                                   surrogate.column = target.column,
-                                   silent = T) {
+ccm_over_library_sizes <- function(
+  lag,
+  data,
+  E = 2, # Attractor reconstruction dimensions
+  tau = 1, # Attractor reconstruction lags
+  library.sizes = 100,
+  low.libsize = min(E * tau + max(2, abs(lag)), 10, 20, na.rm = T),
+  n.libsizes.to.check = 30,
+  high.libsize = max(library.sizes),
+  lib = c(1, dim(data)[1]),
+  # Training and prediction libraries overlap (uses leave-n-out cross
+  # validation instead of separate libraries)
+  pred = lib,
+  samples.original = 100,
+  samples.surrogates = 0,
+  n.surrogates = 0,
+  surrogate.method = "AAFT",
+  time.unit = "bins",
+  time.bin.size = 1,
+  num.neighbours = E + 1,
+  random.libs = TRUE,
+  # Indicates whether to sample vectors with replacement
+  with.replacement = TRUE,
+  # Exclude vectors from nearest neighbor search space  whose time index are
+  # within the exclusion.radius
+  exclusion.radius = E,
+
+  # Exclude vectors from nearest neighbor search space that are within a
+  # distance epsilon from the predictee #
+  epsilon = NULL,
+  RNGseed = 1111,
+  parallel = F,
+  time.run = F,
+  print.to.console = F,
+  time.series.length.threshold = 100,
+  library.column = 1,
+  target.column = 2,
+  surrogate.column = target.column,
+  silent = T) {
 
 
   # Either generate a custom range of library sizes, or use the one
   # provided by the user.
   if (length(library.sizes) < 20) {
-    warning("The number of library sizes provided is not sufficient to perform robust convergence testing. Generating a valid selection of library sizes and using these instead.")
+    warning(paste("The number of library sizes provided is not sufficient to",
+                  "perform robust convergence testing. Generating a valid",
+                  "selection of library sizes and using these instead."))
 
-    l1 = as.integer(seq(from = low.libsize,
+    # More points at lower library sizes
+    l1 <- as.integer(seq(from = low.libsize,
                         to = ceiling(high.libsize / 4),
-                        length.out = ceiling(2 * n.libsizes.to.check / 3))) # More points at lower library sizes
-    l2 = ceiling((high.libsize - low.libsize)/2)
-    l3 = as.integer(seq(from = ceiling(high.libsize / 1.5),
+                        length.out = ceiling(2 * n.libsizes.to.check / 3)))
+
+    # More points at higher library sizes
+    l3 <- as.integer(seq(from = ceiling(high.libsize / 1.5),
                         to = high.libsize,
-                        length.out = ceiling(n.libsizes.to.check / 3)) - 1) # More points at higher library sizes
-    library.sizes = unique(c(l1, l3, library.sizes))
+                        length.out = ceiling(n.libsizes.to.check / 3)) - 1)
+    library.sizes <- unique(c(l1, l3, library.sizes))
   }
 
 
   if (parallel) {
-
-    ccm =  mclapply(library.sizes,
+    results <- parallel::mclapply(library.sizes,
                     FUN = ccm_on_single_libsize,
                     data = data,
                     E = E,
@@ -144,8 +155,10 @@ ccm_over_library_sizes <- function(lag,
                     mc.cores = parallel::detectCores() - 1
     )
 
+    results = dplyr::bind_rows(results)
+
   } else {
-    results = suppressWarnings(rEDM::ccm(block = data,
+    results <- suppressWarnings(rEDM::ccm(block = data,
                   E = E,
                   tau = tau,
                   lib_sizes = library.sizes,
@@ -167,8 +180,8 @@ ccm_over_library_sizes <- function(lag,
   }
 
   # Indicate that the analysis type is original (not surrogate)
-  results$analysis.type = rep("original")
-  results$surrogate.index = rep(0)
+  results$analysis.type <- rep("original")
+  results$surrogate.index <- rep(0)
 
   return(results)
 }

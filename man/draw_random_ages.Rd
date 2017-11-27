@@ -6,7 +6,7 @@
 Each column is an age model.}
 \usage{
 draw_random_ages(ages, sigmas, n.replicates = 1, n.sigma = 2,
-  firstdiffagreementratio = 1, tolerance = 10^-(10))
+  firstdiffagreementratio = 1, tolerance = 10^-10)
 }
 \arguments{
 \item{ages}{A vector containing the age data.}

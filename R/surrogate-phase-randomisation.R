@@ -9,4 +9,3 @@ phase_randomised_surrogate <- function(series) {
 
   as.vector(fractal::surrogate(x = series, method = "phase"))
 }
-

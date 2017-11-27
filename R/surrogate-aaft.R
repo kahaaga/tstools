@@ -12,4 +12,3 @@ aaft_surrogate <- function(series) {
 
   as.vector(fractal::surrogate(x = series, method = "aaft"))
 }
-

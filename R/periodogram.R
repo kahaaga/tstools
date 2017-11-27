@@ -16,14 +16,14 @@ periodogram <- function(ts,
                         dtUnits = "year",
                         deltat = 1000,
                         nw = 4.0,
-                        k = 2*nw) {
-  timeseries = stats::ts(ts, deltat = 1, frequency = 1)
-  multitaper.spec = multitaper::spec.mtm(timeseries, dtUnits = dtUnits,
+                        k = 2 * nw) {
+  timeseries <- stats::ts(ts, deltat = 1, frequency = 1)
+  multitaper.spec <- multitaper::spec.mtm(timeseries, dtUnits = dtUnits,
                                          deltat = deltat, nw = nw, k = k)
-  spec = multitaper.spec$spec
-  freq = multitaper.spec$freq
+  spec <- multitaper.spec$spec
+  freq <- multitaper.spec$freq
 
-  spectral.estimate = data.frame(freq, spec)
+  spectral.estimate <- data.frame(freq, spec)
 
   return(spectral.estimate)
 }

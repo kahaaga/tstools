@@ -1,5 +1,3 @@
-
-
 #' Cross-mapping from one variable to another variable over a range of lags.
 #'
 #' @param data A data frame containing two columns - one for the presumed driver and one for the response.
@@ -62,13 +60,12 @@
 #'   indicated by 'time.unit').
 #' @param print.to.console Display progress?
 #' @param time.run Time the run?
-
 #' @importFrom foreach "%dopar%"
 ccm_lagged_oneway <- function(data,
                             lags,
                             E = NULL,
                             tau = NULL,
-                            library.sizes = as.integer(nrow(data)/2),
+                            library.sizes = as.integer(nrow(data) / 2),
                             lib = c(1, dim(data)[1]),
                             pred = lib,
                             samples.original = 100,
@@ -79,7 +76,7 @@ ccm_lagged_oneway <- function(data,
                             time.unit = NULL,
                             time.bin.size = NULL,
                             num.neighbours = E + 1,
-                            random.libs = TRUE, #
+                            random.libs = TRUE,
                             with.replacement = TRUE,
                             exclusion.radius = ifelse(is.null(E), yes = 10, no = E + 1),
                             epsilon = NULL,
@@ -105,7 +102,7 @@ ccm_lagged_oneway <- function(data,
   # Windows
   if (parallel & parallelize.on.each.lag & !Sys.info()["sysname"] == "Windows") {
     cat(" Parallelizing over lags (mclapply). No output will be printed.")
-    lagged.ccm.result = parallel::mclapply(lags,
+    lagged.ccm.result <- parallel::mclapply(lags,
                                            FUN = ccm,
                                            parallel = parallel,
                                            data = data,
@@ -139,7 +136,7 @@ ccm_lagged_oneway <- function(data,
     cl <- parallel::makeCluster(num.cores) # Make clusters
     doSNOW::registerDoSNOW(cl) # use the above cluster
 
-    lagged.ccm.result = foreach::foreach(lag = min(lags):max(lags),
+    lagged.ccm.result <- foreach::foreach(lag = min(lags):max(lags),
                                 .export = c("ccm",
                                             "ccm_over_library_sizes",
                                             "ccm_on_single_libsize",
@@ -173,16 +170,19 @@ ccm_lagged_oneway <- function(data,
                                          n.libsizes.to.check = n.libsizes.to.check,
                                          convergence.test = convergence.test)
                                 }
-    parallel::stopCluster(cl) # close cluster
-    lagged.ccm.result = unlist(lagged.ccm.result, recursive = FALSE) # Unlist nested list created by foreach
+    parallel::stopCluster(cl)
+
+    # Unlist nested list created by foreach
+    lagged.ccm.result <- unlist(lagged.ccm.result, recursive = FALSE)
 
   } else if (parallel & !parallelize.on.each.lag |
              !parallel) {
     if (Sys.info()["sysname"] == "Windows") {
-      cat("Windows is the operating system. Cannot parallelise inner surrogate loops.\n")
-      parallel = F
+      cat("Windows is the operating system. ",
+          "Cannot parallelise inner surrogate loops.\n")
+      parallel <- F
     }
-    lagged.ccm.result = lapply(lags,
+    lagged.ccm.result <- lapply(lags,
                                FUN = ccm,
                                data = data,
                                E = E,
@@ -211,55 +211,54 @@ ccm_lagged_oneway <- function(data,
   }
 
   # Combine results from all lags
-  lagccm = data.table::rbindlist(lagged.ccm.result)
+  lagccm <- data.table::rbindlist(lagged.ccm.result)
 
   # Get columns as strings, not integers
-  columns = column_names_as_string(column.names = colnames(data),
+  columns <- column_names_as_string(column.names = colnames(data),
                          library.column = library.column,
                          target.column = target.column,
                          surrogate.column = surrogate.column)
 
-  library.column = columns["library.column"]
-  target.column = columns["target.column"]
-  surrogate.column = columns["surrogate.column"]
-
-  cat(library.column, target.column, surrogate.column)
+  library.column <- columns["library.column"]
+  target.column <- columns["target.column"]
+  surrogate.column <- columns["surrogate.column"]
 
   # Add analysis parameters
-  lagccm$causal.direction = rep(paste(target.column, "->", library.column))
-  lagccm$crossmap.direction = rep(paste(library.column, "xmap.", target.column))
+  lagccm$causal.direction <- rep(paste(target.column, "->",
+                                       library.column))
+  lagccm$crossmap.direction <- rep(paste(library.column, "xmap.",
+                                         target.column))
 
   # Change column names to conform with R naming conventions
-  cols = colnames(lagccm)
-  cols[cols == "tp"] = "lag"
-  cols[cols == "num_neighbors"] = "num.neighbours"
-  cols[cols == "lib_column"] = "library.column"
-  cols[cols == "target_column"] = "target.column"
-  cols[cols == "lib_size"] = "library.size"
-  cols[cols == "num_pred"] = "num.pred"
-  colnames(lagccm) = cols
+  cols <- colnames(lagccm)
+  cols[cols == "tp"] <- "lag"
+  cols[cols == "num_neighbors"] <- "num.neighbours"
+  cols[cols == "lib_column"] <- "library.column"
+  cols[cols == "target_column"] <- "target.column"
+  cols[cols == "lib_size"] <- "library.size"
+  cols[cols == "num_pred"] <- "num.pred"
+  colnames(lagccm) <- cols
 
   # Add information about the analysis.
-  lagccm$time.bin.size = rep(time.bin.size)
-  lagccm$time.unit = rep(time.unit)
-  lagccm$ts.length = rep(length(data[,1]))
-  lagccm$samples.original = rep(samples.original)
-  lagccm$samples.surrogates =  rep(samples.surrogates)
-  lagccm$surrogate.column =  rep(surrogate.column)
-  lagccm$surrogate.method =  rep(surrogate.method)
-  lagccm$exclusion.radius =  rep(exclusion.radius)
-  lagccm$n.surrogates =  rep(n.surrogates)
-  lagccm$RNGseed =  rep(RNGseed)
-  lagccm$lib.start =  rep(min(lib))
-  lagccm$lib.end =  rep(max(lib))
-  lagccm$pred.start =  rep(min(pred))
-  lagccm$pred.end =  rep(max(pred))
-  lagccm$num.neighbours =  rep(num.neighbours)
-  lagccm$random.libs =  rep(random.libs)
-  lagccm$with.replacement =  rep(with.replacement)
-  lagccm$max.E =  rep(max.E)
-  lagccm$max.tau = rep(max.tau)
-
+  lagccm$time.bin.size <- rep(time.bin.size)
+  lagccm$time.unit <- rep(time.unit)
+  lagccm$ts.length <- rep(length(data[, 1]))
+  lagccm$samples.original <- rep(samples.original)
+  lagccm$samples.surrogates <- rep(samples.surrogates)
+  lagccm$surrogate.column <- rep(surrogate.column)
+  lagccm$surrogate.method <- rep(surrogate.method)
+  lagccm$exclusion.radius <- rep(exclusion.radius)
+  lagccm$n.surrogates <- rep(n.surrogates)
+  lagccm$RNGseed <- rep(RNGseed)
+  lagccm$lib.start <- rep(min(lib))
+  lagccm$lib.end <- rep(max(lib))
+  lagccm$pred.start <- rep(min(pred))
+  lagccm$pred.end <- rep(max(pred))
+  lagccm$num.neighbours <- rep(num.neighbours)
+  lagccm$random.libs <- rep(random.libs)
+  lagccm$with.replacement <- rep(with.replacement)
+  lagccm$max.E <- rep(max.E)
+  lagccm$max.tau <- rep(max.tau)
 
   return(lagccm)
 }

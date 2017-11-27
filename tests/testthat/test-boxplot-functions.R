@@ -1,7 +1,7 @@
 context("Boxplot statistics test.")
 
 # Get a series to work with
-s = as.numeric(datasets::BJsales.lead)
+s <- as.numeric(datasets::BJsales.lead)
 
 test_that("boxplot_minimum behaves correctly", {
   expect_true(boxplot_minimum(s) < mean(s))
